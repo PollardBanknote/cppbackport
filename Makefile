@@ -1,32 +1,27 @@
 # Sources are located relative to Makefile
-MAKEFILE_DIR := $(dir $(word $(words $(MAKEFILE_LIST)), $(MAKEFILE_LIST)))
+MAKEFILE_DIR := $(shell readlink -f $(dir $(word $(words $(MAKEFILE_LIST)), $(MAKEFILE_LIST))))
 
 # The path of the invoking module
-MODULE_PATH := $(shell readlink -f $(MAKEFILE_DIR))
-
-vpath %.cpp $(MODULE_PATH)
+vpath %.cpp $(MAKEFILE_DIR)
 
 default: lib
 
 include $(MAKEFILE_DIR)/make.inc
 
+CXXFLAGS += -pthread
+LDFLAGS += -pthread
+
 LIBNAME = cppbackport
 LIBFILE = lib$(LIBNAME).a
-LIBSRC = $(wildcard $(MODULE_PATH)/*.cpp $(MODULE_PATH)/fs/*.cpp)
-LIBOBJS = $(patsubst %.cpp,%.o,$(LIBSRC:$(MODULE_PATH)/%=%))
+SRCDIRS = . fs
+LIBSRC = $(wildcard $(SRCDIRS:%=$(MAKEFILE_DIR)/%/*.cpp))
+LIBOBJS = $(LIBSRC:$(MAKEFILE_DIR)/%.cpp=%.o)
 
 .PHONY: lib clean
 
 $(LIBFILE): $(LIBOBJS)
 
-# Lib --------------------------------------------------------------------------
 lib: $(LIBFILE)
 
-# Clean ------------------------------------------------------------------------
 clean: clean_objects
 	@$(RM) $(LIBFILE)
-
-# ------------------------------------------------------------------------------
-INCLUDE += -iquote$(MAKEFILE_DIR)/..
-CXXFLAGS += -pthread
-LDFLAGS += -pthread
