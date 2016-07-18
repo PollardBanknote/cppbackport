@@ -94,7 +94,6 @@ mutex.cpp
 mutex.h
 numeric.h
 optional.h
-os.h
 random.cpp
 random.h
 ratio.h
@@ -112,3 +111,5 @@ unordered_map.h
 unordered_set.h
 utility.h
 version.h
+config/os.h
+config/arch.h
