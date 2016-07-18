@@ -28,7 +28,7 @@
  */
 #include "basename.h"
 
-#include "../os.h"
+#include "../config/os.h"
 #include "cleanpath.h"
 
 namespace

@@ -35,7 +35,7 @@
 #include <condition_variable>
 #else
 #include "chrono.h"
-#include "os.h"
+#include "config/os.h"
 #include "mutex.h"
 
 namespace cpp11

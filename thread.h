@@ -39,7 +39,7 @@
 #include "rvalueref.h"
 #include "chrono.h"
 
-#include "os.h"
+#include "config/os.h"
 
 namespace cpp11
 {

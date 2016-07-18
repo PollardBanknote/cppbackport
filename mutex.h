@@ -36,7 +36,7 @@
 #else
 #include "algorithm.h"
 
-#include "os.h"
+#include "config/os.h"
 
 namespace cpp11
 {
