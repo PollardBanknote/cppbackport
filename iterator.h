@@ -162,10 +162,28 @@ const T* cend(const T(&a)[N])
 #ifndef CPP17
 namespace cpp17
 {
+template< typename T >
+typename T::size_type size(const T& c)
+{
+    return c.size();
+}
+
 template< typename T, std::size_t N >
 std::size_t size(const T(&)[N])
 {
 	return N;
+}
+
+template< typename T >
+bool empty(const T& c)
+{
+    return c.empty();
+}
+
+template< typename T, std::size_t N >
+bool empty(const T(&)[N])
+{
+    return false;
 }
 
 }
