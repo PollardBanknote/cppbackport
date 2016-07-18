@@ -12,7 +12,8 @@ include $(MAKEFILE_DIR)/make.inc
 
 LIBNAME = cppbackport
 LIBFILE = lib$(LIBNAME).a
-LIBOBJS += $(patsubst %.cpp,%.o,$(notdir $(wildcard $(MODULE_PATH)/*.cpp)))
+LIBSRC = $(wildcard $(MODULE_PATH)/*.cpp $(MODULE_PATH)/fs/*.cpp)
+LIBOBJS = $(patsubst %.cpp,%.o,$(LIBSRC:$(MODULE_PATH)/%=%))
 
 .PHONY: lib clean
 
