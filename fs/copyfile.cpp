@@ -46,8 +46,8 @@ namespace filesystem
  * @bug If there's an error while overwriting a file, the original is lost
  */
 bool copy_file(
-	const std::string& source,
-	const std::string& dest,
+    const path& source,
+    const path& dest,
 	copy_options       opt
 )
 {
@@ -163,8 +163,8 @@ bool copy_file(
 }
 
 bool copy_file(
-	const std::string& source,
-	const std::string& dest
+    const path& source,
+    const path& dest
 )
 {
 	return copy_file(source, dest, ::copy_options::none);

@@ -29,7 +29,7 @@
 #ifndef PBL_CPP_FS_COPYFILE_H
 #define PBL_CPP_FS_COPYFILE_H
 
-#include <string>
+#include "path.h"
 
 namespace copy_options
 {
@@ -71,9 +71,9 @@ typedef ::copy_options::copy_options copy_options;
  * @todo The std::experimental::fs namespace defines copy and copy_file. This
  * function should be renamed accordingly.
  */
-bool copy_file(const std::string & source, const std::string & dest, copy_options);
+bool copy_file(const path& source, const path& dest, copy_options);
 
-bool copy_file(const std::string& source, const std::string& dest);
+bool copy_file(const path& source, const path& dest);
 
 }
 }
