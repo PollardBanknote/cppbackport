@@ -13,7 +13,7 @@ LDFLAGS += -pthread
 
 LIBNAME = cppbackport
 LIBFILE = lib$(LIBNAME).a
-SRCDIRS = . fs
+SRCDIRS = lib lib/fs
 LIBSRC = $(wildcard $(SRCDIRS:%=$(MAKEFILE_DIR)/%/*.cpp))
 LIBOBJS = $(LIBSRC:$(MAKEFILE_DIR)/%.cpp=%.o)
 
