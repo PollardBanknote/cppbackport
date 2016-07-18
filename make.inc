@@ -70,12 +70,6 @@ ifndef TOOLCHAIN
 # C++ compiler
 CXX = g++
 
-# TODO remove - should be set from command line
-DISTRO := $(shell cat /etc/redhat-release)
-ifneq (,$(findstring CentOS release 4.,$(DISTRO)))
-CXX =   g++4
-endif
-
 # Archive (.a) program
 AR = ar
 
