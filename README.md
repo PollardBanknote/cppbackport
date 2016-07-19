@@ -30,22 +30,18 @@ extension.
 
 FAQ
 ===
-Q: Will this use C++11/14/17 if available?
-
+**Q: Will this use C++11/14/17 if available?**  
 A: Yes. Based on the value of the __cplusplus define, the files will simply #include the
 system header (as appropriate).
 
-Q: Why not header-only?
-
+**Q: Why not header-only?**  
 A: I actually like the interface/implementation distinction. Header-only implementations (IMO)
 get way too large and the files are difficult to navigate. Also, save the compiler some work.
 Also, installing a lib isn't really that hard.
 
-Q: Does it work on Windows?
-
+**Q: Does it work on Windows?**  
 A: Sorry, POSIX mostly. Would love for some Windows devs to help.
 
-Q: Why not use Boost?
-
+**Q: Why not use Boost?**  
 A: There's some overlap, but there are differences, too. And none of these things, *individually*
 are that big. 
