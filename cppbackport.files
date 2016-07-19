@@ -111,8 +111,6 @@ lib/unordered_set.h
 lib/utility.h
 lib/version.h
 LICENSE
-make.inc
 README.md
 examples/gibberish.cpp
-Makefile
 examples/lshere.cpp
