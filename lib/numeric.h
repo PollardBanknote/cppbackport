@@ -64,50 +64,64 @@ namespace detail
 template< class T >
 typename ::cpp::make_unsigned< T >::type uabs(T x)
 {
-    typedef typename ::cpp::make_unsigned< T >::type U;
+	typedef typename ::cpp::make_unsigned< T >::type U;
 
-    return x >= 0 ? static_cast< U >(x) : -static_cast<U>(x);
+	return x >= 0 ? static_cast< U >( x ) : -static_cast< U >( x );
 }
 
 template< class T, class U >
-typename ::cpp::common_type< T, U >::type ugcd(T a_, U b_)
+typename ::cpp::common_type< T, U >::type ugcd(
+	T a_,
+	U b_
+)
 {
-    typedef typename ::cpp::common_type< T, U >::type V;
+	typedef typename ::cpp::common_type< T, U >::type V;
 
-    V a = a_, b = b_;
+	V a = a_, b = b_;
 
-    while (b != 0)
-    {
-        V t = b;
-        b = a % b;
-        a = t;
-    }
-    return a;
+	while ( b != 0 )
+	{
+		V t = b;
+		b = a % b;
+		a = t;
+	}
+
+	return a;
 }
 
 template< class T, class U >
-typename ::cpp::common_type< T, U >::type ulcm(T a, U b)
+typename ::cpp::common_type< T, U >::type ulcm(
+	T a,
+	U b
+)
 {
-    typedef typename ::cpp::common_type< T, U >::type V;
+	typedef typename ::cpp::common_type< T, U >::type V;
 
-    const V d = ugcd(a, b);
+	const V d = ugcd(a, b);
 
-    return d == 0 ? 0 : a * (b / d);
+	return d == 0 ? 0 : a* ( b / d );
 }
 
 }
 
 template< class T, class U >
-typename ::cpp::common_type< T, U >::type gcd(T a, U b)
+typename ::cpp::common_type< T, U >::type gcd(
+	T a,
+	U b
+)
 {
-    return detail::ugcd(detail::uabs(a), detail::uabs(b));
+	return detail::ugcd(detail::uabs(a), detail::uabs(b));
 }
 
 template< class T, class U >
-typename ::cpp::common_type< T, U >::type lcm(T a, U b)
+typename ::cpp::common_type< T, U >::type lcm(
+	T a,
+	U b
+)
 {
-    return detail::ulcm(detail::uabs(a), detail::uabs(b));
+	return detail::ulcm(detail::uabs(a), detail::uabs(b));
 }
+
 }
 #endif
 

@@ -46,9 +46,9 @@ namespace filesystem
  * @bug If there's an error while overwriting a file, the original is lost
  */
 bool copy_file(
-    const path& source,
-    const path& dest,
-	copy_options       opt
+	const path&  source,
+	const path&  dest,
+	copy_options opt
 )
 {
 	const int in = ::open(source.c_str(), O_RDONLY);
@@ -163,8 +163,8 @@ bool copy_file(
 }
 
 bool copy_file(
-    const path& source,
-    const path& dest
+	const path& source,
+	const path& dest
 )
 {
 	return copy_file(source, dest, ::copy_options::none);

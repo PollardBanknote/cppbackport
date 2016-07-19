@@ -39,11 +39,11 @@
 namespace cpp11
 {
 
-template< class InputIt, class UnaryPredicate >
-InputIt find_if_not(
-	InputIt        first,
-	InputIt        last,
-	UnaryPredicate q
+template< class InputIterator, class Predicate >
+InputIterator find_if_not(
+	InputIterator first,
+	InputIterator last,
+	Predicate     q
 )
 {
 	for (; first != last; ++first )
@@ -57,42 +57,42 @@ InputIt find_if_not(
 	return last;
 }
 
-template< class InputIt, class UnaryPredicate >
+template< class InputIterator, class Predicate >
 bool all_of(
-	InputIt        first,
-	InputIt        last,
-	UnaryPredicate p
+	InputIterator first,
+	InputIterator last,
+	Predicate     p
 )
 {
 	return ::cpp11::find_if_not(first, last, p) == last;
 }
 
-template< class InputIt, class UnaryPredicate >
+template< class InputIterator, class Predicate >
 bool any_of(
-	InputIt        first,
-	InputIt        last,
-	UnaryPredicate p
+	InputIterator first,
+	InputIterator last,
+	Predicate     p
 )
 {
 	return std::find_if(first, last, p) != last;
 }
 
-template< class InputIt, class UnaryPredicate >
+template< class InputIterator, class Predicate >
 bool none_of(
-	InputIt        first,
-	InputIt        last,
-	UnaryPredicate p
+	InputIterator first,
+	InputIterator last,
+	Predicate     p
 )
 {
 	return std::find_if(first, last, p) == last;
 }
 
-template< class InputIt, class OutputIt, class UnaryPredicate >
-OutputIt copy_if(
-	InputIt        first,
-	InputIt        last,
-	OutputIt       d_first,
-	UnaryPredicate pred
+template< class InputIterator, class OutputIterator, class Predicate >
+OutputIterator copy_if(
+	InputIterator  first,
+	InputIterator  last,
+	OutputIterator d_first,
+	Predicate      pred
 )
 {
 	while ( first != last )
@@ -108,11 +108,11 @@ OutputIt copy_if(
 	return d_first;
 }
 
-template< class InputIt, class Size, class OutputIt >
-OutputIt copy_n(
-	InputIt  first,
-	Size     count,
-	OutputIt result
+template< class InputIterator, class Size, class OutputIterator >
+OutputIterator copy_n(
+	InputIterator  first,
+	Size           count,
+	OutputIterator result
 )
 {
 	if ( count > 0 )
@@ -128,11 +128,11 @@ OutputIt copy_n(
 	return result;
 }
 
-template< class InputIt, class UnaryPredicate >
+template< class InputIterator, class Predicate >
 bool is_partitioned(
-	InputIt        first,
-	InputIt        last,
-	UnaryPredicate p
+	InputIterator first,
+	InputIterator last,
+	Predicate     p
 )
 {
 	for (; first != last; ++first )
@@ -154,14 +154,14 @@ bool is_partitioned(
 	return true;
 }
 
-template< class InputIt, class OutputIt1,
-          class OutputIt2, class UnaryPredicate >
+template< class InputIterator, class OutputIt1,
+          class OutputIt2, class Predicate >
 std::pair< OutputIt1, OutputIt2 > partition_copy(
-	InputIt        first,
-	InputIt        last,
-	OutputIt1      d_first_true,
-	OutputIt2      d_first_false,
-	UnaryPredicate p
+	InputIterator first,
+	InputIterator last,
+	OutputIt1     d_first_true,
+	OutputIt2     d_first_false,
+	Predicate     p
 )
 {
 	while ( first != last )
@@ -183,16 +183,16 @@ std::pair< OutputIt1, OutputIt2 > partition_copy(
 	return std::pair< OutputIt1, OutputIt2 >(d_first_true, d_first_false);
 }
 
-template< class ForwardIt, class Compare >
-ForwardIt is_sorted_until(
-	ForwardIt first,
-	ForwardIt last,
-	Compare   comp
+template< class ForwardIterator, class Compare >
+ForwardIterator is_sorted_until(
+	ForwardIterator first,
+	ForwardIterator last,
+	Compare         comp
 )
 {
 	if ( first != last )
 	{
-		ForwardIt next = first;
+		ForwardIterator next = first;
 
 		while ( ++next != last )
 		{
@@ -208,29 +208,29 @@ ForwardIt is_sorted_until(
 	return last;
 }
 
-template< class ForwardIt >
-ForwardIt is_sorted_until(
-	ForwardIt first,
-	ForwardIt last
+template< class ForwardIterator >
+ForwardIterator is_sorted_until(
+	ForwardIterator first,
+	ForwardIterator last
 )
 {
-	return ::cpp11::is_sorted_until(first, last, std::less< typename std::iterator_traits< ForwardIt >::value_type >());
+	return ::cpp11::is_sorted_until(first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >());
 }
 
-template< class ForwardIt >
+template< class ForwardIterator >
 bool is_sorted(
-	ForwardIt first,
-	ForwardIt last
+	ForwardIterator first,
+	ForwardIterator last
 )
 {
 	return ::cpp11::is_sorted_until(first, last) == last;
 }
 
-template< class ForwardIt, class Compare >
+template< class ForwardIterator, class Compare >
 bool is_sorted(
-	ForwardIt first,
-	ForwardIt last,
-	Compare   comp
+	ForwardIterator first,
+	ForwardIterator last,
+	Compare         comp
 )
 {
 	return ::cpp11::is_sorted_until(first, last, comp) == last;
@@ -257,14 +257,14 @@ std::pair< const T&, const T& > minmax(
 		   : std::pair< const T&, const T& >(a, b);
 }
 
-template< class ForwardIt, class Compare >
-std::pair< ForwardIt, ForwardIt > minmax_element(
-	ForwardIt first,
-	ForwardIt last,
-	Compare   comp
+template< class ForwardIterator, class Compare >
+std::pair< ForwardIterator, ForwardIterator > minmax_element(
+	ForwardIterator first,
+	ForwardIterator last,
+	Compare         comp
 )
 {
-	std::pair< ForwardIt, ForwardIt > result(first, first);
+	std::pair< ForwardIterator, ForwardIterator > result(first, first);
 
 	if ( first == last )
 	{
@@ -287,7 +287,7 @@ std::pair< ForwardIt, ForwardIt > minmax_element(
 
 	while ( ++first != last )
 	{
-		ForwardIt i = first;
+		ForwardIterator i = first;
 
 		if ( ++first == last )
 		{
@@ -334,13 +334,13 @@ std::pair< ForwardIt, ForwardIt > minmax_element(
 	return result;
 }
 
-template< class ForwardIt >
-std::pair< ForwardIt, ForwardIt > minmax_element(
-	ForwardIt first,
-	ForwardIt last
+template< class ForwardIterator >
+std::pair< ForwardIterator, ForwardIterator > minmax_element(
+	ForwardIterator first,
+	ForwardIterator last
 )
 {
-	return ::cpp11::minmax_element(first, last, std::less< typename std::iterator_traits< ForwardIt >::value_type >());
+	return ::cpp11::minmax_element(first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >());
 }
 
 template< class ForwardIterator, class T >
@@ -357,11 +357,11 @@ void iota(
 	}
 }
 
-template< class InputIt, class OutputIt >
-OutputIt move(
-	InputIt  first,
-	InputIt  last,
-	OutputIt dest
+template< class InputIterator, class OutputIterator >
+OutputIterator move(
+	InputIterator  first,
+	InputIterator  last,
+	OutputIterator dest
 )
 {
 	while ( first != last )
