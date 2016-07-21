@@ -20,7 +20,7 @@ CPPFLAGS = $(INCLUDE) $(DEFINES)
 LDFLAGS = -pthread
 
 LIBNAME = cppbackport
-EXAMPLES = gibberish lshere
+EXAMPLES = gibberish lshere multithreading now
 
 .PHONY: default lib examples
 
@@ -35,6 +35,8 @@ examples: $(EXAMPLES)
 
 gibberish: gibberish.o
 lshere: lshere.o
+multithreading: multithreading.o
+now: now.o
 
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<

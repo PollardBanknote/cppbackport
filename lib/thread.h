@@ -57,6 +57,7 @@ public:
 
 }
 
+/// @todo Use C++17 invoke on the backend
 class thread
 {
 	template< typename F, typename Arg1 = void, typename Arg2 = void, typename Arg3 = void >
@@ -85,6 +86,26 @@ private:
 		Arg2 a2;
 		Arg3 a3;
 	};
+
+    template< typename F, typename Arg1 >
+    class runnable_wrapper< F, Arg1, void, void >
+        : public details::runnable
+    {
+public:
+        runnable_wrapper(F f_, const Arg1& a1_)
+            : f(f_), a1(a1_)
+        {
+        }
+
+        void operator()()
+        {
+            f(a1);
+        }
+
+private:
+        F f;
+        Arg1 a1;
+    };
 
 	template< typename F >
 	class runnable_wrapper< F, void, void, void >
@@ -147,6 +168,14 @@ public:
 	{
 		run(new runnable_wrapper< F >(func));
 	}
+
+    /// @bug Should be copying decayed value
+    template< class F, class Arg1 >
+    thread(F func, const Arg1& arg1)
+        : tid()
+    {
+        run(new runnable_wrapper< F, Arg1 >(func, arg1));
+    }
 
 	template< class F >
 	explicit thread(rvalue_reference< F > func)
