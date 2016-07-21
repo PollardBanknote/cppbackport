@@ -30,8 +30,18 @@ extension.
 
 FAQ
 ===
+**Who is this library suitable for?**  
+Anyone, really. There are a few use cases:
+- The primary use case is to provide some newer features to people who are stuck with/choose to use an older compiler
+- Another use would be to soften the requirements of your own project (i.e., so your users can use an older compiler)
+- In some cases, this project may provide usable code before compilers support a standard. For example, C++17 at the moment isn't even standardized, *but* we basically know what's in it so we can start supporting it.
+
 **What's the license?**  
 BSD 3-clause. Use it. Contribute if you like. Don't blame us for things.
+
+**What compiler(s)/platforms are supported**  
+The development environment is Fedora 24 with GCC 6.1.1. I've used it with earlier versions
+of GCC (4.7.4, I think), and a semi-recent version of Clang. I've not tested under Windows, yet.
 
 **Will this use C++11/14/17 if available?**  
 Yes. Based on the value of the __cplusplus define, the files will simply #include the
