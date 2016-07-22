@@ -1,4 +1,4 @@
-This is a backport of the current C++11 standard library to C++03/11/14. Obviously not everything
+This is a backport of the current C++ standard library to C++03/11/14. Obviously not everything
 can be backported, but quite a bit can.
 
 Quick Start
