@@ -133,14 +133,14 @@ public:
 
 	/** Check if this any currently stores an object
 	 */
-	bool empty() const
+	bool has_value() const
 	{
-		return !value;
+		return value;
 	}
 
 	/** Destroys the stored object
 	 */
-	void clear()
+	void reset()
 	{
 		delete value;
 		value = 0;
