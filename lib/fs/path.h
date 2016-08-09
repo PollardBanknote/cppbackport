@@ -62,7 +62,11 @@ public:
 	/// Copy assignment
 	path& operator=(const path&);
 
-	path& operator=(const string_type&);
+	template< typename Source >
+	path& operator=(const Source& source)
+	{
+		return assign(source);
+	}
 
 	/// Clear the path
 	void clear();

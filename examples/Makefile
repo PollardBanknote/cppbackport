@@ -1,33 +1,25 @@
 # Sources are located relative to Makefile
 MAKEFILE_DIR := $(shell readlink -f $(dir $(word $(words $(MAKEFILE_LIST)), $(MAKEFILE_LIST))))
+LIB_DIR := $(MAKEFILE_DIR)/../lib
 
 # The path of the invoking module
 vpath %.cpp $(MAKEFILE_DIR)
 
-CXX = g++
-LD = g++
+default: examples
 
-STANDARD = -ansi -pedantic
-DEBUGGING = -g
-OPTIMIZATION = -O2
-WARNINGS = -Wall -Wsign-compare -Wconversion -Wpointer-arith -Winit-self -Wcast-qual -Wredundant-decls -Wcast-align -Wwrite-strings -Wno-long-long -Woverloaded-virtual -Wformat -Wno-unknown-pragmas -Wnon-virtual-dtor -Wno-c++0x-compat 
-OPTIONS = -fuse-cxa-atexit -ffor-scope -fdiagnostics-color
-TARGET_ARCH =
-CXXFLAGS = $(STANDARD) $(DEBUGGING) $(OPTIMIZATION) $(WARNINGS) $(OPTIONS) $(TARGET_ARCH) -pthread
-INCLUDE = -iquote$(MAKEFILE_DIR)/../lib
-DEFINES = -D_FORTIFY_SOURCE=1
-CPPFLAGS = $(INCLUDE) $(DEFINES)
-LDFLAGS = -pthread
+include $(MAKEFILE_DIR)/../make.inc
+
+CXXFLAGS += -pthread
+INCLUDE += -iquote$(LIB_DIR)
+LDFLAGS += -pthread
 
 LIBNAME = cppbackport
-EXAMPLES = gibberish lshere multithreading now
+EXAMPLES = gibberish lshere multithreading now singlell
 
 .PHONY: default lib examples
 
-default: examples
-
 lib:
-	$(MAKE) -f $(MAKEFILE_DIR)/../lib/Makefile
+	$(MAKE) -f $(LIB_DIR)/Makefile
 
 $(EXAMPLES): lib
 
@@ -37,13 +29,11 @@ gibberish: gibberish.o
 lshere: lshere.o
 multithreading: multithreading.o
 now: now.o
-
-%.o: %.cpp
-	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
+singlell: singlell.o
 
 $(EXAMPLES):
 	$(LD) $(LDFLAGS) $(@).o -L. -l$(LIBNAME) -o $@
 
 clean:
-	$(MAKE) -f $(MAKEFILE_DIR)/../lib/Makefile clean
+	$(MAKE) -f $(LIB_DIR)/Makefile clean
 	@$(RM) $(EXAMPLES) $(EXAMPLES:%=%.o)

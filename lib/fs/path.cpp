@@ -60,13 +60,6 @@ path& path::operator=(const path& p)
 	return *this;
 }
 
-path& path::operator=(const string_type& s_)
-{
-	s = s_;
-
-	return *this;
-}
-
 void path::clear()
 {
 	s.clear();

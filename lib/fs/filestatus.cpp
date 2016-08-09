@@ -181,6 +181,46 @@ bool exists(const path& p)
 	return exists(status(p));
 }
 
+bool is_block_file(file_status s)
+{
+	return s.type() == file_type::block;
+}
+
+bool is_block_file(const path& p)
+{
+	return is_block_file(status(p));
+}
+
+bool is_character_file(file_status s)
+{
+	return s.type() == file_type::character;
+}
+
+bool is_character_file(const path& p)
+{
+	return is_character_file(status(p));
+}
+
+bool is_fifo(file_status s)
+{
+	return s.type() == file_type::fifo;
+}
+
+bool is_fifo(const path& p)
+{
+	return is_fifo(status(p));
+}
+
+bool is_other(file_status s)
+{
+	return exists(s) && !is_regular_file(s) && !is_directory(s) && !is_symlink(s);
+}
+
+bool is_other(const path& p)
+{
+	return is_other(status(p));
+}
+
 bool is_regular_file(file_status s)
 {
 	return s.type() == file_type::regular;
@@ -189,6 +229,16 @@ bool is_regular_file(file_status s)
 bool is_regular_file(const path& p)
 {
 	return is_regular_file(status(p));
+}
+
+bool is_socket(file_status s)
+{
+	return s.type() == file_type::socket;
+}
+
+bool is_socket(const path& p)
+{
+	return is_socket(status(p));
 }
 
 bool is_symlink(file_status s)

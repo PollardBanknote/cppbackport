@@ -240,6 +240,37 @@ private:
 };
 
 template< typename R, typename T >
+class binder< R ( T::* )() >
+	: public callable< R >
+{
+public:
+	typedef R result_type;
+	typedef R (T::* fn)();
+
+	binder(
+		fn f_,
+		T* p_
+	)
+		: f(f_), p(p_)
+	{
+	}
+
+	binder* clone() const
+	{
+		return new binder(*this);
+	}
+
+	R operator()() const
+	{
+		return ( p->*f )();
+	}
+
+private:
+	fn f;
+	T* p;
+};
+
+template< typename R, typename T >
 class binder< R ( T::* )() const >
 	: public callable< R >
 {

@@ -6,7 +6,7 @@ vpath %.cpp $(MAKEFILE_DIR)
 
 default: lib
 
-include $(MAKEFILE_DIR)/make.inc
+include $(MAKEFILE_DIR)/../make.inc
 
 CXXFLAGS += -pthread
 LDFLAGS += -pthread
