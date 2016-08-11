@@ -72,9 +72,14 @@ void directory_entry::assign(
 	sym_status = sym_status_;
 }
 
-const path& directory_entry::get_path() const
+const path& directory_entry::path() const
 {
 	return path_;
+}
+
+const path& directory_entry::get_path() const
+{
+	return this->path();
 }
 
 ::cpp17::filesystem::path directory_entry::filename() const
@@ -97,7 +102,7 @@ std::ostream& operator<<(
 	const directory_entry& de
 )
 {
-	os << de.get_path();
+	os << de.path();
 
 	return os;
 }

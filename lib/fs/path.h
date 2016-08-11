@@ -83,6 +83,7 @@ public:
 	bool empty() const;
 	const std::string& native() const;
 
+	path extension() const;
 	path filename() const;
 	path parent_path() const;
 

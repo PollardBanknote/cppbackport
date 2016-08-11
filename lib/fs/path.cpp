@@ -85,6 +85,29 @@ bool path::empty() const
 	return s.empty();
 }
 
+path path::extension() const
+{
+	const std::size_t i = s.find_last_of(preferred_separator);
+
+	const std::size_t j = ( i == std::string::npos ? 0 : i + 1 );
+
+	if ( j < s.length())
+	{
+		if ( s.compare(j, std::string::npos, ".", 1) != 0
+		     && s.compare(j, std::string::npos, "..", 2) != 0 )
+		{
+			const std::size_t k = s.find_last_of('.');
+
+			if ( k != std::string::npos && j <= k )
+			{
+				return s.substr(k);
+			}
+		}
+	}
+
+	return path();
+}
+
 path path::filename() const
 {
 	const std::size_t i = s.find_last_of(preferred_separator);

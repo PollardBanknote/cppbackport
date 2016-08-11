@@ -332,7 +332,7 @@ recursive_directory_iterator& recursive_directory_iterator::operator++()
 	if ( stack.top()->type() == file_type::directory )
 	{
 		// go to directory's first child (if any)
-		if ( descend(( *stack.top())->get_path()))
+		if ( descend(( *stack.top())->path()))
 		{
 			return *this;
 		}

@@ -51,7 +51,7 @@ bool copy_file(
 	copy_options opt
 )
 {
-	const int in = ::open(source.c_str(), O_RDONLY);
+	const int in = ::open(source.c_str(), O_RDONLY | O_CLOEXEC);
 
 	if ( in != -1 )
 	{
@@ -60,12 +60,12 @@ bool copy_file(
 		if ( ::fstat(in, &instat) == 0 && ( S_ISREG(instat.st_mode) || S_ISLNK(instat.st_mode)))
 		{
 			// Get the destination file
-			int out = ::open(dest.c_str(), O_CREAT | O_EXCL | O_WRONLY, S_IWUSR);
+			int out = ::open(dest.c_str(), O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC, S_IWUSR);
 
 			if ( out == -1 && errno == EEXIST )
 			{
 				// File already exists -- maybe we will overwrite it
-				out = ::open(dest.c_str(), O_WRONLY);
+				out = ::open(dest.c_str(), O_WRONLY | O_CLOEXEC);
 
 				if ( out != -1 )
 				{

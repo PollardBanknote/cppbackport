@@ -47,7 +47,7 @@ unsigned long remove_all(const path& p)
 
 	for ( directory_iterator it(p), last; it != last; ++it )
 	{
-		total += remove_all(it->get_path());
+		total += remove_all(it->path());
 	}
 
 	if ( remove(p))
