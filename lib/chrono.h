@@ -36,9 +36,23 @@
 #else
 #include <ctime>
 #include "ratio.h"
+#include "traits/common_type.h"
 
 namespace cpp11
 {
+namespace detail
+{
+template< typename Period1, typename Period2 >
+struct duration_cast_helper
+{
+	static const cpp::intmax_t d1 = cpp11::detail::gcd< Period1::num, Period2::num >::value;
+	static const cpp::intmax_t d2 = cpp11::detail::gcd< Period1::den, Period2::den >::value;
+
+	static const cpp::intmax_t p = ( Period1::num / d1 ) * ( Period2::den / d2 );
+	static const cpp::intmax_t q = ( Period2::num / d1 ) * ( Period1::den / d2 );
+};
+
+}
 namespace chrono
 {
 template< class Rep, class Period = cpp11::ratio< 1 > >
@@ -59,6 +73,14 @@ public:
 	{
 	}
 
+	template< typename Rep2, typename Period2 >
+	explicit duration(const duration< Rep2, Period2 >& d)
+	{
+		typedef detail::duration_cast_helper< Period, Period2 > Helper;
+
+		r = d.count() * Helper::q / Helper::p;
+	}
+
 	rep count() const
 	{
 		return r;
@@ -67,14 +89,66 @@ public:
 private:
 	rep r;
 };
+}
 
-template< class Duration >
-Duration operator-(
-	const Duration& a,
-	const Duration  b
+// Specialization of common_type for durations
+template< typename Rep1, typename Period1, typename Rep2, typename Period2 >
+struct common_type< chrono::duration< Rep1, Period1 >, chrono::duration< Rep2, Period2 > >
+{
+	typedef chrono::duration< typename common_type< Rep1, Rep2 >::type,
+	                          ratio< detail::gcd< Period1::num, Period2::num >::value, detail::lcm< Period1::den, Period2::den >::value > > type;
+};
+
+template< typename Rep, typename Period >
+struct common_type< chrono::duration< Rep, Period >, chrono::duration< Rep, Period > >
+{
+	typedef chrono::duration< Rep, Period > type;
+};
+
+namespace chrono
+{
+template< class Rep1, class Period1, class Rep2, class Period2 >
+typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type operator+(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 >& b
 )
 {
-	return Duration(a.count() - b.count());
+	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
+
+	return Duration3(Duration3(a).count() + Duration3(b).count());
+}
+
+template< class Rep1, class Period1, class Rep2, class Period2 >
+typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type operator-(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 >& b
+)
+{
+	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
+
+	return Duration3(Duration3(a).count() - Duration3(b).count());
+}
+
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator<(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 > b
+)
+{
+	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
+
+	return Duration3(a).count() < Duration3(b).count();
+}
+
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator>(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 >& b
+)
+{
+	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
+
+	return Duration3(a).count() > Duration3(b).count();
 }
 
 typedef duration< long long, cpp11::nano > nanoseconds;
@@ -84,18 +158,14 @@ typedef duration< long long > seconds;
 typedef duration< long, cpp11::ratio< 60 > > minutes;
 typedef duration< long, cpp11::ratio< 3600 > > hours;
 
+
+
 template< typename To, class Rep, class Period >
 To duration_cast(const duration< Rep, Period >& d)
 {
-	typedef typename To::period ToPeriod;
+	typedef detail::duration_cast_helper< typename To::period, Period > Helper;
 
-	const cpp::intmax_t d1 = cpp11::detail::gcd< ToPeriod::num, Period::num >::value;
-	const cpp::intmax_t d2 = cpp11::detail::gcd< ToPeriod::den, Period::den >::value;
-
-	const cpp::intmax_t p = ( ToPeriod::num / d1 ) * ( Period::den / d2 );
-	const cpp::intmax_t q = ( Period::num / d1 ) * ( ToPeriod::den / d2 );
-
-	return To(d.count() * q / p);
+	return To(d.count() * Helper::q / Helper::p);
 }
 
 template< typename Clock, typename Duration = typename Clock::duration >
