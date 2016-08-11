@@ -70,6 +70,12 @@ struct gcd< 0, Q >
 	static const cpp::intmax_t value = abs< Q >::value;
 };
 
+template< cpp::intmax_t P, cpp::intmax_t Q >
+struct lcm
+{
+	static const cpp::intmax_t value = P * ( Q / gcd< P, Q >::value );
+};
+
 }
 
 template< cpp::intmax_t Num, cpp::intmax_t Denom = 1 >
