@@ -82,5 +82,6 @@
 #include "traits/remove_pointer.h"
 #include "traits/remove_reference.h"
 #include "traits/result_of.h"
+#include "traits/underlying_type.h"
 #endif // if __cplusplus >= 201102L
 #endif // PBL_CPP_TYPE_TRAITS_H
