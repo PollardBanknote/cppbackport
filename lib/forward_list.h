@@ -11,6 +11,10 @@
 
 namespace cpp11
 {
+/** Implementation of std::forward_list
+ *
+ * @todo Some of these functions duplicate logic (or nearly so)
+ */
 template< typename T >
 class forward_list
 {
@@ -49,7 +53,7 @@ public:
 		{
 		}
 
-		explicit iterator(node* p_) : p(p)
+		explicit iterator(node* p_) : p(p_)
 		{
 		}
 
@@ -117,7 +121,7 @@ public:
 		{
 		}
 
-		explicit const_iterator(node* p_) : p(p)
+		explicit const_iterator(node* p_) : p(p_)
 		{
 		}
 
@@ -456,7 +460,268 @@ private:
 		std::swap(p.next, l.p.next);
 	}
 
+	void splice_after(
+		const_iterator pos,
+		forward_list&  other
+	)
+	{
+		splice_after(pos, other, other.before_begin());
+	}
+
+	void splice_after(
+		const_iterator pos,
+		forward_list&  other,
+		const_iterator it
+	)
+	{
+		if ( node* q = pos.p )
+		{
+			if ( node* r = it.p )
+			{
+				if ( node* u = r->next )
+				{
+					r->next = 0;
+					node* t = q->next;
+					q->next = u;
+
+					if ( t )
+					{
+						while ( u->next )
+						{
+							u = u->next;
+						}
+
+						u->next = t;
+					}
+				}
+			}
+		}
+	}
+
+	void splice_after(
+		const_iterator pos,
+		forward_list&  other,
+		const_iterator first,
+		const_iterator last
+	)
+	{
+		if ( node* q = pos.p )
+		{
+			if ( node* r = first.p )
+			{
+				if ( node* u = r->next )
+				{
+					r->next = last.p;
+					node* t = q->next;
+					q->next = u;
+
+					while ( u->next != last.p )
+					{
+						u = u->next;
+					}
+
+					u->next = t;
+				}
+			}
+		}
+	}
+
+	void remove(const T& value)
+	{
+		node* q = &p;
+
+		while ( q->next )
+		{
+			if ( static_cast< value_node* >( q->next )->value == value )
+			{
+				node* t = q->next;
+				q->next = t->next;
+				delete t;
+			}
+			else
+			{
+				q = q->next;
+			}
+		}
+	}
+
+	template< typename Pred >
+	void remove_if(Pred pred)
+	{
+		node* q = &p;
+
+		while ( q->next )
+		{
+			if ( pred(static_cast< value_node* >( q->next )->value))
+			{
+				node* t = q->next;
+				q->next = t->next;
+				delete t;
+			}
+			else
+			{
+				q = q->next;
+			}
+		}
+	}
+
+	void reverse()
+	{
+		node* q = p.next;
+		node* r = 0;
+
+		while ( q )
+		{
+			node* t = q->next;
+			q->next = r;
+			r       = q;
+			q       = t;
+		}
+
+		p.next = r;
+	}
+
+	void unique()
+	{
+		unique(equal_to);
+	}
+
+	template< typename Predicate >
+	void unique(Predicate pred)
+	{
+		node* q = p.next;
+
+		while ( q )
+		{
+			if ( node* t = q->next )
+			{
+				if ( pred(static_cast< value_node* >( q )->value, static_cast< value_node* >( t )->value))
+				{
+					q->next = t->next;
+					delete t;
+				}
+				else
+				{
+					q = t;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	void merge(forward_list& other)
+	{
+		merge(other, less_than);
+	}
+
+	template< typename Compare >
+	void merge(
+		forward_list& other,
+		Compare       comp
+	)
+	{
+		p.next       = merge_inner(p.next, other.p.next, comp);
+		other.p.next = 0;
+	}
+
+	void sort()
+	{
+		sort(less_than);
+	}
+
+	template< typename Compare >
+	void sort(Compare comp)
+	{
+		p.next = sort_inner(p.next, comp);
+	}
+
 private:
+	static bool equal_to(
+		const T& a,
+		const T& b
+	)
+	{
+		return a == b;
+	}
+
+	static bool less_than(
+		const T& a,
+		const T& b
+	)
+	{
+		return a < b;
+	}
+
+	/** Split list in two, sort each half, merge, return the first node
+	 *
+	 * @todo Can probably be done without recursion. Sort 2 items, 2, 4, 2, 2,
+	 * 4, 8
+	 * @todo Probably don't need to traverse the list multiple times
+	 */
+	template< typename Compare >
+	static node* sort_inner(
+		node*   q,
+		Compare comp
+	)
+	{
+		if ( q && q->next )
+		{
+			node* turtle = q;
+			node* hare   = q;
+
+			while ( hare->next && hare->next->next )
+			{
+				turtle = turtle->next;
+				hare   = hare->next->next;
+			}
+
+			hare         = turtle->next;
+			turtle->next = 0;
+			return merge_inner(sort_inner(q, comp), sort_inner(hare, comp), comp);
+		}
+
+		return q;
+	}
+
+	/** Build a third list by repeatedly taking the least of the two given lists
+	 *
+	 * @todo Could probably save some rewriting of each s->next by following
+	 * an algorithm like set_union
+	 */
+	template< typename Compare >
+	static node* merge_inner(
+		node*   q,
+		node*   r,
+		Compare comp
+	)
+	{
+		node  t = { 0 };
+		node* s = &t;
+
+		while ( q && r )
+		{
+			if ( comp(static_cast< value_node* >( r )->value, static_cast< value_node* >( q )->value))
+			{
+				s->next = r;
+				r       = r->next;
+			}
+			else
+			{
+				s->next = q;
+				q       = q->next;
+			}
+
+			s = s->next;
+		}
+
+		s->next = q ? q : r;
+
+		return t.next;
+	}
+
 	// count must not be zero
 	node* insert_after_private(
 		node*     q,
