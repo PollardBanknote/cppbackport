@@ -29,6 +29,8 @@
 #ifndef PBL_CONFIG_ARCH_H
 #define PBL_CONFIG_ARCH_H
 
+#include <climits>
+
 // Try to determine if long long is availble (by standard or compiler extension)
 #if __cplusplus >= 201103L
 #define HAS_LONG_LONG
@@ -40,5 +42,10 @@
 #endif
 #endif
 
+#if CHAR_MIN < 0
+typedef signed char underlying_char_type;
+#else
+typedef unsigned char underlying_char_type;
+#endif
 
 #endif // PBL_CONFIG_ARCH_H

@@ -32,7 +32,7 @@ class forward_list
 		}
 
 		T value;
-	}
+	};
 public:
 	typedef T value_type;
 	typedef std::size_t size_type;
