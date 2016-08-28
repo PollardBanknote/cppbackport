@@ -6,17 +6,18 @@
 
 int main()
 {
-    cpp::forward_list< int > list;
+	cpp::forward_list< int > list;
 
-    for (int i = 0; i < 100; ++i)
-        list.push_front(rand());
+	for ( int i = 0; i < 100; ++i )
+	{
+		list.push_front(rand());
+	}
 
-    list.sort();
-    list.reverse();
+	list.sort();
+	list.reverse();
 
-    for (cpp::forward_list< int >::iterator it = list.begin(); it != list.end(); ++it)
-    {
-        std::cout << *it << std::endl;
-    }
-
+	for ( cpp::forward_list< int >::iterator it = list.begin(); it != list.end(); ++it )
+	{
+		std::cout << *it << std::endl;
+	}
 }

@@ -37,9 +37,9 @@ namespace cpp11
 template< class T >
 struct is_object
 	: cpp::bool_constant<
-		  cpp::is_scalar< T >::value
-		  || cpp::is_array< T >::value
-		  || cpp::detail::is_class_or_union< T >::value
+		cpp::is_scalar< T >::value
+		|| cpp::is_array< T >::value
+		|| cpp::detail::is_class_or_union< T >::value
 	>
 {};
 }

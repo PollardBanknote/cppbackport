@@ -253,5 +253,5 @@ T* any_cast(any* a)
 }
 
 }
-#endif
+#endif // ifdef CPP17
 #endif // PBL_ANY_ANY_H

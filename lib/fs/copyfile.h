@@ -71,7 +71,7 @@ typedef ::copy_options::copy_options copy_options;
  * @todo The std::experimental::fs namespace defines copy and copy_file. This
  * function should be renamed accordingly.
  */
-bool copy_file(const path& source, const path& dest, copy_options);
+bool copy_file(const path &source, const path &dest, copy_options);
 
 bool copy_file(const path& source, const path& dest);
 

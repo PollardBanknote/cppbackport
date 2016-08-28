@@ -123,6 +123,6 @@ typename ::cpp::common_type< T, U >::type lcm(
 }
 
 }
-#endif
+#endif // ifndef CPP17
 
 #endif // PBL_CPP_NUMERIC_H

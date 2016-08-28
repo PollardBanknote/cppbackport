@@ -533,6 +533,6 @@ private:
 	node p;
 };
 }
-#endif
+#endif // ifdef CPP11
 
 #endif // FORWARD_LIST_H

@@ -38,9 +38,9 @@ namespace cpp11
 template< class T >
 struct is_floating_point
 	: cpp17::bool_constant<
-		  is_same< float, typename remove_cv< T >::type >::value ||
-		  is_same< double, typename remove_cv< T >::type >::value ||
-		  is_same< long double, typename remove_cv< T >::type >::value
+		is_same< float, typename remove_cv< T >::type >::value ||
+		is_same< double, typename remove_cv< T >::type >::value ||
+		is_same< long double, typename remove_cv< T >::type >::value
 	>
 {};
 }

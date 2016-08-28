@@ -322,5 +322,5 @@ private:
 };
 }
 
-#endif
+#endif // ifdef CPP17
 #endif // ifndef PBL_OPTIONAL_OPTIONAL_H
