@@ -116,3 +116,4 @@ examples/gibberish.cpp
 examples/lshere.cpp
 examples/multithreading.cpp
 examples/now.cpp
+examples/pathiter.cpp

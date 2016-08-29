@@ -10,6 +10,6 @@ int main()
 
 	for ( fs::directory_iterator it(here), last; it != last; ++it )
 	{
-		std::cout << it->filename() << std::endl;
+		std::cout << it->path() << std::endl;
 	}
 }
