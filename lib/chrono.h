@@ -132,7 +132,7 @@ typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::ty
 template< class Rep1, class Period1, class Rep2, class Period2 >
 bool operator<(
 	const duration< Rep1, Period1 >& a,
-	const duration< Rep2, Period2 > b
+	const duration< Rep2, Period2 >& b
 )
 {
 	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
@@ -157,8 +157,6 @@ typedef duration< long long, cpp11::milli > milliseconds;
 typedef duration< long long > seconds;
 typedef duration< long, cpp11::ratio< 60 > > minutes;
 typedef duration< long, cpp11::ratio< 3600 > > hours;
-
-
 
 template< typename To, class Rep, class Period >
 To duration_cast(const duration< Rep, Period >& d)
