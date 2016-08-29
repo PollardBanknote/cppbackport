@@ -236,62 +236,265 @@ bool path::next_path_component(std::pair< std::size_t, std::size_t >& r) const
 	}
 }
 
-/// @bug Doesn't handle trailing path separator as implied "."
 path path::lexically_relative(const path& base) const
 {
-	std::pair< std::size_t, std::size_t > r1 = first_path_component();
-	std::pair< std::size_t, std::size_t > r2 = base.first_path_component();
+	const_iterator first1 = begin(), last1 = end();
+	const_iterator first2 = begin(), last2 = end();
 
-	// compare first path component
-	if ( s.compare(r1.first, r1.second - r1.first, base.s, r2.first, r2.second - r2.first) != 0 )
-	{
+	const_iterator it = first1;
+	const_iterator jt = first2;
+
+	while (it != last1 && jt != last2 && *it == *jt)
+		++it, ++jt;
+
+	if (it == first1 || jt == first2)
 		return path();
-	}
 
-	// move to next component
-	bool ok1;
-	bool ok2;
+	if (it == last1 && jt == last2)
+		return path(".");
 
-	do
-	{
-		ok1 = next_path_component(r1);
-		ok2 = base.next_path_component(r2);
+	path r;
 
-		if ( !ok1 && !ok2 )
-		{
+	for (; jt != last2; ++jt)
+		r /= "..";
+	for (; it != last1; ++it)
+		r /= *it;
 
-			// paths are identical
-			return path(".");
-		}
-	}
-	while ( ok1 && ok2 && s.compare(r1.first, r1.second - r1.first, base.s, r2.first, r2.second - r2.first) == 0 );
-
-	path res;
-
-	if ( ok2 )
-	{
-		do
-		{
-			res /= "..";
-		}
-		while ( base.next_path_component(r2));
-	}
-
-	if ( ok1 )
-	{
-		do
-		{
-			res /= s.substr(r1.first, r1.second - r1.first);
-		}
-		while ( next_path_component(r1));
-	}
-
-	return res;
+	return r;
 }
 
 bool path::is_absolute() const
 {
 	return !s.empty() && s[0] == preferred_separator;
+}
+
+int path::compare(const path & p) const
+{
+	const_iterator first1 = begin(), last1 = end();
+	const_iterator first2 = p.begin(), last2 = p.end();
+
+	while (first1 != last1 && first2 != last2)
+	{
+		if (*first1 < *first2)
+			return -1;
+		if (*first2 < *first1)
+			return 1;
+		++first1;
+		++first2;
+	}
+
+	if (first1 != last1)
+		return 1;
+	if (first2 != last2)
+		return -1;
+	return 0;
+}
+
+path::const_iterator path::begin() const
+{
+	begin_iterator_tag tag;
+	return const_iterator(this, tag);
+}
+
+path::const_iterator path::end() const
+{
+	end_iterator_tag tag;
+	return const_iterator(this, tag);
+}
+
+path::const_iterator::const_iterator()
+        : parent(0), first(std::string::npos), last(std::string::npos), value()
+{
+}
+
+path::const_iterator::const_iterator(const path * parent_, begin_iterator_tag)
+        : parent(parent_), first(0)
+{
+	if (parent->s.empty())
+	{
+		first = std::string::npos;
+		last = std::string::npos;
+	}
+	else
+	{
+		const std::size_t k = parent->s.find_first_of(preferred_separator);
+
+		if (k == std::string::npos)
+			last = parent->s.length();
+		else if (k == 0)
+			last = 1;
+		else
+			last = k;
+
+		value = parent->s.substr(0, last);
+	}
+}
+
+path::const_iterator::const_iterator(const path* p, end_iterator_tag)
+        : parent(p), first(std::string::npos), last(std::string::npos), value()
+{
+}
+
+path::const_iterator& path::const_iterator::operator++()
+{
+	if (parent)
+	{
+		if (last < parent->s.length())
+		{
+			// find next component
+			const std::size_t j = parent->s.find_first_not_of(preferred_separator, last);
+
+			if (j == std::string::npos)
+			{
+				if (parent->s[first] == preferred_separator)
+				{
+					// path to root
+					first = std::string::npos;
+					last = std::string::npos;
+					value.clear();
+				}
+				else
+				{
+					// ends with directory
+					first = parent->s.length();
+					last = std::string::npos;
+					value = ".";
+				}
+			}
+			else
+			{
+				first = j;
+
+				// next path component
+				const std::size_t k = parent->s.find_first_of(preferred_separator, j);
+
+				if (k == std::string::npos)
+					last = parent->s.length();
+				else
+					last = k;
+
+				value = parent->s.substr(first, last - first);
+			}
+		}
+		else
+		{
+			// go to end iterator
+			first = std::string::npos;
+			last = std::string::npos;
+			value.clear();
+		}
+	}
+
+	return *this;
+}
+
+path::const_iterator path::const_iterator::operator++(int)
+{
+	const_iterator t = *this;
+	operator++();
+	return t;
+}
+
+path::const_iterator& path::const_iterator::operator--()
+{
+	if (parent && first != 0)
+	{
+		if (first == std::string::npos)
+		{
+			// end iterator
+			if (!parent->s.empty())
+			{
+				const std::size_t j = parent->s.find_last_of(preferred_separator);
+
+				if (j == std::string::npos)
+				{
+					// single path component
+					first = 0;
+					last = parent->s.length();
+					value = parent->s;
+				}
+				else
+				{
+					if (j + 1 < parent->s.length())
+					{
+						// trailing filename
+						first = j + 1;
+						last = parent->s.length();
+						value = parent->s.substr(first, last - first);
+					}
+					else
+					{
+						// trailing directory, or root
+						const std::size_t k = parent->s.find_last_not_of(preferred_separator, j);
+
+						if (k == std::string::npos)
+						{
+							first = 0;
+							last = 1;
+							value = parent->s.substr(first, last - first);
+						}
+						else
+						{
+							first = parent->s.length();
+							last = std::string::npos;
+							value = ".";
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			// on an actual path component, or the fake "."
+			const std::size_t j = parent->s.find_last_not_of(preferred_separator, first - 1);
+
+			if (j == std::string::npos)
+			{
+				// beginning of absolute path
+				first = 0;
+				last = 1;
+			}
+			else
+			{
+				last = j + 1;
+				const std::size_t k = parent->s.find_last_of(preferred_separator, j);
+
+				if (k == std::string::npos)
+					first = 0;
+				else
+					first = k + 1;
+			}
+			value = parent->s.substr(first, last - first);
+		}
+	}
+	return *this;
+}
+
+path::const_iterator path::const_iterator::operator--(int)
+{
+	const_iterator t = *this;
+	operator--();
+	return t;
+}
+
+bool path::const_iterator::operator==(const const_iterator& o) const
+{
+	return parent == o.parent && first == o.first;
+}
+
+bool path::const_iterator::operator!=(const const_iterator& o) const
+{
+	return parent != o.parent || first != o.first;
+}
+
+const path& path::const_iterator::operator*() const
+{
+	return value;
+}
+
+const path* path::const_iterator::operator->() const
+{
+	return &value;
 }
 
 path operator/(
@@ -312,6 +515,36 @@ std::ostream& operator<<(
 )
 {
 	return os << p.string();
+}
+
+bool operator==(const path& l, const path& r)
+{
+	return l.compare(r) == 0;
+}
+
+bool operator!=(const path& l, const path& r)
+{
+	return l.compare(r) != 0;
+}
+
+bool operator<(const path& l, const path&r)
+{
+	return l.compare(r) < 0;
+}
+
+bool operator<=(const path&l, const path&r)
+{
+	return l.compare(r) <= 0;
+}
+
+bool operator>(const path&l, const path&r)
+{
+	return l.compare(r) > 0;
+}
+
+bool operator>=(const path&l, const path&r)
+{
+	return l.compare(r) >= 0;
 }
 
 }

@@ -30,6 +30,7 @@
 #define PBL_CPP_FS_PATH_H
 #include <string>
 #include <iosfwd>
+#include <iterator>
 
 namespace cpp17
 {
@@ -39,6 +40,7 @@ namespace filesystem
  *
  * A partial implementation of std::experimental::filesystem::path
  * @todo Construct from the other basic_string types and pointer-to-char16_t, etc.
+ * @bug Throughout, preferred_separator is used incorrectly
  */
 class path
 {
@@ -47,6 +49,10 @@ public:
 	typedef std::basic_string< value_type > string_type;
 
 	static const value_type preferred_separator = '/';
+
+	class const_iterator;
+
+	typedef const_iterator iterator;
 
 	/// An empty path
 	path();
@@ -66,6 +72,22 @@ public:
 	path& operator=(const Source& source)
 	{
 		return assign(source);
+	}
+
+	template< typename Source >
+	path& assign(const Source& source)
+	{
+		path t(source);
+		swap(t);
+		return *this;
+	}
+
+	template< typename Iterator >
+	path& assign(Iterator first, Iterator last)
+	{
+		path t(first, last);
+		swap(t);
+		return *this;
 	}
 
 	/// Clear the path
@@ -92,17 +114,73 @@ public:
 	bool is_absolute() const;
 
 	path lexically_relative(const path&) const;
+
+	int compare(const path&) const;
+
+	const_iterator begin() const;
+	const_iterator end() const;
 private:
+	struct begin_iterator_tag { };
+	struct end_iterator_tag { };
+
 	std::pair< std::size_t, std::size_t > first_path_component() const;
 	bool next_path_component(std::pair< std::size_t, std::size_t >&) const;
 
 	std::string s;
 };
 
+class path::const_iterator
+{
+public:
+	typedef const path value_type;
+	typedef const path& reference;
+	typedef const path* pointer;
+	typedef std::ptrdiff_t difference_type;
+
+	const_iterator();
+	const_iterator(const path*, begin_iterator_tag);
+	const_iterator(const path*, end_iterator_tag);
+
+	const_iterator& operator++();
+	const_iterator operator++(int);
+	const_iterator& operator--();
+	const_iterator operator--(int);
+	bool operator==(const const_iterator&) const;
+	bool operator!=(const const_iterator&) const;
+	const path& operator*() const;
+	const path* operator->() const;
+
+private:
+	const path* parent;
+	std::size_t first;
+	std::size_t last;
+	path value;
+};
+
+
 path operator/(const path& lhs, const path& rhs);
 
 std::ostream& operator<<(std::ostream&, const path&);
+
+bool operator==(const path&, const path&);
+bool operator!=(const path&, const path&);
+bool operator<(const path&, const path&);
+bool operator<=(const path&, const path&);
+bool operator>(const path&, const path&);
+bool operator>=(const path&, const path&);
 }
 }
 
+namespace std
+{
+template<>
+struct iterator_traits< ::cpp17::filesystem::path::const_iterator >
+{
+	typedef std::ptrdiff_t difference_type;
+	typedef const ::cpp17::filesystem::path value_type;
+	typedef const ::cpp17::filesystem::path* pointer;
+	typedef const ::cpp17::filesystem::path& reference;
+	typedef std::bidirectional_iterator_tag iterator_category;
+};
+}
 #endif // PBL_FS_PATH_H
