@@ -128,9 +128,6 @@ private:
 	struct begin_iterator_tag {};
 	struct end_iterator_tag {};
 
-	std::pair< std::size_t, std::size_t > first_path_component() const;
-	bool next_path_component(std::pair< std::size_t, std::size_t >&) const;
-
 	std::string s;
 };
 

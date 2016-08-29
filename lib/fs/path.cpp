@@ -181,61 +181,6 @@ const std::string& path::native() const
 	return s;
 }
 
-std::pair< std::size_t, std::size_t > path::first_path_component() const
-{
-	const std::size_t n = s.length();
-
-	std::size_t i = 0, j = 0;
-
-	if ( n != 0 && s[0] == preferred_separator )
-	{
-		// Absolute path
-		j = 1;
-	}
-	else
-	{
-		// Relative path
-		while ( j < n && s[j] != preferred_separator )
-		{
-			++j;
-		}
-	}
-
-	return std::pair< std::size_t, std::size_t >(i, j);
-}
-
-bool path::next_path_component(std::pair< std::size_t, std::size_t >& r) const
-{
-	const std::size_t n = s.length();
-
-	std::size_t i = r.second;
-
-	while ( i < n && s[i] == preferred_separator )
-	{
-		++i;
-	}
-
-	if ( i < n )
-	{
-		// Found another component
-		std::size_t j = i + 1;
-
-		while ( j < n && s[j] != preferred_separator )
-		{
-			++j;
-		}
-
-		r.first  = i;
-		r.second = j;
-
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 path path::lexically_relative(const path& base) const
 {
 	const_iterator first1 = begin(), last1 = end();
