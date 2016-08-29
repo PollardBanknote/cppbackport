@@ -44,27 +44,28 @@ class directory_entry
 public:
 	directory_entry();
 	directory_entry(const directory_entry&);
-	explicit directory_entry(const path&, file_status = file_status(), file_status = file_status());
+	explicit directory_entry(const path&);
+
 	directory_entry& operator=(const directory_entry&);
-	void assign(const path&, file_status = file_status(), file_status = file_status());
+	void assign(const path&);
+	void replace_filename(const path&);
+
 	const ::cpp17::filesystem::path& path() const;
+	operator const ::cpp17::filesystem::path&() const;
 
 	file_status status() const;
 
-	file_status symbolic_status() const;
+	file_status symlink_status() const;
 private:
-	// deprecated
-	::cpp17::filesystem::path filename() const;
-	const ::cpp17::filesystem::path& get_path() const;
-
 	::cpp17::filesystem::path path_;
-	file_status mstatus;
-	file_status sym_status;
-
 };
 
-std::ostream& operator<<(std::ostream&, const directory_entry&);
-
+bool operator==(const directory_entry&, const directory_entry&);
+bool operator!=(const directory_entry&, const directory_entry&);
+bool operator<(const directory_entry&, const directory_entry&);
+bool operator<=(const directory_entry&, const directory_entry&);
+bool operator>(const directory_entry&, const directory_entry&);
+bool operator>=(const directory_entry&, const directory_entry&);
 }
 }
 #endif // PBL_FS_DIRENTRY_H

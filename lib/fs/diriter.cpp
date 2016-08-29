@@ -175,15 +175,8 @@ private:
 		if ( !valid_info && e )
 		{
 			const path  q = p / e->d_name;
-			file_status s = status(q);
-			file_status l;
 
-			if ( is_symlink(s))
-			{
-				l = symlink_status(q);
-			}
-
-			info.assign(q, s, l);
+			info.assign(q);
 			valid_info = true;
 		}
 	}
