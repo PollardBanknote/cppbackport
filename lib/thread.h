@@ -115,7 +115,7 @@ private:
 		: public details::runnable
 	{
 public:
-		runnable_wrapper(F f_)
+		explicit runnable_wrapper(F f_)
 			: f(f_)
 		{
 		}
@@ -143,7 +143,7 @@ public:
 		bool               valid;
 		native_handle_type tid;
 
-		id(native_handle_type);
+		explicit id(native_handle_type);
 public:
 		id();
 		id(const id&);
