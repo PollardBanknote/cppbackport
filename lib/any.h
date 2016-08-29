@@ -107,7 +107,7 @@ public:
 	 */
 	~any()
 	{
-		clear();
+		reset();
 	}
 
 	/** Copy assignment
