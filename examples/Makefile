@@ -14,7 +14,9 @@ INCLUDE += -iquote$(LIB_DIR)
 LDFLAGS += -pthread
 
 LIBNAME = cppbackport
-EXAMPLES = gibberish lshere multithreading now singlell pathiter
+EXAMPLES = any fbind histogram maxalign optional smartptr two_threads clock gibberish \
+    lshere multithreading pathiter tempdir directory_listing hash mathfns now singlell \
+    testtraits
 
 .PHONY: default lib examples
 
@@ -24,13 +26,25 @@ lib:
 $(EXAMPLES): lib
 
 examples: $(EXAMPLES)
-
+any: any.o
+clock: clock.o
+directory_listing: directory_listing.o
+fbind: fbind.o
 gibberish: gibberish.o
+hash: hash.o
+histogram: histogram.o
 lshere: lshere.o
+mathfns: mathfns.o
+maxalign: maxalign.o
 multithreading: multithreading.o
 now: now.o
-singlell: singlell.o
+optional: optional.o
 pathiter: pathiter.o
+singlell: singlell.o
+smartptr: smartptr.o
+tempdir: tempdir.o
+testtraits: testtraits.o
+two_threads: two_threads.o
 
 $(EXAMPLES):
 	$(LD) $(LDFLAGS) $(@).o -L. -l$(LIBNAME) -o $@
