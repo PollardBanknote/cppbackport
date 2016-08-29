@@ -174,7 +174,7 @@ private:
 	{
 		if ( !valid_info && e )
 		{
-			const path  q = p / e->d_name;
+			const path q = p / e->d_name;
 
 			info.assign(q);
 			valid_info = true;

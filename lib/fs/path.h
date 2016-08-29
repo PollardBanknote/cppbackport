@@ -78,14 +78,19 @@ public:
 	path& assign(const Source& source)
 	{
 		path t(source);
+
 		swap(t);
 		return *this;
 	}
 
 	template< typename Iterator >
-	path& assign(Iterator first, Iterator last)
+	path& assign(
+		Iterator first,
+		Iterator last
+	)
 	{
 		path t(first, last);
+
 		swap(t);
 		return *this;
 	}
@@ -120,8 +125,8 @@ public:
 	const_iterator begin() const;
 	const_iterator end() const;
 private:
-	struct begin_iterator_tag { };
-	struct end_iterator_tag { };
+	struct begin_iterator_tag {};
+	struct end_iterator_tag {};
 
 	std::pair< std::size_t, std::size_t > first_path_component() const;
 	bool next_path_component(std::pair< std::size_t, std::size_t >&) const;
@@ -149,12 +154,11 @@ public:
 	bool operator!=(const const_iterator&) const;
 	const path& operator*() const;
 	const path* operator->() const;
-
 private:
 	const path* parent;
 	std::size_t first;
 	std::size_t last;
-	path value;
+	path        value;
 };
 
 
@@ -173,7 +177,7 @@ bool operator>=(const path&, const path&);
 
 namespace std
 {
-template<>
+template< >
 struct iterator_traits< ::cpp17::filesystem::path::const_iterator >
 {
 	typedef std::ptrdiff_t difference_type;
