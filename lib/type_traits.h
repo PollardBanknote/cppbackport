@@ -40,7 +40,6 @@
 
 // Always include these as they have extensions above C++11
 #include "traits/alignment.h"
-#include "traits/integral_constant.h"
 
 #ifndef CPP11
 #include "traits/add_cv.h"
@@ -84,4 +83,9 @@
 #include "traits/result_of.h"
 #include "traits/underlying_type.h"
 #endif // if __cplusplus >= 201102L
+
+#ifndef CPP17
+#include "traits/integral_constant.h"
+#include "traits/void_t.h"
+#endif
 #endif // PBL_CPP_TYPE_TRAITS_H
