@@ -113,6 +113,8 @@ public:
 	path extension() const;
 	path filename() const;
 	path parent_path() const;
+	path& remove_filename();
+	path& replace_filename(const path&);
 
 	operator string_type() const;
 

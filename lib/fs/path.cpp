@@ -139,6 +139,35 @@ path path::parent_path() const
 	return path(s.substr(0, i));
 }
 
+path& path::remove_filename()
+{
+	const std::size_t i = s.find_last_of(preferred_separator);
+
+	if ( i != std::string::npos )
+	{
+		s.resize(i);
+	}
+
+	return *this;
+}
+
+path& path::replace_filename(const path& p)
+{
+	const std::size_t i = s.find_last_of(preferred_separator);
+
+	if ( i != std::string::npos )
+	{
+		s.resize(i);
+		append(p);
+	}
+	else
+	{
+		assign(p);
+	}
+
+	return *this;
+}
+
 path::operator string_type() const
 {
 	return s;
@@ -181,7 +210,8 @@ const std::string& path::native() const
 	return s;
 }
 
-path path::lexically_relative(const path& base) const
+/// @bug argument isn't used... that can't be right.
+path path::lexically_relative(const path&) const
 {
 	const_iterator first1 = begin(), last1 = end();
 	const_iterator first2 = begin(), last2 = end();
