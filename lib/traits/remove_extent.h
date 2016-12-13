@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_REMOVE_EXTENT_H
 #define PBL_CPP_TRAITS_REMOVE_EXTENT_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< class T >
@@ -55,4 +56,16 @@ struct remove_all_extents< T[N] >
 	typedef typename remove_all_extents< T >::type type;
 };
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using remove_extent_t = typename std::remove_extent<T>::type;
+
+template< class T >
+using remove_all_extents_t = typename std::remove_all_extents<T>::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_REMOVE_EXTENT_H

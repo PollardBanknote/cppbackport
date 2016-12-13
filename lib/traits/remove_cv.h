@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_REMOVE_CV_H
 #define PBL_CPP_TRAITS_REMOVE_CV_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< class T >
@@ -48,4 +49,19 @@ struct remove_cv
 };
 
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using remove_const_t = typename std::remove_const<T>::type;
+
+template< class T >
+using remove_volatile_t = typename std::remove_volatile<T>::type;
+
+template< class T >
+using remove_cv_t = typename std::remove_cv<T>::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_REMOVE_CV_H

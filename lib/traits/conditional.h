@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_CONDITIONAL_H
 #define PBL_CPP_TRAITS_CONDITIONAL_H
 
+#ifndef CPP11
 namespace cpp11
 {
 
@@ -39,5 +40,103 @@ template< class T, class F >
 struct conditional< false, T, F >{typedef F type;};
 
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< bool B, class T, class F >
+using conditional_t = typename std::conditional< B, T, F >::type;
+}
+#endif
+#endif
+
+#ifndef CPP11
+#include "integral_constant.h"
+
+namespace cpp17
+{
+template< class B1 = void, class B2 = void >
+struct conjunction : bool_constant< B1::value && B2::value >
+{
+};
+
+template< >
+struct conjunction< void, void > : cpp11::true_type
+{
+};
+
+template< class B1 >
+struct conjunction< B1, void > : bool_constant< B1::value >
+{
+};
+
+template< class B1 = void, class B2 = void >
+struct disjunction : bool_constant< B1::value || B2::value >
+{
+};
+
+template< >
+struct disjunction< void, void > : cpp11::false_type
+{
+};
+
+template< class B1 >
+struct disjunction< B1, void > : bool_constant< B1::value >
+{
+};
+}
+
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class... >
+struct conjunction : std::true_type
+{};
+
+template< class B >
+struct conjunction< B > : B
+{};
+
+template< class B1, class... Bi >
+struct conjunction< B1, Bi... > : typename std::conditional< B1::value, conjunction< Bi... >, B1 >::type
+{};
+
+template< class... Bi >
+constexpr bool conjunction_v = conjunction< Bi... >::value;
+
+template< class... >
+struct disjunction : std::false_type
+{};
+
+template< class B >
+struct disjunction< B > : B
+{};
+
+template< class B1, class... Bi >
+struct disjunction< B1, Bi... > : typename std::conditional< B1::value, B1, disjunction< Bi... > >::type
+{};
+
+template< class... Bi >
+constexpr bool disjunction_v = disjunction< Bi... >::value;
+}
+#endif
+#endif
+
+#ifndef CPP17
+namespace cpp17
+{
+template< class B >
+struct negation : bool_constant< !bool(B::value) >
+{
+};
+
+#ifdef CPP11
+template< class B >
+constexpr bool negation_v = negation< B >::value;
+#endif
+}
+#endif
+
 
 #endif // PBL_CPP_TRAITS_CONDITIONAL_H

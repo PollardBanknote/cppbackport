@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_BASE_OF_H
 #define PBL_CPP_TRAITS_IS_BASE_OF_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "is_class_or_union.h"
 #include "yesno.h"
@@ -56,8 +57,7 @@ struct is_base_of_impl
 template< typename B, typename D, bool = detail::is_class_or_union< B >::value&& detail::is_class_or_union< D >::value >
 struct is_base_of_helper
 	: cpp17::bool_constant< ( sizeof is_base_of_impl< B, D >::check(host< B, D >( ), int())) == sizeof( detail::yes ) >
-{
-};
+{};
 
 /* Need some specializations to handle references because the detail structs
    form a pointer to reference. Might be able to work around it if the pointer
@@ -66,17 +66,23 @@ struct is_base_of_helper
 template< typename B, typename D >
 struct is_base_of_helper< B, D, false >
 	: false_type
-{
-};
+{};
 
 }
-
 
 template< typename B, typename D >
 struct is_base_of
 	: cpp17::bool_constant< detail::is_base_of_helper< B, D >::value >
-{
-};
+{};
 
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class Base, class Derived >
+constexpr bool is_base_of_v = std::is_base_of< Base, Derived >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_BASE_OF_H

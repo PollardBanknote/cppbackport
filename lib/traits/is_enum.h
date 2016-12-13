@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_IS_ENUM
 #define PBL_CPP_IS_ENUM
 
+#ifndef CPP11
 #include "is_void.h"
 #include "is_integral.h"
 #include "is_floating_point.h"
@@ -57,5 +58,14 @@ struct is_enum
 {
 };
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_enum_v = std::is_enum< T >::value;
+}
+#endif
+#endif
 
 #endif // IS_ENUM

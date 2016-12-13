@@ -29,9 +29,9 @@
 #ifndef PBL_CPP_TRAITS_ADD_REFERENCE_H
 #define PBL_CPP_TRAITS_ADD_REFERENCE_H
 
+#ifndef CPP11
 namespace cpp11
 {
-
 template< typename T >
 struct add_lvalue_reference
 {
@@ -67,7 +67,18 @@ struct add_lvalue_reference< const volatile void >
 {
 	typedef const volatile void type;
 };
-
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using add_lvalue_reference_t = typename std::add_lvalue_reference< T >::type;
+
+template< class T >
+using add_rvalue_reference_t = typename std::add_rvalue_reference< T >::type;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_ADD_REFERENCE_H

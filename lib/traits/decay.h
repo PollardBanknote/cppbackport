@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_DECAY_H
 #define PBL_CPP_TRAITS_DECAY_H
 
+#ifndef CPP11
 #include "remove_reference.h"
 #include "conditional.h"
 #include "is_array.h"
@@ -75,4 +76,13 @@ struct decay
 };
 
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using decay_t = typename std::decay< T >::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_DECAY_H

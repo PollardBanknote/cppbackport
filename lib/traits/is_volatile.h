@@ -29,15 +29,25 @@
 #ifndef PBL_CPP_TRAITS_IS_VOLATILE_H
 #define PBL_CPP_TRAITS_IS_VOLATILE_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 
 namespace cpp11
 {
 template< class T >
 struct is_volatile
-	: false_type {};
+        : false_type {};
 template< class T >
 struct is_volatile< volatile T >
-	: true_type {};
+        : true_type {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_volatile_v = std::is_volatile< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_VOLATILE_H

@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_MAKE_SIGNED_H
 #define PBL_CPP_TRAITS_MAKE_SIGNED_H
 
+#ifndef CPP11
 #include "config/arch.h"
 
 namespace cpp11
@@ -315,4 +316,13 @@ struct make_signed< const volatile unsigned long long int >
 #endif
 }
 
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using make_signed_t = typename std::make_signed< T >::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_MAKE_SIGNED_H

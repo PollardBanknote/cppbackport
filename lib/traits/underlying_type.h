@@ -1,6 +1,7 @@
 #ifndef UNDERLYING_TYPE_H
 #define UNDERLYING_TYPE_H
 
+#ifndef CPP11
 #include "is_enum.h"
 
 namespace cpp11
@@ -31,4 +32,13 @@ struct underlying_type< E, typename enable_if< is_enum< E >::value >::type >
 
 }
 
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using underlying_type_t = typename std::underlying_type<T>::type;
+}
+#endif
+#endif
 #endif // UNDERLYING_TYPE_H

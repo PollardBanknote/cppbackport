@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_COMMON_TYPE_H
 #define PBL_CPP_TRAITS_COMMON_TYPE_H
 
+#ifndef CPP11
 #include <climits>
 #include "is_signed.h"
 #include "conditional.h"
@@ -377,5 +378,14 @@ struct common_type< void, void >
 {
 };
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class... T >
+using common_type_t = typename std::common_type< T... >::type;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_COMMON_TYPE_H

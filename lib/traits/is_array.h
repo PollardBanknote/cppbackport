@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_ARRAY_H
 #define PBL_CPP_TRAITS_IS_ARRAY_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 
 namespace cpp11
@@ -45,4 +46,13 @@ template< class T, std::size_t N >
 struct is_array< T[N] >
 	: true_type {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_array_v = std::is_array< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_ARRAY_H

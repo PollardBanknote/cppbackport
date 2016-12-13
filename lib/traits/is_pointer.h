@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_POINTER_H
 #define PBL_CPP_TRAITS_IS_POINTER_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "remove_cv.h"
 
@@ -38,18 +39,27 @@ namespace detail
 {
 template< class T >
 struct is_pointer_helper
-	: false_type
+        : false_type
 {};
 
 template< class T >
 struct is_pointer_helper< T* >
-	: true_type
+        : true_type
 {};
 }
 
 template< class T >
 struct is_pointer
-	: cpp17::bool_constant< detail::is_pointer_helper< typename remove_cv< T >::type >::value >
+        : cpp17::bool_constant< detail::is_pointer_helper< typename remove_cv< T >::type >::value >
 {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_pointer_v = std::is_pointer< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_POINTER_H

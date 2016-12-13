@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_ADD_CV_H
 #define PBL_CPP_TRAITS_ADD_CV_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< class T >
@@ -44,5 +45,20 @@ struct add_cv
 };
 
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using add_const_t = typename std::add_const< T >::type;
+
+template< class T >
+using add_volatile_t = typename std::add_volatile< T >::type;
+
+template< class T >
+using add_cv_t = typename std::add_cv< T >::type;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_ADD_CV_H

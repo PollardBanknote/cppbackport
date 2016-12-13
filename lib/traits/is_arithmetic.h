@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_ARITHMETIC_H
 #define PBL_CPP_TRAITS_IS_ARITHMETIC_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "is_integral.h"
 #include "is_floating_point.h"
@@ -40,4 +41,13 @@ struct is_arithmetic
 	: cpp17::bool_constant< is_integral< T >::value || is_floating_point< T >::value >
 {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_arithmetic_v = std::is_arithmetic< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_ARITHMETIC_H

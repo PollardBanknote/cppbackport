@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_FUNDAMENTAL_H
 #define PBL_CPP_TRAITS_IS_FUNDAMENTAL_H
 
+#ifndef CPP11
 #include "is_void.h"
 #include "is_arithmetic.h"
 
@@ -36,8 +37,17 @@ namespace cpp11
 {
 template< class T >
 struct is_fundamental
-	: cpp17::bool_constant< is_arithmetic< T >::value || is_void< T >::value >
+        : cpp17::bool_constant< is_arithmetic< T >::value || is_void< T >::value >
 {};
 }
 
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_fundamental_v = std::is_fundamental< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_FUNDAMENTAL_H

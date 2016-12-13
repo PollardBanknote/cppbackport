@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_MAKE_UNSIGNED_H
 #define PBL_CPP_TRAITS_MAKE_UNSIGNED_H
 
+#ifndef CPP11
 #include "config/arch.h"
 
 namespace cpp11
@@ -313,5 +314,13 @@ struct make_unsigned< const volatile unsigned long long int >
 };
 #endif
 }
-
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using make_unsigned_t = typename std::make_unsigned< T >::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_MAKE_UNSIGNED_H

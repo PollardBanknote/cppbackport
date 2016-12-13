@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_ENABLE_IF_H
 #define PBL_CPP_TRAITS_ENABLE_IF_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< bool B, class T = void >
@@ -40,5 +41,13 @@ struct enable_if< true, T >
 	typedef T type;
 };
 }
-
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< bool B, class T = void >
+using enable_if_t = typename std::enable_if< B, T >::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_ENABLE_IF_H

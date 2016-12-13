@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_OBJECT_H
 #define PBL_CPP_TRAITS_IS_OBJECT_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "is_scalar.h"
 #include "is_class_or_union.h"
@@ -36,12 +37,20 @@ namespace cpp11
 {
 template< class T >
 struct is_object
-	: cpp::bool_constant<
-		cpp::is_scalar< T >::value
-		|| cpp::is_array< T >::value
-		|| cpp::detail::is_class_or_union< T >::value
-	>
+        : cpp::bool_constant<
+                cpp::is_scalar< T >::value
+                || cpp::is_array< T >::value
+                || cpp::detail::is_class_or_union< T >::value
+        >
 {};
 }
-
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_object_v = std::is_object< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_OBJECT_H

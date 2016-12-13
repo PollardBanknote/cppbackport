@@ -40,5 +40,13 @@ struct is_null_pointer
 {
 };
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_null_pointer_v = std::is_null_pointer< T >::value;
+}
+#endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_NULL_POINTER_H

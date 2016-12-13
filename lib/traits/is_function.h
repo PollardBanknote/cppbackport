@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_FUNCTION_H
 #define PBL_CPP_TRAITS_IS_FUNCTION_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "yesno.h"
 
@@ -44,16 +45,24 @@ yes is_function_helper(...);
 
 template< class T >
 struct is_function
-	: cpp17::bool_constant< (( sizeof detail::is_function_helper((T*) 0)) == sizeof( detail::yes )) >
+        : cpp17::bool_constant< (( sizeof detail::is_function_helper((T*) 0)) == sizeof( detail::yes )) >
 {
 };
 
 template< class T >
 struct is_function< T& >
-	: false_type
+        : false_type
 {
 };
 
 }
-
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_function_v = std::is_function< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_FUNCTION_H

@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_REMOVE_REFERENCE_H
 #define PBL_CPP_TRAITS_REMOVE_REFERENCE_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< class T >
@@ -36,4 +37,13 @@ struct remove_reference {typedef T type;};
 template< class T >
 struct remove_reference< T& >{typedef T type;};
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using remove_reference_t = typename std::remove_reference<T>::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_REMOVE_REFERENCE_H

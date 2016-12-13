@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_ADD_POINTER_H
 #define PBL_CPP_TRAITS_ADD_POINTER_H
 
+#ifndef CPP11
 #include "remove_reference.h"
 
 namespace cpp11
@@ -39,4 +40,13 @@ struct add_pointer
 	typedef typename remove_reference< T >::type* type;
 };
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using add_pointer_t = typename std::add_pointer< T >::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_ADD_POINTER_H

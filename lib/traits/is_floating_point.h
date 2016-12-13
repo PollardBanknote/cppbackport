@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_FLOATING_POINT_H
 #define PBL_CPP_TRAITS_IS_FLOATING_POINT_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 #include "is_same.h"
 #include "remove_cv.h"
@@ -44,4 +45,13 @@ struct is_floating_point
 	>
 {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_floating_point_v = std::is_floating_point< T >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_IS_FLOATING_POINT_H

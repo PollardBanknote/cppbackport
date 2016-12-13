@@ -31,6 +31,7 @@
 #ifndef PBL_CPP_TRAITS_RESULT_OF_H
 #define PBL_CPP_TRAITS_RESULT_OF_H
 
+#ifndef CPP11
 #include "is_convertible.h"
 #include "enable_if.h"
 
@@ -114,4 +115,13 @@ struct result_of< R(*( A1, A2, A3, A4, A5 ))( F1, F2, F3, F4, F5 ), typename ena
 };
 
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using result_of_t = typename std::result_of<T>::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_RESULT_OF_H

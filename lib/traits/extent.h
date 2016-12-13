@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_EXTENT_H
 #define PBL_CPP_TRAITS_EXTENT_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 
 namespace cpp11
@@ -53,4 +54,13 @@ template< class T, std::size_t I, unsigned N >
 struct extent< T[I], N >
 	: integral_constant< std::size_t, extent< T, N - 1 >::value >{};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T, unsigned N = 0 >
+constexpr std::size_t extent_v = std::extent< T, N >::value;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_EXTENT_H

@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_REMOVE_POINTER_H
 #define PBL_CPP_TRAITS_REMOVE_POINTER_H
 
+#ifndef CPP11
 namespace cpp11
 {
 template< class T >
@@ -42,4 +43,13 @@ struct remove_pointer< T* volatile >{typedef T type;};
 template< class T >
 struct remove_pointer< T* const volatile >{typedef T type;};
 }
+#else
+#ifndef CPP14
+namespace cpp14
+{
+template< class T >
+using remove_pointer_t = typename std::remove_pointer<T>::type;
+}
+#endif
+#endif
 #endif // PBL_CPP_TRAITS_REMOVE_POINTER_H

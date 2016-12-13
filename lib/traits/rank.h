@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_RANK_H
 #define PBL_CPP_TRAITS_RANK_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 namespace cpp11
 {
@@ -44,5 +45,14 @@ template< class T, std::size_t N >
 struct rank< T[N] >
 	: public integral_constant< std::size_t, rank< T >::value + 1 >{};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr std::size_t rank_v = std::rank< T >::value;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_RANK_H

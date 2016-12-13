@@ -42,15 +42,30 @@
 #include "traits/alignment.h"
 
 #ifndef CPP11
+#include "traits/declval.h"
+#endif // if __cplusplus >= 201102L
+
+#ifndef CPP14
 #include "traits/add_cv.h"
 #include "traits/add_pointer.h"
 #include "traits/add_reference.h"
 #include "traits/common_type.h"
-#include "traits/conditional.h"
 #include "traits/decay.h"
-#include "traits/declval.h"
 #include "traits/enable_if.h"
+#include "traits/make_signed.h"
+#include "traits/make_unsigned.h"
+#include "traits/remove_cv.h"
+#include "traits/remove_extent.h"
+#include "traits/remove_pointer.h"
+#include "traits/remove_reference.h"
+#include "traits/result_of.h"
+#include "traits/underlying_type.h"
+#endif
+
+#ifndef CPP17
+#include "traits/conditional.h"
 #include "traits/extent.h"
+#include "traits/integral_constant.h"
 #include "traits/is_arithmetic.h"
 #include "traits/is_array.h"
 #include "traits/is_base_of.h"
@@ -58,6 +73,7 @@
 #include "traits/is_const.h"
 #include "traits/is_convertible.h"
 #include "traits/is_enum.h"
+#include "traits/void_t.h"
 #include "traits/is_floating_point.h"
 #include "traits/is_function.h"
 #include "traits/is_fundamental.h"
@@ -73,19 +89,6 @@
 #include "traits/is_unsigned.h"
 #include "traits/is_void.h"
 #include "traits/is_volatile.h"
-#include "traits/make_signed.h"
-#include "traits/make_unsigned.h"
 #include "traits/rank.h"
-#include "traits/remove_cv.h"
-#include "traits/remove_extent.h"
-#include "traits/remove_pointer.h"
-#include "traits/remove_reference.h"
-#include "traits/result_of.h"
-#include "traits/underlying_type.h"
-#endif // if __cplusplus >= 201102L
-
-#ifndef CPP17
-#include "traits/integral_constant.h"
-#include "traits/void_t.h"
 #endif
 #endif // PBL_CPP_TYPE_TRAITS_H

@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_CONST_H
 #define PBL_CPP_TRAITS_IS_CONST_H
 
+#ifndef CPP11
 #include "integral_constant.h"
 
 namespace cpp11
@@ -40,5 +41,14 @@ template< class T >
 struct is_const< const T >
 	: true_type {};
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class T >
+constexpr bool is_const_v = std::is_const< T >::value;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_IS_CONST_H

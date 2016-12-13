@@ -29,6 +29,7 @@
 #ifndef PBL_CPP_TRAITS_IS_CONVERTIBLE_H
 #define PBL_CPP_TRAITS_IS_CONVERTIBLE_H
 
+#ifndef CPP11
 #include "declval.h"
 #include "integral_constant.h"
 #include "yesno.h"
@@ -72,5 +73,14 @@ struct is_convertible< void, void >
 {
 };
 }
+#else
+#ifndef CPP17
+namespace cpp17
+{
+template< class From, class To >
+constexpr bool is_convertible_v = std::is_convertible< From, To >::value;
+}
+#endif
+#endif
 
 #endif // PBL_CPP_TRAITS_IS_CONVERTIBLE_H
