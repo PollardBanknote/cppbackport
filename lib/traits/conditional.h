@@ -29,6 +29,8 @@
 #ifndef PBL_CPP_TRAITS_CONDITIONAL_H
 #define PBL_CPP_TRAITS_CONDITIONAL_H
 
+#include "integral_constant.h"
+
 #ifndef CPP11
 namespace cpp11
 {
@@ -51,8 +53,6 @@ using conditional_t = typename std::conditional< B, T, F >::type;
 #endif
 
 #ifndef CPP11
-#include "integral_constant.h"
-
 namespace cpp17
 {
 template< class B1 = void, class B2 = void >
@@ -99,11 +99,8 @@ struct conjunction< B > : B
 {};
 
 template< class B1, class... Bi >
-struct conjunction< B1, Bi... > : typename std::conditional< B1::value, conjunction< Bi... >, B1 >::type
+struct conjunction< B1, Bi... > : std::conditional< B1::value, conjunction< Bi... >, B1 >::type
 {};
-
-template< class... Bi >
-constexpr bool conjunction_v = conjunction< Bi... >::value;
 
 template< class... >
 struct disjunction : std::false_type
@@ -114,11 +111,16 @@ struct disjunction< B > : B
 {};
 
 template< class B1, class... Bi >
-struct disjunction< B1, Bi... > : typename std::conditional< B1::value, B1, disjunction< Bi... > >::type
+struct disjunction< B1, Bi... > : std::conditional< B1::value, B1, disjunction< Bi... > >::type
 {};
+
+#ifdef CPP14
+template< class... Bi >
+constexpr bool conjunction_v = conjunction< Bi... >::value;
 
 template< class... Bi >
 constexpr bool disjunction_v = disjunction< Bi... >::value;
+#endif
 }
 #endif
 #endif
@@ -131,7 +133,7 @@ struct negation : bool_constant< !bool(B::value) >
 {
 };
 
-#ifdef CPP11
+#ifdef CPP14
 template< class B >
 constexpr bool negation_v = negation< B >::value;
 #endif

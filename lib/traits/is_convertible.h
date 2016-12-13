@@ -75,11 +75,13 @@ struct is_convertible< void, void >
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class From, class To >
 constexpr bool is_convertible_v = std::is_convertible< From, To >::value;
 }
+#endif
 #endif
 #endif
 

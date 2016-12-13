@@ -45,11 +45,13 @@ struct is_same< T, T >
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T, class U >
 constexpr bool is_same_v = std::is_same< T, U >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_SAME_H

@@ -47,11 +47,13 @@ struct rank< T[N] >
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr std::size_t rank_v = std::rank< T >::value;
 }
+#endif
 #endif
 #endif
 

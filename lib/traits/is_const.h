@@ -43,11 +43,13 @@ struct is_const< const T >
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_const_v = std::is_const< T >::value;
 }
+#endif
 #endif
 #endif
 

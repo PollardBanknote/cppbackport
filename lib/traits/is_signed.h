@@ -55,11 +55,13 @@ struct is_signed
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_signed_v = std::is_signed< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_SIGNED_H

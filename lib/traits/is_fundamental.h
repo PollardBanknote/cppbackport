@@ -43,11 +43,13 @@ struct is_fundamental
 
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_fundamental_v = std::is_fundamental< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_FUNDAMENTAL_H

@@ -46,11 +46,13 @@ struct is_object
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_object_v = std::is_object< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_OBJECT_H

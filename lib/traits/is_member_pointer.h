@@ -78,6 +78,7 @@ struct is_member_object_pointer
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
@@ -89,6 +90,7 @@ constexpr bool is_member_function_pointer_v = std::is_member_function_pointer< T
 template< class T >
 constexpr bool is_member_object_pointer = std::is_member_object_pointer< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_MEMBER_POINTER_H

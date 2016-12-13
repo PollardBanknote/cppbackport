@@ -41,11 +41,13 @@ struct is_void
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_void_v = std::is_void< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_VOID_H

@@ -43,11 +43,13 @@ struct is_arithmetic
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_arithmetic_v = std::is_arithmetic< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_ARITHMETIC_H

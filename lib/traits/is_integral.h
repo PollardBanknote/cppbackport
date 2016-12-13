@@ -61,11 +61,13 @@ struct is_integral
 
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_integral_v = std::is_integral< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_INTEGRAL_H

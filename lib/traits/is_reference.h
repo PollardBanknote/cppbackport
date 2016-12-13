@@ -55,6 +55,7 @@ struct is_reference
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
@@ -66,6 +67,7 @@ constexpr bool is_rvalue_reference_v = std::is_rvalue_reference< T >::value;
 template< class T >
 constexpr bool is_reference_v = std::is_reference< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_REFERENCE_H

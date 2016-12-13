@@ -60,11 +60,13 @@ struct is_enum
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_enum_v = std::is_enum< T >::value;
 }
+#endif
 #endif
 #endif
 

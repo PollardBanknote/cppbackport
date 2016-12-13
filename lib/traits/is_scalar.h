@@ -51,11 +51,13 @@ struct is_scalar
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_scalar_v = std::is_scalar< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_SCALAR_H

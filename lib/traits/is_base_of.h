@@ -78,11 +78,13 @@ struct is_base_of
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class Base, class Derived >
 constexpr bool is_base_of_v = std::is_base_of< Base, Derived >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_BASE_OF_H

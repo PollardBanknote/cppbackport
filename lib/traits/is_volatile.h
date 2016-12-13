@@ -43,11 +43,13 @@ struct is_volatile< volatile T >
 }
 #else
 #ifndef CPP17
+#ifdef CPP14
 namespace cpp17
 {
 template< class T >
 constexpr bool is_volatile_v = std::is_volatile< T >::value;
 }
+#endif
 #endif
 #endif
 #endif // PBL_CPP_TRAITS_IS_VOLATILE_H
