@@ -32,6 +32,8 @@
 #ifndef PBL_CPP_VERSION_H
 #define PBL_CPP_VERSION_H
 
+#include <cstddef>
+
 #if __cplusplus >= 201402L
 #define CPP14
 #endif
