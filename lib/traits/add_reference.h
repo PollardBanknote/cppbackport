@@ -79,6 +79,6 @@ template< class T >
 using add_rvalue_reference_t = typename std::add_rvalue_reference< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_ADD_REFERENCE_H

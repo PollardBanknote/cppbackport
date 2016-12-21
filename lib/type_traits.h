@@ -90,5 +90,5 @@
 #include "traits/is_void.h"
 #include "traits/is_volatile.h"
 #include "traits/rank.h"
-#endif
+#endif // ifndef CPP17
 #endif // PBL_CPP_TYPE_TRAITS_H

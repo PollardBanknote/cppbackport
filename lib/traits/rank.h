@@ -55,6 +55,6 @@ constexpr std::size_t rank_v = std::rank< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_RANK_H

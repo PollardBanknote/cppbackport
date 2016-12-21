@@ -51,5 +51,5 @@ constexpr bool is_arithmetic_v = std::is_arithmetic< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_ARITHMETIC_H

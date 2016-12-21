@@ -42,7 +42,7 @@ struct remove_reference< T& >{typedef T type;};
 namespace cpp14
 {
 template< class T >
-using remove_reference_t = typename std::remove_reference<T>::type;
+using remove_reference_t = typename std::remove_reference< T >::type;
 }
 #endif
 #endif

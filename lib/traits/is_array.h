@@ -56,5 +56,5 @@ constexpr bool is_array_v = std::is_array< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_ARRAY_H

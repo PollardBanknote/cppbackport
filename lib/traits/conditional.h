@@ -122,8 +122,8 @@ template< class... Bi >
 constexpr bool disjunction_v = disjunction< Bi... >::value;
 #endif
 }
-#endif
-#endif
+#endif // ifndef CPP17
+#endif // ifndef CPP11
 
 #ifndef CPP17
 namespace cpp17

@@ -40,40 +40,40 @@ namespace detail
 {
 template< class T >
 struct is_member_pointer_helper
-        : false_type
+	: false_type
 {
 };
 
 template< class T, class U >
 struct is_member_pointer_helper< T U::* >
-        : true_type
+	: true_type
 {
 };
 
 template< class T >
 struct is_member_function_pointer_helper
-        : false_type {};
+	: false_type {};
 
 template< class T, class U >
 struct is_member_function_pointer_helper< T U::* >
-        : is_function< T >{};
+	: is_function< T >{};
 }
 
 template< class T >
 struct is_member_pointer
-        : detail::is_member_pointer_helper< typename remove_cv< T >::type >
+	: detail::is_member_pointer_helper< typename remove_cv< T >::type >
 {
 };
 
 template< class T >
 struct is_member_function_pointer
-        : detail::is_member_function_pointer_helper< typename remove_cv< T >::type >
+	: detail::is_member_function_pointer_helper< typename remove_cv< T >::type >
 {
 };
 
 template< class T >
 struct is_member_object_pointer
-        : cpp17::bool_constant< is_member_pointer< T >::value&& !is_member_function_pointer< T >::value >
+	: cpp17::bool_constant< is_member_pointer< T >::value&& !is_member_function_pointer< T >::value >
 {};
 }
 #else
@@ -92,5 +92,5 @@ constexpr bool is_member_object_pointer = std::is_member_object_pointer< T >::va
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_MEMBER_POINTER_H

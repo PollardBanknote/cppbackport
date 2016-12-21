@@ -40,18 +40,18 @@ namespace detail
 {
 template< typename T, bool = is_arithmetic< T >::value >
 struct is_signed
-        : cpp17::bool_constant< std::numeric_limits< typename remove_cv< T >::type >::is_signed >
+	: cpp17::bool_constant< std::numeric_limits< typename remove_cv< T >::type >::is_signed >
 {};
 
 template< typename T >
 struct is_signed< T, false >
-        : false_type
+	: false_type
 {};
 }
 
 template< typename T >
 struct is_signed
-        : detail::is_signed< T >::type {};
+	: detail::is_signed< T >::type {};
 }
 #else
 #ifndef CPP17
@@ -63,5 +63,5 @@ constexpr bool is_signed_v = std::is_signed< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_SIGNED_H

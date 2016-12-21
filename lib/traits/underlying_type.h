@@ -37,8 +37,8 @@ struct underlying_type< E, typename enable_if< is_enum< E >::value >::type >
 namespace cpp14
 {
 template< class T >
-using underlying_type_t = typename std::underlying_type<T>::type;
+using underlying_type_t = typename std::underlying_type< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // UNDERLYING_TYPE_H

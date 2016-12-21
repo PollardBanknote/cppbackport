@@ -12,8 +12,8 @@ int main()
 	// List all files in the working directory
 	for ( iterator it("."), last; it != last; ++it )
 	{
-		const std::string   r = it->path();
-		const fs::path s = fs::absolute(r);
+		const std::string r = it->path();
+		const fs::path    s = fs::absolute(r);
 
 		std::cout << "Relative path:\t" << r << std::endl;
 		std::cout << it->status() << std::endl;

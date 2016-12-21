@@ -54,14 +54,14 @@ struct remove_cv
 namespace cpp14
 {
 template< class T >
-using remove_const_t = typename std::remove_const<T>::type;
+using remove_const_t = typename std::remove_const< T >::type;
 
 template< class T >
-using remove_volatile_t = typename std::remove_volatile<T>::type;
+using remove_volatile_t = typename std::remove_volatile< T >::type;
 
 template< class T >
-using remove_cv_t = typename std::remove_cv<T>::type;
+using remove_cv_t = typename std::remove_cv< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_REMOVE_CV_H

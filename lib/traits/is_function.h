@@ -45,13 +45,13 @@ yes is_function_helper(...);
 
 template< class T >
 struct is_function
-        : cpp17::bool_constant< (( sizeof detail::is_function_helper((T*) 0)) == sizeof( detail::yes )) >
+	: cpp17::bool_constant< (( sizeof detail::is_function_helper((T*) 0)) == sizeof( detail::yes )) >
 {
 };
 
 template< class T >
 struct is_function< T& >
-        : false_type
+	: false_type
 {
 };
 
@@ -66,5 +66,5 @@ constexpr bool is_function_v = std::is_function< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_FUNCTION_H

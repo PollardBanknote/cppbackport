@@ -55,5 +55,5 @@ constexpr bool is_floating_point_v = std::is_floating_point< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_FLOATING_POINT_H

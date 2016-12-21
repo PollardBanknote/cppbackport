@@ -83,6 +83,6 @@ constexpr bool is_convertible_v = std::is_convertible< From, To >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_IS_CONVERTIBLE_H

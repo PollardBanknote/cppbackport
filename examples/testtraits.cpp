@@ -14,7 +14,8 @@ struct meta
 
 		const char* name = first.name();
 
-		int         status;
+		int status;
+
 		std::string s;
 
 		if ( char* realname = abi::__cxa_demangle(name, 0, 0, &status))

@@ -36,11 +36,11 @@ namespace cpp11
 {
 template< class T, class U >
 struct is_same
-        : false_type {};
+	: false_type {};
 
 template< class T >
 struct is_same< T, T >
-        : true_type {};
+	: true_type {};
 
 }
 #else
@@ -53,5 +53,5 @@ constexpr bool is_same_v = std::is_same< T, U >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_SAME_H

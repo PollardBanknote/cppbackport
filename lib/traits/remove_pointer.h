@@ -48,8 +48,8 @@ struct remove_pointer< T* const volatile >{typedef T type;};
 namespace cpp14
 {
 template< class T >
-using remove_pointer_t = typename std::remove_pointer<T>::type;
+using remove_pointer_t = typename std::remove_pointer< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_REMOVE_POINTER_H

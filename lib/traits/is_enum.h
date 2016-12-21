@@ -68,6 +68,6 @@ constexpr bool is_enum_v = std::is_enum< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // IS_ENUM

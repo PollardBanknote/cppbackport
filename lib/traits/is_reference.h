@@ -36,19 +36,19 @@ namespace cpp11
 {
 template< typename T >
 struct is_lvalue_reference
-        : false_type {};
+	: false_type {};
 
 template< typename T >
 struct is_lvalue_reference< T& >
-        : true_type {};
+	: true_type {};
 
 template< typename T >
 struct is_rvalue_reference
-        : false_type {};
+	: false_type {};
 
 template< class T >
 struct is_reference
-        : cpp17::bool_constant< ( is_lvalue_reference< T >::value || is_rvalue_reference< T >::value ) >
+	: cpp17::bool_constant< ( is_lvalue_reference< T >::value || is_rvalue_reference< T >::value ) >
 {
 };
 
@@ -69,5 +69,5 @@ constexpr bool is_reference_v = std::is_reference< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_REFERENCE_H

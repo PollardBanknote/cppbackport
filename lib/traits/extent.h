@@ -64,5 +64,5 @@ constexpr std::size_t extent_v = std::extent< T, N >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_EXTENT_H

@@ -84,5 +84,5 @@ template< class T >
 using decay_t = typename std::decay< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_DECAY_H

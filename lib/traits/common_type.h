@@ -386,6 +386,6 @@ template< class... T >
 using common_type_t = typename std::common_type< T... >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_COMMON_TYPE_H

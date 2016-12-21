@@ -51,6 +51,6 @@ constexpr bool is_const_v = std::is_const< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_IS_CONST_H

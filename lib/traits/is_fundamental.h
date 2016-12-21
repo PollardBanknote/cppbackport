@@ -37,7 +37,7 @@ namespace cpp11
 {
 template< class T >
 struct is_fundamental
-        : cpp17::bool_constant< is_arithmetic< T >::value || is_void< T >::value >
+	: cpp17::bool_constant< is_arithmetic< T >::value || is_void< T >::value >
 {};
 }
 
@@ -51,5 +51,5 @@ constexpr bool is_fundamental_v = std::is_fundamental< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_FUNDAMENTAL_H

@@ -324,5 +324,5 @@ template< class T >
 using make_signed_t = typename std::make_signed< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_MAKE_SIGNED_H

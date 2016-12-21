@@ -87,7 +87,7 @@ public:
 	}
 
 private:
-	fn f;
+	fn                                         f;
 	typename cpp::remove_reference< A1 >::type a1;
 };
 
@@ -120,7 +120,7 @@ public:
 	}
 
 private:
-	fn f;
+	fn                                         f;
 	typename cpp::remove_reference< A1 >::type a1;
 	typename cpp::remove_reference< A2 >::type a2;
 };
@@ -155,7 +155,7 @@ public:
 	}
 
 private:
-	fn f;
+	fn                                         f;
 	typename cpp::remove_reference< A1 >::type a1;
 	typename cpp::remove_reference< A2 >::type a2;
 	typename cpp::remove_reference< A3 >::type a3;
@@ -192,7 +192,7 @@ public:
 	}
 
 private:
-	fn f;
+	fn                                         f;
 	typename cpp::remove_reference< A1 >::type a1;
 	typename cpp::remove_reference< A2 >::type a2;
 	typename cpp::remove_reference< A3 >::type a3;
@@ -231,7 +231,7 @@ public:
 	}
 
 private:
-	fn f;
+	fn                                         f;
 	typename cpp::remove_reference< A1 >::type a1;
 	typename cpp::remove_reference< A2 >::type a2;
 	typename cpp::remove_reference< A3 >::type a3;
@@ -523,7 +523,7 @@ public:
 		return *this;
 	}
 
-	operator T&() const { return *p;}
+	operator T&() const { return *p; }
 	T& get() const
 	{
 		return *p;

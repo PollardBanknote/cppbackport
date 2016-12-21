@@ -59,6 +59,6 @@ template< class T >
 using add_cv_t = typename std::add_cv< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 
 #endif // PBL_CPP_TRAITS_ADD_CV_H

@@ -40,16 +40,16 @@ namespace detail
 {
 template< typename T, bool = is_arithmetic< T >::value >
 struct is_unsigned
-        : cpp17::bool_constant< !( std::numeric_limits< typename remove_cv< T >::type >::is_signed ) >{};
+	: cpp17::bool_constant< !( std::numeric_limits< typename remove_cv< T >::type >::is_signed ) >{};
 
 template< typename T >
 struct is_unsigned< T, false >
-        : false_type {};
+	: false_type {};
 }   // namespace detail
 
 template< typename T >
 struct is_unsigned
-        : detail::is_unsigned< T >::type {};
+	: detail::is_unsigned< T >::type {};
 }
 
 #else
@@ -62,5 +62,5 @@ constexpr bool is_unsigned_v = std::is_unsigned< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_UNSIGNED_H

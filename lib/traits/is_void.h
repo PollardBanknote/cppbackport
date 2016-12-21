@@ -37,7 +37,7 @@ namespace cpp11
 {
 template< class T >
 struct is_void
-        : is_same< void, typename remove_cv< T >::type >{};
+	: is_same< void, typename remove_cv< T >::type >{};
 }
 #else
 #ifndef CPP17

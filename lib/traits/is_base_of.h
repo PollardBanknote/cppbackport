@@ -86,5 +86,5 @@ constexpr bool is_base_of_v = std::is_base_of< Base, Derived >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_BASE_OF_H

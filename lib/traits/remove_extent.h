@@ -61,11 +61,11 @@ struct remove_all_extents< T[N] >
 namespace cpp14
 {
 template< class T >
-using remove_extent_t = typename std::remove_extent<T>::type;
+using remove_extent_t = typename std::remove_extent< T >::type;
 
 template< class T >
-using remove_all_extents_t = typename std::remove_all_extents<T>::type;
+using remove_all_extents_t = typename std::remove_all_extents< T >::type;
 }
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_REMOVE_EXTENT_H

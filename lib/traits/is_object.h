@@ -37,11 +37,11 @@ namespace cpp11
 {
 template< class T >
 struct is_object
-        : cpp::bool_constant<
-                cpp::is_scalar< T >::value
-                || cpp::is_array< T >::value
-                || cpp::detail::is_class_or_union< T >::value
-        >
+	: cpp::bool_constant<
+		cpp::is_scalar< T >::value
+		|| cpp::is_array< T >::value
+		|| cpp::detail::is_class_or_union< T >::value
+	>
 {};
 }
 #else
@@ -54,5 +54,5 @@ constexpr bool is_object_v = std::is_object< T >::value;
 }
 #endif
 #endif
-#endif
+#endif // ifndef CPP11
 #endif // PBL_CPP_TRAITS_IS_OBJECT_H
