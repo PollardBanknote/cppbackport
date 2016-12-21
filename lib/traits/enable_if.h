@@ -46,7 +46,7 @@ struct enable_if< true, T >
 namespace cpp14
 {
 template< bool B, class T = void >
-using enable_if_t         = typename std::enable_if< B, T >::type;
+using enable_if_t = typename std::enable_if< B, T >::type;
 }
 #endif
 #endif
