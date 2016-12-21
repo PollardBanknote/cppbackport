@@ -57,7 +57,7 @@ bool copy_file(
 	{
 		struct stat instat;
 
-		if ( ::fstat(in, &instat) == 0 && ( S_ISREG(instat.st_mode) || S_ISLNK(instat.st_mode)))
+		if ( ::fstat(in, &instat) == 0 && ( S_ISREG(instat.st_mode) || S_ISLNK(instat.st_mode) ) )
 		{
 			// Get the destination file
 			int out = ::open(dest.c_str(), O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC, S_IWUSR);
@@ -73,7 +73,7 @@ bool copy_file(
 
 					struct stat outstat;
 
-					if (( ::fstat(out, &outstat) != 0 ) || ( instat.st_dev == outstat.st_dev && instat.st_ino == outstat.st_ino ) || (( opt & 7 ) == 0 ))
+					if ( ( ::fstat(out, &outstat) != 0 ) || ( instat.st_dev == outstat.st_dev && instat.st_ino == outstat.st_ino ) || ( ( opt & 7 ) == 0 ) )
 					{
 						// Couldn't stat, Same file, or bad copy_options
 						err = true;
@@ -81,7 +81,7 @@ bool copy_file(
 					else
 					{
 						// Replace file or not, depending on flags
-						if ((opt& copy_options::overwrite_existing) || ((opt& copy_options::update_existing) && ( instat.st_mtime > outstat.st_mtime )))
+						if ( (opt& copy_options::overwrite_existing) || ( (opt& copy_options::update_existing) && ( instat.st_mtime > outstat.st_mtime ) ) )
 						{
 							// replace the existing file
 							if ( ::ftruncate(out, 0) != 0 )
@@ -137,7 +137,7 @@ bool copy_file(
 
 						while ( p - buf < n )
 						{
-							const ssize_t m = ::write(out, p, n - ( p - buf ));
+							const ssize_t m = ::write(out, p, static_cast< std::size_t >( n - ( p - buf ) ));
 
 							if ( m == -1 )
 							{
