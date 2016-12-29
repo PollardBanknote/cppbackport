@@ -42,13 +42,13 @@
 #include "config/os.h"
 #endif
 #ifndef CPP17
-#include "traits/is_same.h"
+#include "type_traits.h"
 namespace cpp11
 {
 namespace detail
 {
 // Used to promote arithmetic arguments to double or long double
-template< typename Arithmetic1, typename Arithmetic2 = void, typename Arithmetic3 = void, bool has_long_double = ( is_same< long double, Arithmetic1 >::value || is_same< long double, Arithmetic2 >::value || is_same< long double, Arithmetic3 >::value ) >
+template< typename Arithmetic1, typename Arithmetic2 = void, typename Arithmetic3 = void, bool has_long_double = ( cpp::is_same< long double, Arithmetic1 >::value || cpp::is_same< long double, Arithmetic2 >::value || cpp::is_same< long double, Arithmetic3 >::value ) >
 struct promoted
 {
 	typedef double type;
@@ -61,8 +61,11 @@ struct promoted< Arithmetic1, Arithmetic2, Arithmetic3, true >
 };
 
 }
+}
 #endif
 #ifndef CPP11
+namespace cpp11
+{
 #ifdef POSIX_ISSUE_6
 inline float remainder(
 	float x,
@@ -956,7 +959,7 @@ typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type beta(
 {
 	typedef typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp17::beta(static_cast< real >( x ), static_cast< real >( y ));
+	return static_cast< real >(beta_implementation(static_cast< real >( x ), static_cast< real >( y )));
 }
 }
 #endif
