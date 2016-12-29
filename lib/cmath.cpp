@@ -51,9 +51,12 @@ long double lgamma_implementation(long double z)
 #ifdef PBL_CPP_CMATH_BETA
 namespace cpp17
 {
+namespace detail
+{
 long double beta_implementation(long double z, long double w)
 {
 	return std::exp(cpp::lgamma(z) + cpp::lgamma(w) - cpp::lgamma(z + w));
+}
 }
 }
 #endif
