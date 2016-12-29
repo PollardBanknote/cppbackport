@@ -545,29 +545,6 @@ typename detail::promoted< Arithmetic1 >::type erfc(Arithmetic1 x)
 	return ::cpp11::erfc(static_cast< real >( x ));
 }
 
-inline float lgamma(float n)
-{
-	return ::lgammaf(n);
-}
-
-inline double lgamma(double n)
-{
-	return ::lgamma(n);
-}
-
-inline long double lgamma(long double n)
-{
-	return ::lgammal(n);
-}
-
-template< typename Arithmetic1 >
-typename detail::promoted< Arithmetic1 >::type lgamma(Arithmetic1 x)
-{
-	typedef typename detail::promoted< Arithmetic1 >::type real;
-
-	return ::cpp11::lgamma(static_cast< real >( x ));
-}
-
 inline float tgamma(float n)
 {
 	return ::tgammaf(n);
@@ -894,9 +871,54 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type copysign(
 
 	return ::cpp11::copysign(static_cast< real >( x ), static_cast< real >( y ));
 }
+#endif
 
-#endif // ifdef POSIX_ISSUE_6
+#if ( defined( _BSD_SOURCE ) || defined( _SVID_SOURCE ) \
+    || defined( _XOPEN_SOURCE ) || defined( _ISOC99_SOURCE ) || \
+    ( defined( _POSIX_C_SOURCE ) || _POSIX_C_SOURCE >= 200112L ) )
+inline float lgamma(float n)
+{
+	return ::lgammaf(n);
+}
 
+inline double lgamma(double n)
+{
+	return ::lgamma(n);
+}
+
+inline long double lgamma(long double n)
+{
+	return ::lgammal(n);
+}
+
+#else
+#define PBL_CPP_CMATH_LGAMMA
+namespace detail
+{
+long double lgamma_implementation(long double);
+}
+
+inline float lgamma(float z)
+{
+	return static_cast< float >(detail::lgamma_implementation(z));
+}
+
+inline double lgamma(double z)
+{
+	return static_cast< double >(detail::lgamma_implementation(z));
+}
+
+inline long double lgamma(long double z)
+{
+	return detail::lgamma_implementation(z);
+}
+#endif
+
+template< typename Arithmetic1 >
+double lgamma(Arithmetic1 x)
+{
+	return ::cpp11::lgamma(static_cast< double >( x ));
+}
 }
 #endif // ifndef CPP11
 #endif // PBL_CPP_CMATH_H
