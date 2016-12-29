@@ -40,8 +40,9 @@
 #include "version.h"
 #ifndef CPP11
 #include "config/os.h"
+#endif
+#ifndef CPP17
 #include "traits/is_same.h"
-
 namespace cpp11
 {
 namespace detail
@@ -60,7 +61,8 @@ struct promoted< Arithmetic1, Arithmetic2, Arithmetic3, true >
 };
 
 }
-
+#endif
+#ifndef CPP11
 #ifdef POSIX_ISSUE_6
 inline float remainder(
 	float x,
@@ -921,4 +923,41 @@ double lgamma(Arithmetic1 x)
 }
 }
 #endif // ifndef CPP11
+
+#ifndef CPP17
+#define PBL_CPP_CMATH_BETA
+namespace cpp17
+{
+namespace detail
+{
+long double beta_implementation(long double, long double);
+}
+
+inline double beta(double x, double y)
+{
+	return static_cast< double >(detail::beta_implementation(x, y));
+}
+
+inline float betaf(float x, float y)
+{
+	return static_cast< float >(detail::beta_implementation(x, y));
+}
+
+inline long double betal(long double x, long double y)
+{
+	return detail::beta_implementation(x, y);
+}
+
+template< typename Arithmetic1, typename Arithmetic2 >
+typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type beta(
+        Arithmetic1 x,
+        Arithmetic2 y
+)
+{
+	typedef typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type real;
+
+	return ::cpp17::beta(static_cast< real >( x ), static_cast< real >( y ));
+}
+}
+#endif
 #endif // PBL_CPP_CMATH_H
