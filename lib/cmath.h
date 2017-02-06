@@ -43,6 +43,7 @@
 #endif
 #ifndef CPP17
 #include "type_traits.h"
+
 namespace cpp11
 {
 namespace detail
@@ -62,7 +63,7 @@ struct promoted< Arithmetic1, Arithmetic2, Arithmetic3, true >
 
 }
 }
-#endif
+#endif // ifndef CPP17
 #ifndef CPP11
 namespace cpp11
 {
@@ -876,7 +877,8 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type copysign(
 
 	return ::cpp11::copysign(static_cast< real >( x ), static_cast< real >( y ));
 }
-#endif
+
+#endif // ifdef POSIX_ISSUE_6
 
 #if ( defined( _BSD_SOURCE ) || defined( _SVID_SOURCE ) \
     || defined( _XOPEN_SOURCE ) || defined( _ISOC99_SOURCE ) || \
@@ -917,6 +919,7 @@ inline long double lgamma(long double z)
 {
 	return detail::lgamma_implementation(z);
 }
+
 #endif
 
 template< typename Arithmetic1 >
@@ -924,6 +927,7 @@ double lgamma(Arithmetic1 x)
 {
 	return ::cpp11::lgamma(static_cast< double >( x ));
 }
+
 }
 #endif // ifndef CPP11
 
@@ -936,31 +940,41 @@ namespace detail
 long double beta_implementation(long double, long double);
 }
 
-inline double beta(double x, double y)
+inline double beta(
+	double x,
+	double y
+)
 {
 	return static_cast< double >(detail::beta_implementation(x, y));
 }
 
-inline float betaf(float x, float y)
+inline float betaf(
+	float x,
+	float y
+)
 {
 	return static_cast< float >(detail::beta_implementation(x, y));
 }
 
-inline long double betal(long double x, long double y)
+inline long double betal(
+	long double x,
+	long double y
+)
 {
 	return detail::beta_implementation(x, y);
 }
 
 template< typename Arithmetic1, typename Arithmetic2 >
 typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type beta(
-        Arithmetic1 x,
-        Arithmetic2 y
+	Arithmetic1 x,
+	Arithmetic2 y
 )
 {
 	typedef typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return static_cast< real >(beta_implementation(static_cast< real >( x ), static_cast< real >( y )));
+	return static_cast< real >( detail::beta_implementation(static_cast< real >( x ), static_cast< real >( y )));
 }
+
 }
-#endif
+#endif // ifndef CPP17
 #endif // PBL_CPP_CMATH_H
