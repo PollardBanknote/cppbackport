@@ -10,4 +10,5 @@ int main()
 	v = "Hello";
 	std::cout << cpp::get< std::string >(v) << std::endl;
 	std::cout << cpp::get< 1 >(v) << std::endl;
+	std::cout << cpp::holds_alternative< int >(v) << std::endl;
 }

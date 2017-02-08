@@ -47,26 +47,26 @@ struct max
 	static const std::size_t value = X > Y ? X : Y;
 };
 
-template< typename T1, typename T2, typename T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
 struct max_size
 {
-	static const std::size_t value = max< sizeof(T1), max_size< T2, T3, void >::value >::value;
+	static const std::size_t value = max< sizeof(T1), max_size< T2, T3, T4, T5, T6, T7, T8, T9, T10, void >::value >::value;
 };
 
-template< typename T2, typename T3>
-struct max_size< void, T2, T3 >
+template< typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
+struct max_size< void, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 {
 	static const std::size_t value = 0;
 };
 
-template< typename T1, typename T2, typename T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
 struct max_align
 {
-	static const std::size_t value = max< cpp::alignment_of< T1 >::value, max_align< T2, T3, void >::value >::value;
+	static const std::size_t value = max< cpp::alignment_of< T1 >::value, max_align< T2, T3, T4, T5, T6, T7, T8, T9, T10, void >::value >::value;
 };
 
-template< typename T2, typename T3 >
-struct max_align< void, T2, T3 >
+template< typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct max_align< void, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 {
 	static const std::size_t value = 0;
 };
@@ -153,8 +153,18 @@ struct convert_choice< U, T, I, false >
 {
 };
 
-template< typename U, typename T1, typename T2, typename T3 >
-struct convert_type : convert_choice< U, T1, 0 >, convert_choice< U, T2, 1 >, convert_choice< U, T3, 2 >
+template< typename U, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct convert_type
+        : convert_choice< U, T1, 0 >,
+        convert_choice< U, T2, 1 >,
+        convert_choice< U, T3, 2 >,
+        convert_choice< U, T4, 3 >,
+        convert_choice< U, T5, 4 >,
+        convert_choice< U, T6, 5 >,
+        convert_choice< U, T7, 6 >,
+        convert_choice< U, T8, 7 >,
+        convert_choice< U, T9, 8 >,
+        convert_choice< U, T10, 9 >
 {
 
 };
@@ -171,8 +181,18 @@ struct select_choice< U, U, I >
 	static const std::size_t value = I;
 };
 
-template< typename U, typename T1, typename T2, typename T3 >
-struct select_type : select_choice< U, T1, 0 >, select_choice< U, T2, 1 >, select_choice< U, T3, 2 >
+template< typename U, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct select_type
+        : select_choice< U, T1, 0 >,
+        select_choice< U, T2, 1 >,
+        select_choice< U, T3, 2 >,
+        select_choice< U, T4, 3 >,
+        select_choice< U, T5, 4 >,
+        select_choice< U, T6, 5 >,
+        select_choice< U, T7, 6 >,
+        select_choice< U, T8, 7 >,
+        select_choice< U, T9, 8 >,
+        select_choice< U, T10, 9 >
 {
 
 };
@@ -185,44 +205,78 @@ struct rhs
 
 const std::size_t variant_npos = -1;
 
-template< typename T1, typename T2 = void, typename T3 = void >
+template< typename T1, typename T2 = void, typename T3 = void, typename T4 = void, typename T5 = void, typename T6 = void, typename T7 = void, typename T8 = void, typename T9 = void, typename T10 = void >
 class variant;
 
-template< std::size_t, typename T1, typename T2, typename T3 >
+template< std::size_t, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
 struct variant_alternative;
 
-template< typename T1, typename T2, typename T3 >
-struct variant_alternative< 0, T1, T2, T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 {
 	typedef T1 type;
 };
 
-template< typename T1, typename T2, typename T3 >
-struct variant_alternative< 1, T1, T2, T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 1, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 {
 	typedef T2 type;
 };
-
-template< typename T1, typename T2, typename T3 >
-struct variant_alternative< 2, T1, T2, T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 2, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 {
 	typedef T3 type;
 };
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 3, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T4 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 4, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T5 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 5, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T6 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 6, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T7 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 7, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T8 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 8, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T9 type;
+};
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct variant_alternative< 9, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
+{
+	typedef T10 type;
+};
 
-template< typename T1, typename T2, typename T3 >
+template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
 class variant
 {
-	template< typename T, typename U1, typename U2, typename U3 >
-	friend typename detail::select_type< T, U1, U2, U3 >::type& get(variant< U1, U2, U3 >&);
+	template< typename T, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10 >
+	friend typename detail::select_type< T, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >::type& get(variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >&);
 
-	template< typename T, typename U1, typename U2, typename U3 >
-	friend typename detail::select_type< T, U1, U2, U3 >::type const& get(const variant< U1, U2, U3 >&);
+	template< typename T, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10 >
+	friend typename detail::select_type< T, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >::type const& get(const variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >&);
 
-	template< std::size_t I, typename U1, typename U2, typename U3 >
-	friend typename variant_alternative< I, U1, U2, U3 >::type& get(variant< U1, U2, U3 >&);
+	template< std::size_t I, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10 >
+	friend typename variant_alternative< I, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >::type& get(variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >&);
 
-	template< std::size_t I, typename U1, typename U2, typename U3 >
-	friend typename variant_alternative< I, U1, U2, U3 >::type const& get(const variant< U1, U2, U3 >&);
+	template< std::size_t I, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10 >
+	friend typename variant_alternative< I, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >::type const& get(const variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >&);
 
 public:
 	variant() : index_(0)
@@ -237,11 +291,11 @@ public:
 	}
 
 	template< typename U >
-	variant(const U& value, typename detail::convert_type< U, T1, T2, T3 >::type* = 0)
+	variant(const U& value, typename detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type* = 0)
 	{
-		typedef typename detail::convert_type< U, T1, T2, T3 >::type T;
+		typedef typename detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type T;
 
-		index_ = detail::convert_type< U, T1, T2, T3 >::value;
+		index_ = detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value;
 		new (&storage)T(value);
 	}
 
@@ -277,11 +331,11 @@ public:
 	}
 
 	template< typename U >
-	typename detail::rhs< typename detail::convert_type< U, T1, T2, T3 >::type, variant&>::type operator=(const U& value)
+	typename detail::rhs< typename detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type, variant&>::type operator=(const U& value)
 	{
-		typedef typename detail::convert_type< U, T1, T2, T3 >::type T;
+		typedef typename detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type T;
 
-		if (index_ == detail::convert_type< U, T1, T2, T3 >::value)
+		if (index_ == detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value)
 		{
 			void* p = &storage;
 			*static_cast< T* >(p) = value;
@@ -291,7 +345,7 @@ public:
 			helper()->destroy(&storage);
 			index_ = variant_npos;
 			new (&storage)T(value);
-			index_ = detail::convert_type< U, T1, T2, T3 >::value;
+			index_ = detail::convert_type< U, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value;
 		}
 
 		return *this;
@@ -323,7 +377,7 @@ public:
 	}
 
 private:
-	typedef typename cpp::aligned_storage< detail::max_size< T1, T2, T3 >::value, detail::max_align< T1, T2, T3 >::value >::type storage_type;
+	typedef typename cpp::aligned_storage< detail::max_size< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value, detail::max_align< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value >::type storage_type;
 
 	const detail::ivariant_helper* helper() const
 	{
@@ -331,6 +385,13 @@ private:
 		    detail::variant_helper< T1 >::instance(),
 		    detail::variant_helper< T2 >::instance(),
 		    detail::variant_helper< T3 >::instance(),
+		    detail::variant_helper< T4 >::instance(),
+		    detail::variant_helper< T5 >::instance(),
+		    detail::variant_helper< T6 >::instance(),
+		    detail::variant_helper< T7 >::instance(),
+		    detail::variant_helper< T8 >::instance(),
+		    detail::variant_helper< T9 >::instance(),
+		    detail::variant_helper< T10 >::instance(),
 		};
 
 		return helpers[index_];
@@ -345,37 +406,52 @@ class bad_variant_access : public std::exception
 
 };
 
-template< typename T, typename T1, typename T2, typename T3 >
-typename detail::select_type< T, T1, T2, T3 >::type& get(variant< T1, T2, T3 >& v)
+template< typename T, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+typename detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type& get(variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >& v)
 {
-	if (v.index_ != detail::select_type< T, T1, T2, T3 >::value)
+	if (v.index_ != detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value)
 		throw bad_variant_access();
 	return (*static_cast<T*>(static_cast<void*>(&v.storage)));
 }
 
-template< typename T, typename T1, typename T2, typename T3 >
-typename detail::select_type< T, T1, T2, T3 >::type const& get(const variant< T1, T2, T3 >& v)
+template< typename T, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+typename detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type const& get(const variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >& v)
 {
-	if (v.index_ != detail::select_type< T, T1, T2, T3 >::value)
+	if (v.index_ != detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value)
 		throw bad_variant_access();
 	return (*static_cast< const T*>(static_cast< const void*>(&v.storage)));
 }
 
-template< std::size_t I, typename T1, typename T2, typename T3 >
-typename variant_alternative< I, T1, T2, T3 >::type& get(variant< T1, T2, T3 >& v)
+template< std::size_t I, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+typename variant_alternative< I, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type& get(variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >& v)
 {
 	if (v.index_ != I)
 		throw bad_variant_access();
-	return (*static_cast<typename variant_alternative< I, T1, T2, T3 >::type*>(static_cast<void*>(&v.storage)));
+	return (*static_cast<typename variant_alternative< I, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type*>(static_cast<void*>(&v.storage)));
 }
 
-template< std::size_t I, typename T1, typename T2, typename T3 >
-typename variant_alternative< I, T1, T2, T3 >::type const& get(const variant< T1, T2, T3 >& v)
+template< std::size_t I, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+typename variant_alternative< I, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type const& get(const variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >& v)
 {
 	if (v.index_ != I)
 		throw bad_variant_access();
-	return (*static_cast<typename variant_alternative< I, T1, T2, T3 >::type const *>(static_cast<void*>(&v.storage)));
+	return (*static_cast<typename variant_alternative< I, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type const *>(static_cast<void*>(&v.storage)));
 }
+
+template< typename T, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+bool holds_alternative(const variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >& v)
+{
+	return v.index() == detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value;
+}
+
+struct monostate { };
+
+inline bool operator<(monostate, monostate) { return false; }
+inline bool operator>(monostate, monostate) { return false; }
+inline bool operator<=(monostate, monostate) { return true; }
+inline bool operator>=(monostate, monostate) { return true; }
+inline bool operator==(monostate, monostate) { return true; }
+inline bool operator!=(monostate, monostate) { return false; }
 
 }
 #endif
