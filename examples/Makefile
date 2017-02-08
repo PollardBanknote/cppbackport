@@ -15,7 +15,7 @@ LDFLAGS += -pthread
 
 LIBNAME = cppbackport
 EXAMPLES = any fbind histogram maxalign optional smartptr two_threads clock gibberish \
-    lshere multithreading pathiter tempdir directory_listing hash mathfns now singlell \
+    lshere multithreading multitype pathiter tempdir directory_listing hash mathfns now singlell \
     testtraits
 
 .PHONY: default lib examples
@@ -37,6 +37,7 @@ lshere: lshere.o
 mathfns: mathfns.o
 maxalign: maxalign.o
 multithreading: multithreading.o
+multitype: multitype.o
 now: now.o
 optional: optional.o
 pathiter: pathiter.o

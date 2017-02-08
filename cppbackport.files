@@ -131,6 +131,7 @@ lib/type_traits.h
 lib/unordered_map.h
 lib/unordered_set.h
 lib/utility.h
+lib/variant.h
 lib/version.h
 LICENSE
 README.md
