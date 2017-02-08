@@ -34,6 +34,7 @@
 #ifdef CPP17
 #include <variant>
 #else
+#include <exception>
 #include "type_traits.h"
 
 namespace cpp17
@@ -141,23 +142,40 @@ public:
 };
 
 template< typename U, typename T, std::size_t I, bool = cpp::is_convertible< U, T >::value >
-struct conversion
+struct convert_choice
 {
 	typedef T type;
 	static const std::size_t value = I;
 };
 
 template< typename U, typename T, std::size_t I >
-struct conversion< U, T, I, false >
+struct convert_choice< U, T, I, false >
 {
 };
 
 template< typename U, typename T1, typename T2, typename T3 >
-struct select_type : conversion< U, T1, 0 >, conversion< U, T2, 1 >, conversion< U, T3, 2 >
+struct convert_type : convert_choice< U, T1, 0 >, convert_choice< U, T2, 1 >, convert_choice< U, T3, 2 >
 {
 
 };
 
+template< typename U, typename T, std::size_t I >
+struct select_choice
+{
+};
+
+template< typename U, std::size_t I >
+struct select_choice< U, U, I >
+{
+	typedef U type;
+	static const std::size_t value = I;
+};
+
+template< typename U, typename T1, typename T2, typename T3 >
+struct select_type : select_choice< U, T1, 0 >, select_choice< U, T2, 1 >, select_choice< U, T3, 2 >
+{
+
+};
 template< typename, typename T >
 struct rhs
 {
@@ -168,8 +186,44 @@ struct rhs
 const std::size_t variant_npos = -1;
 
 template< typename T1, typename T2 = void, typename T3 = void >
+class variant;
+
+template< std::size_t, typename T1, typename T2, typename T3 >
+struct variant_alternative;
+
+template< typename T1, typename T2, typename T3 >
+struct variant_alternative< 0, T1, T2, T3 >
+{
+	typedef T1 type;
+};
+
+template< typename T1, typename T2, typename T3 >
+struct variant_alternative< 1, T1, T2, T3 >
+{
+	typedef T2 type;
+};
+
+template< typename T1, typename T2, typename T3 >
+struct variant_alternative< 2, T1, T2, T3 >
+{
+	typedef T3 type;
+};
+
+template< typename T1, typename T2, typename T3 >
 class variant
 {
+	template< typename T, typename U1, typename U2, typename U3 >
+	friend typename detail::select_type< T, U1, U2, U3 >::type& get(variant< U1, U2, U3 >&);
+
+	template< typename T, typename U1, typename U2, typename U3 >
+	friend typename detail::select_type< T, U1, U2, U3 >::type const& get(const variant< U1, U2, U3 >&);
+
+	template< std::size_t I, typename U1, typename U2, typename U3 >
+	friend typename variant_alternative< I, U1, U2, U3 >::type& get(variant< U1, U2, U3 >&);
+
+	template< std::size_t I, typename U1, typename U2, typename U3 >
+	friend typename variant_alternative< I, U1, U2, U3 >::type const& get(const variant< U1, U2, U3 >&);
+
 public:
 	variant() : index_(0)
 	{
@@ -183,11 +237,11 @@ public:
 	}
 
 	template< typename U >
-	variant(const U& value, typename detail::select_type< U, T1, T2, T3 >::type* = 0)
+	variant(const U& value, typename detail::convert_type< U, T1, T2, T3 >::type* = 0)
 	{
-		typedef typename detail::select_type< U, T1, T2, T3 >::type T;
+		typedef typename detail::convert_type< U, T1, T2, T3 >::type T;
 
-		index_ = detail::select_type< U, T1, T2, T3 >::value;
+		index_ = detail::convert_type< U, T1, T2, T3 >::value;
 		new (&storage)T(value);
 	}
 
@@ -223,11 +277,11 @@ public:
 	}
 
 	template< typename U >
-	typename detail::rhs< typename detail::select_type< U, T1, T2, T3 >::type, variant&>::type operator=(const U& value)
+	typename detail::rhs< typename detail::convert_type< U, T1, T2, T3 >::type, variant&>::type operator=(const U& value)
 	{
-		typedef typename detail::select_type< U, T1, T2, T3 >::type T;
+		typedef typename detail::convert_type< U, T1, T2, T3 >::type T;
 
-		if (index_ == detail::select_type< U, T1, T2, T3 >::value)
+		if (index_ == detail::convert_type< U, T1, T2, T3 >::value)
 		{
 			void* p = &storage;
 			*static_cast< T* >(p) = value;
@@ -237,7 +291,7 @@ public:
 			helper()->destroy(&storage);
 			index_ = variant_npos;
 			new (&storage)T(value);
-			index_ = detail::select_type< U, T1, T2, T3 >::value;
+			index_ = detail::convert_type< U, T1, T2, T3 >::value;
 		}
 
 		return *this;
@@ -285,6 +339,44 @@ private:
 	std::size_t index_;
 	storage_type storage;
 };
+
+class bad_variant_access : public std::exception
+{
+
+};
+
+template< typename T, typename T1, typename T2, typename T3 >
+typename detail::select_type< T, T1, T2, T3 >::type& get(variant< T1, T2, T3 >& v)
+{
+	if (v.index_ != detail::select_type< T, T1, T2, T3 >::value)
+		throw bad_variant_access();
+	return (*static_cast<T*>(static_cast<void*>(&v.storage)));
+}
+
+template< typename T, typename T1, typename T2, typename T3 >
+typename detail::select_type< T, T1, T2, T3 >::type const& get(const variant< T1, T2, T3 >& v)
+{
+	if (v.index_ != detail::select_type< T, T1, T2, T3 >::value)
+		throw bad_variant_access();
+	return (*static_cast< const T*>(static_cast< const void*>(&v.storage)));
+}
+
+template< std::size_t I, typename T1, typename T2, typename T3 >
+typename variant_alternative< I, T1, T2, T3 >::type& get(variant< T1, T2, T3 >& v)
+{
+	if (v.index_ != I)
+		throw bad_variant_access();
+	return (*static_cast<typename variant_alternative< I, T1, T2, T3 >::type*>(static_cast<void*>(&v.storage)));
+}
+
+template< std::size_t I, typename T1, typename T2, typename T3 >
+typename variant_alternative< I, T1, T2, T3 >::type const& get(const variant< T1, T2, T3 >& v)
+{
+	if (v.index_ != I)
+		throw bad_variant_access();
+	return (*static_cast<typename variant_alternative< I, T1, T2, T3 >::type const *>(static_cast<void*>(&v.storage)));
+}
+
 }
 #endif
 
