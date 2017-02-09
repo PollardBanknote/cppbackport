@@ -9,6 +9,7 @@ examples/lshere.cpp
 examples/mathfns.cpp
 examples/maxalign.cpp
 examples/multithreading.cpp
+examples/multitype.cpp
 examples/now.cpp
 examples/optional.cpp
 examples/pathiter.cpp
