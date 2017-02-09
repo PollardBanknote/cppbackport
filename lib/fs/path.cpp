@@ -210,11 +210,10 @@ const std::string& path::native() const
 	return s;
 }
 
-/// @bug argument isn't used... that can't be right.
-path path::lexically_relative(const path&) const
+path path::lexically_relative(const path& p) const
 {
 	const_iterator first1 = begin(), last1 = end();
-	const_iterator first2 = begin(), last2 = end();
+	const_iterator first2 = p.begin(), last2 = p.end();
 
 	const_iterator it = first1;
 	const_iterator jt = first2;
@@ -261,12 +260,12 @@ int path::compare(const path& p) const
 
 	while ( first1 != last1 && first2 != last2 )
 	{
-		if ( *first1 < *first2 )
+		if ( first1->native() < first2->native() )
 		{
 			return -1;
 		}
 
-		if ( *first2 < *first1 )
+		if ( first2->native() < first1->native() )
 		{
 			return 1;
 		}
