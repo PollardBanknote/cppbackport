@@ -62,14 +62,4 @@ inline bool isblank< wchar_t >(
 
 #endif // ifndef CPP11
 
-/* Manually inject isblank into cpp namespace. Earlier versions of libstdc++
- * are missing isblank, even though C++11 is indicated.
- */
-#if __cplusplus >= 201103L && __GLIBCXX__ < 20150422L
-namespace cpp
-{
-using ::cpp11::isblank;
-}
-#endif
-
 #endif // PBL_CPP_LOCALE_H

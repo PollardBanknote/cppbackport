@@ -83,21 +83,10 @@ namespace cpp17
  */
 namespace cpp
 {
-#ifdef CPP11
 using namespace ::std;
-#endif
-
-#ifndef CPP11
 using namespace ::cpp11;
-#endif
-
-#ifndef CPP14
 using namespace ::cpp14;
-#endif
-
-#ifndef CPP17
 using namespace ::cpp17;
-#endif
 }
 
 #endif // PBL_CPP_VERSION_H

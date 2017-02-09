@@ -68,14 +68,4 @@ struct aligned_union
 #endif
 }
 
-/* Manually inject aligned_union into cpp namespace. Earlier versions of libstdc++
- * are missing aligned_union, even though C++11 is indicated.
- */
-#if __cplusplus >= 201103L && __GLIBCXX__ < 20150422L
-namespace cpp
-{
-using ::cpp11::aligned_union;
-}
-#endif
-
 #endif // PBL_CPP_TRAITS_ALIGNMENT_H
