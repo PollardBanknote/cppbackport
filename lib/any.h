@@ -27,8 +27,8 @@
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /// @todo GCC has <experimental/any> which may be preferable
-#ifndef PBL_ANY_ANY_H
-#define PBL_ANY_ANY_H
+#ifndef PBL_CPP_ANY_H
+#define PBL_CPP_ANY_H
 
 #include "version.h"
 
@@ -254,4 +254,4 @@ T* any_cast(any* a)
 
 }
 #endif // ifdef CPP17
-#endif // PBL_ANY_ANY_H
+#endif // PBL_CPP_ANY_H

@@ -26,8 +26,8 @@
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PBL_FS_REMOVE
-#define PBL_FS_REMOVE
+#ifndef PBL_CPP_FS_REMOVE_H
+#define PBL_CPP_FS_REMOVE_H
 
 #include "path.h"
 
@@ -40,4 +40,4 @@ unsigned long remove_all(const path&);
 }
 }
 
-#endif // REMOVE
+#endif // PBL_CPP_FS_REMOVE_H

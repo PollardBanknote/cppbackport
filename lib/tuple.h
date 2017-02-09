@@ -26,8 +26,8 @@
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PBL_CPP_CPP_TUPLE_H
-#define PBL_CPP_CPP_TUPLE_H
+#ifndef PBL_CPP_TUPLE_H
+#define PBL_CPP_TUPLE_H
 
 #include "version.h"
 
@@ -50,4 +50,4 @@ std::pair< T&, U& > tie(
 }
 #endif
 
-#endif // PBL_CPP_CPP_TUPLE_H
+#endif // PBL_CPP_TUPLE_H

@@ -26,8 +26,8 @@
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PBL_CPP_IS_ENUM
-#define PBL_CPP_IS_ENUM
+#ifndef PBL_CPP_TRAITS_IS_ENUM_H
+#define PBL_CPP_TRAITS_IS_ENUM_H
 
 #ifndef CPP11
 #include "is_void.h"
@@ -70,4 +70,4 @@ constexpr bool is_enum_v = std::is_enum< T >::value;
 #endif
 #endif // ifndef CPP11
 
-#endif // IS_ENUM
+#endif // PBL_CPP_TRAITS_IS_ENUM_H

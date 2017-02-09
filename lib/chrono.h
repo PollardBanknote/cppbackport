@@ -26,8 +26,8 @@
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PBL_CPP_CHRONO
-#define PBL_CPP_CHRONO
+#ifndef PBL_CPP_CHRONO_H
+#define PBL_CPP_CHRONO_H
 
 #include "version.h"
 
@@ -234,4 +234,4 @@ typedef steady_clock high_resolution_clock;
 }
 }
 #endif // ifndef CPP11
-#endif // PBL_CPP_CHRONO
+#endif // PBL_CPP_CHRONO_H

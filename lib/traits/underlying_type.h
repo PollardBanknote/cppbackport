@@ -26,8 +26,8 @@
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef UNDERLYING_TYPE_H
-#define UNDERLYING_TYPE_H
+#ifndef PBL_CPP_TRAITS_UNDERLYING_TYPE_H
+#define PBL_CPP_TRAITS_UNDERLYING_TYPE_H
 
 #ifndef CPP11
 #include "is_enum.h"
@@ -69,4 +69,4 @@ using underlying_type_t = typename std::underlying_type< T >::type;
 }
 #endif
 #endif // ifndef CPP11
-#endif // UNDERLYING_TYPE_H
+#endif // PBL_CPP_TRAITS_UNDERLYING_TYPE_H
