@@ -41,6 +41,15 @@ class alignment_of
 public:
 	static const std::size_t value = offsetof(dummy, b);
 };
+
+template< std::size_t N, std::size_t A >
+struct aligned_storage
+{
+	struct type
+	{
+		char data[N];
+	} __attribute((aligned (A)));
+};
 #endif
 
 #if !( __cplusplus >= 201103L ) || ( __GLIBCXX__ < 20150422L )
