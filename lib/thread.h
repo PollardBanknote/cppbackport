@@ -91,7 +91,7 @@ private:
 	class runnable_wrapper< F, Arg1, void, void >
 		: public details::runnable
 	{
-public:
+	public:
 		runnable_wrapper(
 			F           f_,
 			const Arg1& a1_
@@ -114,7 +114,7 @@ private:
 	class runnable_wrapper< F, void, void, void >
 		: public details::runnable
 	{
-public:
+	public:
 		explicit runnable_wrapper(F f_)
 			: f(f_)
 		{
@@ -130,7 +130,7 @@ public:
 			f();
 		}
 
-private:
+	private:
 		F f;
 	};
 public:
@@ -144,7 +144,7 @@ public:
 		native_handle_type tid;
 
 		explicit id(native_handle_type);
-public:
+	public:
 		id();
 		id(const id&);
 

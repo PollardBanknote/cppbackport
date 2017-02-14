@@ -668,7 +668,7 @@ ForwardIt uninitialized_copy_n(
 	{
 		for (; count > 0; ++first, ++current, --count )
 		{
-			::new ( static_cast< void* >( addressof(*current)))Value(*first);
+			::new( static_cast< void* >( addressof(*current)))Value(*first);
 		}
 	}
 	catch ( ... )

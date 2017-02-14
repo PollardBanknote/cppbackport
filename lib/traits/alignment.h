@@ -48,7 +48,7 @@ struct aligned_storage
 	struct type
 	{
 		char data[N];
-	} __attribute((aligned (A)));
+	} __attribute(( aligned(A)));
 };
 #endif
 

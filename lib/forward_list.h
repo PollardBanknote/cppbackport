@@ -76,7 +76,7 @@ public:
 
 	class iterator
 	{
-public:
+	public:
 		iterator() : p(0)
 		{
 		}
@@ -131,7 +131,7 @@ public:
 			return p != jt.p;
 		}
 
-private:
+	private:
 		friend class forward_list;
 		friend class const_iterator;
 
@@ -140,7 +140,7 @@ private:
 
 	class const_iterator
 	{
-public:
+	public:
 		const_iterator() : p(0)
 		{
 		}
@@ -189,7 +189,7 @@ public:
 			return p != jt.p;
 		}
 
-private:
+	private:
 		friend class forward_list;
 		node* p;
 	};
