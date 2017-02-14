@@ -72,16 +72,16 @@ class variant_helper : public ivariant_helper
 {
 public:
 	void copy(
-	    void*       p,
-	    const void* q
+		void*       p,
+		const void* q
 	) const
 	{
 		*( static_cast< T* >( p )) = *static_cast< const T* >( q );
 	}
 
 	void init(
-	    void*       p,
-	    const void* q
+		void*       p,
+		const void* q
 	) const
 	{
 		new(p) T(*static_cast< const T* >( q ));
@@ -93,8 +93,8 @@ public:
 	}
 
 	void swapem(
-	    void* p,
-	    void* q
+		void* p,
+		void* q
 	) const
 	{
 		using std::swap;
@@ -122,25 +122,25 @@ namespace detail
 template< typename T, typename... Us >
 struct max_size
 {
-	static const std::size_t value = max< sizeof(T), max_size< Us...>::value >::value;
+	static const std::size_t value = max< sizeof( T ), max_size< Us... >::value >::value;
 };
 
 template< typename T >
 struct max_size< T >
 {
-	static const std::size_t value = sizeof(T);
+	static const std::size_t value = sizeof( T );
 };
 
 template< typename T, typename... Us >
 struct max_align
 {
-	static const std::size_t value = max< alignof(T), max_align< Us... >::value >::value;
+	static const std::size_t value = max< alignof( T ), max_align< Us... >::value >::value;
 };
 
 template< typename T >
 struct max_align< T >
 {
-	static const std::size_t value = alignof(T);
+	static const std::size_t value = alignof( T );
 };
 
 
@@ -175,7 +175,7 @@ struct select_type< 0, T, Us... >
 template< std::size_t I, typename Ti, typename Tj, typename... Ts >
 struct select_index_helper
 {
-	static const std::size_t value = select_index_helper< I + 1, Ti, Ts...>::value;
+	static const std::size_t value = select_index_helper< I + 1, Ti, Ts... >::value;
 };
 
 template< std::size_t I, typename Ti, typename... Ts >
@@ -187,7 +187,7 @@ struct select_index_helper< I, Ti, Ti, Ts... >
 template< typename Ti, typename... Ts >
 struct select_index
 {
-	static const std::size_t value = select_index_helper< 0, Ti, Ts...>::value;
+	static const std::size_t value = select_index_helper< 0, Ti, Ts... >::value;
 };
 
 }
@@ -211,25 +211,25 @@ class variant
 	friend T& get(variant< Us... >&);
 
 	template< typename T, typename... Us >
-	friend T&& get(const variant< Us... >&&);
+	friend T && get(const variant< Us... >&&);
 
 	template< typename T, typename... Us >
 	friend const T& get(const variant< Us... >&);
 
 	template< typename T, typename... Us >
-	friend const T&& get(const variant< Us... >&&);
+	friend const T && get(const variant< Us... >&&);
 
 	template< std::size_t I, typename... Us >
-	friend typename variant_alternative< I, variant< Us... > >::type& get(variant< Us... >&);
+	friend typename variant_alternative< I, variant< Us... > >::type & get(variant< Us... >&);
 
 	template< std::size_t I, typename... Us >
-	friend typename variant_alternative< I, variant< Us... > >::type&& get(variant< Us... >&&);
+	friend typename variant_alternative< I, variant< Us... > >::type && get(variant< Us... >&&);
 
 	template< std::size_t I, typename... Us >
-	friend typename variant_alternative< I, variant< Us... > >::type const& get(const variant< Us... >&);
+	friend typename variant_alternative< I, variant< Us... > >::type const & get(const variant< Us... >&);
 
 	template< std::size_t I, typename... Us >
-	friend typename variant_alternative< I, variant< Us... > >::type const&& get(const variant< Us... >&&);
+	friend typename variant_alternative< I, variant< Us... > >::type const && get(const variant< Us... >&&);
 public:
 	variant() : index_(0)
 	{
@@ -246,10 +246,8 @@ public:
 		}
 	}
 
-	template< typename U, typename Ti = typename detail::convert_type< U, Ts...>::type >
-	variant(
-	    const U& value
-	)
+	template< typename U, typename Ti = typename detail::convert_type< U, Ts... >::type >
+	variant(const U& value)
 	{
 		index_ = detail::select_index< Ti, Ts... >::value;
 		new( &storage )Ti(value);
@@ -288,7 +286,7 @@ public:
 		return *this;
 	}
 
-	template< typename U, typename Ti = typename detail::convert_type< U, Ts...>::type >
+	template< typename U, typename Ti = typename detail::convert_type< U, Ts... >::type >
 	variant& operator=(const U& value)
 	{
 		const std::size_t i = detail::select_index< Ti, Ts... >::value;
@@ -343,7 +341,7 @@ private:
 	{
 		static const detail::ivariant_helper* helpers[] =
 		{
-		    detail::variant_helper< Ts >::instance()...
+			detail::variant_helper< Ts >::instance()...
 		};
 
 		return helpers[index_];
@@ -451,6 +449,7 @@ bool holds_alternative(const variant< Us... >& v)
 {
 	return v.index() == detail::select_index< T, Us... >::value;
 }
+
 }
 #else
 namespace cpp17
@@ -834,60 +833,62 @@ bool holds_alternative(const variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >&
 {
 	return v.index() == detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::value;
 }
+
 }
-#endif
+#endif // ifdef CPP11
 
 namespace cpp17
 {
 struct monostate {};
 
 inline bool operator<(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return false;
 }
 
 inline bool operator>(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return false;
 }
 
 inline bool operator<=(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return true;
 }
 
 inline bool operator>=(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return true;
 }
 
 inline bool operator==(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return true;
 }
 
 inline bool operator!=(
-    monostate,
-    monostate
+	monostate,
+	monostate
 )
 {
 	return false;
 }
+
 }
 #endif // ifdef CPP17
 
