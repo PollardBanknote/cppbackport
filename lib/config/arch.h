@@ -31,7 +31,9 @@
 
 #include <climits>
 
-// Try to determine if long long is availble (by standard or compiler extension)
+/* Whether or not the compiler supports long long and unsigned long long
+ */
+#ifndef HAS_LONG_LONG
 #if __cplusplus >= 201103L
 #define HAS_LONG_LONG
 #else
@@ -41,7 +43,10 @@
 #endif
 #endif
 #endif
+#endif
 
+/* The character type that char matches (i.e., signed or unsigned)
+ */
 #if CHAR_MIN < 0
 typedef signed char underlying_char_type;
 #else
