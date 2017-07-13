@@ -30,7 +30,7 @@
 #define PBL_CPP_TRAITS_MAKE_UNSIGNED_H
 
 #ifndef CPP11
-#include "config/arch.h"
+#include "../config/arch.h"
 
 namespace cpp11
 {

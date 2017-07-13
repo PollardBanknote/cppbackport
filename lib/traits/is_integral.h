@@ -31,7 +31,7 @@
 
 #ifndef CPP11
 #include "integral_constant.h"
-#include "config/arch.h"
+#include "../config/arch.h"
 #include "is_same.h"
 #include "remove_cv.h"
 
