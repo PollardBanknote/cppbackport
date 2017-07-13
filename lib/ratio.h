@@ -35,6 +35,7 @@
 #include <ratio>
 #else
 #include "cstdint.h"
+#include "traits/integral_constant.h"
 
 namespace cpp11
 {
@@ -101,6 +102,19 @@ typedef ratio< 1, 100 > centi;
 typedef ratio< 1, 1000 > milli;
 typedef ratio< 1, 1000000L > micro;
 typedef ratio< 1, 1000000000L > nano;
+
+template< class R1, class R2 >
+struct ratio_equal
+	: public integral_constant< bool, R1::num == R2::num&& R1::den == R2::den >
+{
+};
+
+template< class R1, class R2 >
+struct ratio_not_equal
+	: public integral_constant< bool, R1::num != R2::num || R1::den != R2::den >
+{
+};
+
 }
 #endif // ifndef CPP11
 #endif // PBL_CPP_RATIO_H
