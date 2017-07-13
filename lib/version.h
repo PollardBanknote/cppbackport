@@ -75,7 +75,8 @@ namespace cpp11
 class nullptr_t
 {
 public:
-	template< class T > operator T*() const
+	template< class T >
+	operator T*() const
 	{
 		return 0;
 	}
