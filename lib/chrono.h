@@ -146,9 +146,25 @@ bool operator>(
 	const duration< Rep2, Period2 >& b
 )
 {
-	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
+	return b < a;
+}
 
-	return Duration3(a).count() > Duration3(b).count();
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator<=(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 >& b
+)
+{
+	return !( b < a );
+}
+
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator>=(
+	const duration< Rep1, Period1 >& a,
+	const duration< Rep2, Period2 >& b
+)
+{
+	return !( a < b );
 }
 
 typedef duration< long long, cpp11::nano > nanoseconds;
@@ -201,6 +217,60 @@ public:
 private:
 	duration d;
 };
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator==(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() == r.time_since_epoch();
+}
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator!=(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() != r.time_since_epoch();
+}
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator<(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() < r.time_since_epoch();
+}
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator<=(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() <= r.time_since_epoch();
+}
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator>(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() > r.time_since_epoch();
+}
+
+template< class Clock, class Dur1, class Dur2 >
+bool operator>=(
+	const time_point< Clock, Dur1 >& l,
+	const time_point< Clock, Dur2 >& r
+)
+{
+	return l.time_since_epoch() >= r.time_since_epoch();
+}
 
 // wall time, millisecond resolution
 class system_clock
