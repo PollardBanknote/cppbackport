@@ -46,11 +46,11 @@ time_point< system_clock > system_clock::now()
 		seconds     s(ts.tv_sec);
 		nanoseconds ns(ts.tv_nsec);
 
-		return time_point(duration(s + ms));
+		return time_point( duration(s + ms) );
 
 		#else
 
-		return time_point(duration(ts.tv_sec * 1000 + ( ts.tv_nsec / 1000000L )));
+		return time_point( duration( ts.tv_sec * 1000 + ( ts.tv_nsec / 1000000L ) ) );
 
 		#endif
 	}
@@ -65,7 +65,7 @@ std::time_t system_clock::to_time_t(const time_point& t)
 
 time_point< system_clock > system_clock::from_time_t(std::time_t t)
 {
-	return time_point(duration(t * 1000));
+	return time_point( duration(t * 1000) );
 }
 
 time_point< steady_clock > steady_clock::now()
@@ -74,7 +74,7 @@ time_point< steady_clock > steady_clock::now()
 
 	if ( ::clock_gettime(CLOCK_MONOTONIC, &ts) == 0 )
 	{
-		return time_point(duration(ts.tv_sec * 1000000000L + ts.tv_nsec));
+		return time_point( duration(ts.tv_sec * 1000000000L + ts.tv_nsec) );
 	}
 
 	return time_point();

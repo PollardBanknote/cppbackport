@@ -34,7 +34,7 @@
 
 #include <unistd.h>
 
-#if ( !defined( POSIX_THREADS ) && !defined( OS_WINDOWS ))
+#if ( !defined( POSIX_THREADS ) && !defined( OS_WINDOWS ) )
 #error "Threads are not supported on this platform"
 #endif
 
@@ -66,7 +66,7 @@ thread::thread()
 
 thread::~thread()
 {
-	if ( joinable())
+	if ( joinable() )
 	{
 		std::terminate();
 	}
@@ -86,7 +86,7 @@ void thread::run(details::runnable* c)
 {
 	#ifdef POSIX_THREADS
 	native_handle_type tid_;
-	int                res = pthread_create(&tid_, 0, start, static_cast< void* >( c ));
+	int                res = pthread_create( &tid_, 0, start, static_cast< void* >( c ) );
 
 	if ( res != 0 )
 	{
@@ -114,7 +114,7 @@ bool thread::joinable() const
 
 void thread::join()
 {
-	if ( joinable())
+	if ( joinable() )
 	{
 		#ifdef POSIX_THREADS
 		void* arg;
@@ -134,7 +134,7 @@ void thread::join()
 
 void thread::detach()
 {
-	if ( joinable())
+	if ( joinable() )
 	{
 		#ifdef POSIX_THREADS
 		pthread_detach(tid.tid);
@@ -226,7 +226,7 @@ namespace details
 {
 void microsleep(const ::cpp11::chrono::microseconds& dt)
 {
-	::usleep(static_cast< useconds_t >( dt.count()));
+	::usleep( static_cast< useconds_t >( dt.count() ) );
 }
 
 }

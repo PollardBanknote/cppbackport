@@ -45,7 +45,7 @@ yes is_function_helper(...);
 
 template< class T >
 struct is_function
-	: cpp17::bool_constant< (( sizeof detail::is_function_helper((T*) 0)) == sizeof( detail::yes )) >
+	: cpp17::bool_constant< ( ( sizeof detail::is_function_helper( (T*) 0 ) ) == sizeof( detail::yes ) ) >
 {
 };
 

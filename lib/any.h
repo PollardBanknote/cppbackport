@@ -99,7 +99,7 @@ public:
 	 */
 	template< typename T >
 	any(const T& x)
-		: value(new actual< T >(x))
+		: value( new actual< T >(x) )
 	{
 	}
 

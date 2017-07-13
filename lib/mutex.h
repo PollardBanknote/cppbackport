@@ -125,7 +125,7 @@ public:
 		mutex_type& m,
 		try_to_lock_t
 	)
-		: pm(&m), owns(m.try_lock())
+		: pm(&m), owns( m.try_lock() )
 	{
 	}
 

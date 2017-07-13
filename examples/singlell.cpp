@@ -38,7 +38,7 @@ int main()
 
 	for ( int i = 0; i < 100; ++i )
 	{
-		list.push_front(rand());
+		list.push_front( rand() );
 	}
 
 	list.sort();

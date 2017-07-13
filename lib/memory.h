@@ -189,7 +189,7 @@ public:
 
 	T& operator*() const
 	{
-		return *( static_cast< T* >( share->value ));
+		return *( static_cast< T* >( share->value ) );
 	}
 
 	T* operator->() const
@@ -218,7 +218,7 @@ private:
 template< typename T, typename Arg1 >
 shared_ptr< T > make_shared(const Arg1& a)
 {
-	return shared_ptr< T >(new T(a));
+	return shared_ptr< T >( new T(a) );
 }
 
 template< typename T, typename Arg1, typename Arg2 >
@@ -227,7 +227,7 @@ shared_ptr< T > make_shared(
 	const Arg2& a2
 )
 {
-	return shared_ptr< T >(new T(a1, a2));
+	return shared_ptr< T >( new T(a1, a2) );
 }
 
 template< typename T >
@@ -348,9 +348,9 @@ public:
 
 	void swap(unique_ptr& o)
 	{
-		if ( owner())
+		if ( owner() )
 		{
-			if ( o.owner())
+			if ( o.owner() )
 			{
 				// both owners
 				T* t1 = p;
@@ -414,7 +414,7 @@ private:
 	// prerequisite: owner() == false
 	void take(const unique_ptr& o)
 	{
-		if ( o.owner())
+		if ( o.owner() )
 		{
 			p           = o.p;
 			lock        = o.lock;
@@ -522,9 +522,9 @@ public:
 
 	void swap(unique_ptr& o)
 	{
-		if ( owner())
+		if ( owner() )
 		{
-			if ( o.owner())
+			if ( o.owner() )
 			{
 				// both owners
 				T* t1 = p;
@@ -588,7 +588,7 @@ private:
 	// prerequisite: owner() == false
 	void take(const unique_ptr& o)
 	{
-		if ( o.owner())
+		if ( o.owner() )
 		{
 			p           = o.p;
 			lock        = o.lock;
@@ -634,7 +634,7 @@ struct addressof_impl
 	)
 	{
 		return reinterpret_cast< T* >(
-			&const_cast< char& >( reinterpret_cast< const volatile char& >( v )));
+			&const_cast< char& >( reinterpret_cast< const volatile char& >( v ) ) );
 	}
 
 	static inline T* f(
@@ -668,7 +668,7 @@ ForwardIt uninitialized_copy_n(
 	{
 		for (; count > 0; ++first, ++current, --count )
 		{
-			::new( static_cast< void* >( addressof(*current)))Value(*first);
+			::new( static_cast< void* >( addressof(*current) ) )Value(*first);
 		}
 	}
 	catch ( ... )
@@ -692,9 +692,9 @@ namespace cpp14
 {
 #ifdef CPP11
 template< typename T, typename... Ts >
-std::unique_ptr< T > make_unique(Ts&&... params)
+std::unique_ptr< T > make_unique(Ts&& ... params)
 {
-	return std::unique_ptr< T >(new T(std::forward< Ts >(params)...));
+	return std::unique_ptr< T >( new T(std::forward< Ts >(params) ...) );
 }
 
 #else
@@ -704,7 +704,7 @@ cpp::unique_ptr< T > make_unique(
 	const Arg2& a2
 )
 {
-	return cpp::unique_ptr< T >(new T(a1, a2));
+	return cpp::unique_ptr< T >( new T(a1, a2) );
 }
 
 #endif

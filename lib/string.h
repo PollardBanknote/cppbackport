@@ -102,7 +102,7 @@ inline int stoi(
 	int                base = 10
 )
 {
-	return static_cast< int >( stol(s, pos, base));
+	return static_cast< int >( stol(s, pos, base) );
 }
 
 /** @brief Get the string representation of an int

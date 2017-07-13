@@ -106,7 +106,7 @@ public:
 	{
 		if ( x.init )
 		{
-			acquire(x.get());
+			acquire( x.get() );
 		}
 	}
 
@@ -125,7 +125,7 @@ public:
 	{
 		if ( x )
 		{
-			acquire(x.get());
+			acquire( x.get() );
 		}
 	}
 
@@ -150,7 +150,7 @@ public:
 
 		if ( x.init )
 		{
-			acquire(x.get());
+			acquire( x.get() );
 		}
 
 		return *this;
@@ -176,7 +176,7 @@ public:
 
 		if ( x )
 		{
-			acquire(x.get());
+			acquire( x.get() );
 		}
 
 		return *this;
@@ -287,18 +287,18 @@ private:
 
 	T* data()
 	{
-		return static_cast< T* >( static_cast< void* >( &value_ ));
+		return static_cast< T* >( static_cast< void* >( &value_ ) );
 	}
 
 	const T* data() const
 	{
-		return static_cast< const T* >( static_cast< const void* >( &value_ ));
+		return static_cast< const T* >( static_cast< const void* >( &value_ ) );
 	}
 
 	// Should only ever be called when init == false
 	void acquire(const T& x)
 	{
-		new ( static_cast< void* >( &value_ ))T(x);
+		new( static_cast< void* >( &value_ ) )T(x);
 		init = true;
 	}
 

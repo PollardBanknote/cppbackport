@@ -48,7 +48,7 @@ InputIterator find_if_not(
 {
 	for (; first != last; ++first )
 	{
-		if ( !q(*first))
+		if ( !q(*first) )
 		{
 			return first;
 		}
@@ -97,7 +97,7 @@ OutputIterator copy_if(
 {
 	while ( first != last )
 	{
-		if ( pred(*first))
+		if ( pred(*first) )
 		{
 			*d_first++ = *first;
 		}
@@ -137,7 +137,7 @@ bool is_partitioned(
 {
 	for (; first != last; ++first )
 	{
-		if ( !p(*first))
+		if ( !p(*first) )
 		{
 			break;
 		}
@@ -145,7 +145,7 @@ bool is_partitioned(
 
 	for (; first != last; ++first )
 	{
-		if ( p(*first))
+		if ( p(*first) )
 		{
 			return false;
 		}
@@ -166,7 +166,7 @@ std::pair< OutputIt1, OutputIt2 > partition_copy(
 {
 	while ( first != last )
 	{
-		if ( p(*first))
+		if ( p(*first) )
 		{
 			*d_first_true = *first;
 			++d_first_true;
@@ -196,7 +196,7 @@ ForwardIterator is_sorted_until(
 
 		while ( ++next != last )
 		{
-			if ( comp(*next, *first))
+			if ( comp(*next, *first) )
 			{
 				return next;
 			}
@@ -214,7 +214,7 @@ ForwardIterator is_sorted_until(
 	ForwardIterator last
 )
 {
-	return ::cpp11::is_sorted_until(first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >());
+	return ::cpp11::is_sorted_until( first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >() );
 }
 
 template< class ForwardIterator >
@@ -276,7 +276,7 @@ std::pair< ForwardIterator, ForwardIterator > minmax_element(
 		return result;
 	}
 
-	if ( comp(*first, *result.first))
+	if ( comp(*first, *result.first) )
 	{
 		result.first = first;
 	}
@@ -291,11 +291,11 @@ std::pair< ForwardIterator, ForwardIterator > minmax_element(
 
 		if ( ++first == last )
 		{
-			if ( comp(*i, *result.first))
+			if ( comp(*i, *result.first) )
 			{
 				result.first = i;
 			}
-			else if ( !( comp(*i, *result.second)))
+			else if ( !( comp(*i, *result.second) ) )
 			{
 				result.second = i;
 			}
@@ -304,26 +304,26 @@ std::pair< ForwardIterator, ForwardIterator > minmax_element(
 		}
 		else
 		{
-			if ( comp(*first, *i))
+			if ( comp(*first, *i) )
 			{
-				if ( comp(*first, *result.first))
+				if ( comp(*first, *result.first) )
 				{
 					result.first = first;
 				}
 
-				if ( !( comp(*i, *result.second)))
+				if ( !( comp(*i, *result.second) ) )
 				{
 					result.second = i;
 				}
 			}
 			else
 			{
-				if ( comp(*i, *result.first))
+				if ( comp(*i, *result.first) )
 				{
 					result.first = i;
 				}
 
-				if ( !( comp(*first, *result.second)))
+				if ( !( comp(*first, *result.second) ) )
 				{
 					result.second = first;
 				}
@@ -340,7 +340,7 @@ std::pair< ForwardIterator, ForwardIterator > minmax_element(
 	ForwardIterator last
 )
 {
-	return ::cpp11::minmax_element(first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >());
+	return ::cpp11::minmax_element( first, last, std::less< typename std::iterator_traits< ForwardIterator >::value_type >() );
 }
 
 template< class ForwardIterator, class T >

@@ -59,7 +59,7 @@ struct extent< T[I], N >
 #ifdef CPP14
 namespace cpp17
 {
-template< class T, unsigned N = 0 >
+template< class T, unsigned N  = 0 >
 constexpr std::size_t extent_v = std::extent< T, N >::value;
 }
 #endif

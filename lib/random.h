@@ -89,7 +89,7 @@ public:
 		// Expand the state
 		for ( k = 1; k < N; k++ )
 		{
-			state[k] = (( state[k - 1] ^ ( state[k - 1] >> ( W - 2 ))) * F + k ) & x;
+			state[k] = ( ( state[k - 1] ^ ( state[k - 1] >> ( W - 2 ) ) ) * F + k ) & x;
 		}
 	}
 
@@ -145,17 +145,17 @@ private:
 	{
 		k = 0;
 
-		const UIntType x = ( ~UIntType(0)) << R;
+		const UIntType x = ( ~UIntType(0) ) << R;
 
 		for ( unsigned j = 0; j < N; j++ )
 		{
-			UIntType y = state[( j + 1 ) % N] ^ (( state[j] ^ state[( j + 1 ) % N] ) & x );
+			UIntType y = state[( j + 1 ) % N] ^ ( ( state[j] ^ state[( j + 1 ) % N] ) & x );
 			y        = ( y >> 1 ) ^ ( -( y % 2 ) & A );
 			state[j] = state[( j + M ) % N] ^ y;
 		}
 	}
 
-	static const result_type max_ = ~((( ~UIntType(0)) << 1 ) << ( W - 1 ));
+	static const result_type max_ = ~( ( ( ~UIntType(0) ) << 1 ) << ( W - 1 ) );
 
 	// mersenne twister state
 	UIntType state[N];
@@ -210,7 +210,7 @@ public:
 			}
 			else if ( n != 0 )
 			{
-				x /= (( max_ / ( n + 1 )) + 1 );
+				x /= ( ( max_ / ( n + 1 ) ) + 1 );
 			}
 			else
 			{
@@ -250,7 +250,7 @@ public:
 	result_type operator()(Generator& g)
 	{
 		/// @bug Can be 1, but should never be 1
-		const R u = static_cast< R >( g()) / static_cast< R >( g.max());
+		const R u = static_cast< R >( g() ) / static_cast< R >( g.max() );
 
 		/// @bug Rounding can cause "max" to be returned
 		return ( max - min ) * u + min;

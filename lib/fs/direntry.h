@@ -51,7 +51,7 @@ public:
 	void replace_filename(const path&);
 
 	const ::cpp17::filesystem::path& path() const;
-	operator const ::cpp17::filesystem::path&() const;
+	operator const::cpp17::filesystem::path & ( ) const;
 
 	file_status status() const;
 

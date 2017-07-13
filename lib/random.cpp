@@ -51,13 +51,13 @@ random_device::result_type random_device::operator()()
 	{
 		char buf[sizeof( result_type )];
 
-		if ( ::read(fd, buf, sizeof( buf )) == sizeof( result_type ))
+		if ( ::read( fd, buf, sizeof( buf ) ) == sizeof( result_type ) )
 		{
 			result_type x = 0;
 
 			for ( std::size_t i = 0; i < sizeof( result_type ); ++i )
 			{
-				x += static_cast< result_type >( static_cast< unsigned char >( buf[i] )) << ( i * CHAR_BIT );
+				x += static_cast< result_type >( static_cast< unsigned char >( buf[i] ) ) << ( i * CHAR_BIT );
 			}
 
 			return x;

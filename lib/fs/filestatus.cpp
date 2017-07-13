@@ -44,31 +44,31 @@ namespace
 
 	::cpp17::filesystem::file_type t = file_type::unknown;
 
-	if ( S_ISREG(m))
+	if ( S_ISREG(m) )
 	{
 		t = file_type::regular;
 	}
-	else if ( S_ISDIR(m))
+	else if ( S_ISDIR(m) )
 	{
 		t = file_type::directory;
 	}
-	else if ( S_ISCHR(m))
+	else if ( S_ISCHR(m) )
 	{
 		t = file_type::character;
 	}
-	else if ( S_ISBLK(m))
+	else if ( S_ISBLK(m) )
 	{
 		t = file_type::block;
 	}
-	else if ( S_ISFIFO(m))
+	else if ( S_ISFIFO(m) )
 	{
 		t = file_type::fifo;
 	}
-	else if ( S_ISLNK(m))
+	else if ( S_ISLNK(m) )
 	{
 		t = file_type::symlink;
 	}
-	else if ( S_ISSOCK(m))
+	else if ( S_ISSOCK(m) )
 	{
 		t = file_type::socket;
 	}
@@ -138,7 +138,7 @@ std::ostream& operator<<(
 
 file_status status(const path& path_)
 {
-	if ( !path_.empty())
+	if ( !path_.empty() )
 	{
 		struct stat st;
 
@@ -153,7 +153,7 @@ file_status status(const path& path_)
 
 file_status symlink_status(const path& path_)
 {
-	if ( !path_.empty())
+	if ( !path_.empty() )
 	{
 		struct stat st;
 
@@ -178,7 +178,7 @@ bool exists(file_status s)
 
 bool exists(const path& p)
 {
-	return exists(status(p));
+	return exists( status(p) );
 }
 
 bool is_block_file(file_status s)
@@ -188,7 +188,7 @@ bool is_block_file(file_status s)
 
 bool is_block_file(const path& p)
 {
-	return is_block_file(status(p));
+	return is_block_file( status(p) );
 }
 
 bool is_character_file(file_status s)
@@ -198,7 +198,7 @@ bool is_character_file(file_status s)
 
 bool is_character_file(const path& p)
 {
-	return is_character_file(status(p));
+	return is_character_file( status(p) );
 }
 
 bool is_fifo(file_status s)
@@ -208,7 +208,7 @@ bool is_fifo(file_status s)
 
 bool is_fifo(const path& p)
 {
-	return is_fifo(status(p));
+	return is_fifo( status(p) );
 }
 
 bool is_other(file_status s)
@@ -218,7 +218,7 @@ bool is_other(file_status s)
 
 bool is_other(const path& p)
 {
-	return is_other(status(p));
+	return is_other( status(p) );
 }
 
 bool is_regular_file(file_status s)
@@ -228,7 +228,7 @@ bool is_regular_file(file_status s)
 
 bool is_regular_file(const path& p)
 {
-	return is_regular_file(status(p));
+	return is_regular_file( status(p) );
 }
 
 bool is_socket(file_status s)
@@ -238,7 +238,7 @@ bool is_socket(file_status s)
 
 bool is_socket(const path& p)
 {
-	return is_socket(status(p));
+	return is_socket( status(p) );
 }
 
 bool is_symlink(file_status s)
@@ -248,7 +248,7 @@ bool is_symlink(file_status s)
 
 bool is_symlink(const path& p)
 {
-	return is_symlink(status(p));
+	return is_symlink( status(p) );
 }
 
 bool is_directory(file_status s)
@@ -258,7 +258,7 @@ bool is_directory(file_status s)
 
 bool is_directory(const path& p)
 {
-	return is_directory(status(p));
+	return is_directory( status(p) );
 }
 
 }

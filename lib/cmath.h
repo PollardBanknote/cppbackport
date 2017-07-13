@@ -100,7 +100,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type remainder(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::remainder(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::remainder( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float remquo(
@@ -178,7 +178,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2, Arithmetic3 >::type fma(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2, Arithmetic3 >::type real;
 
-	return ::cpp11::fma(static_cast< real >( x ), static_cast< real >( y ), static_cast< real >( z ));
+	return ::cpp11::fma( static_cast< real >( x ), static_cast< real >( y ), static_cast< real >( z ) );
 }
 
 inline float fmax(
@@ -213,7 +213,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type fmax(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::fmax(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::fmax( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float fmin(
@@ -248,7 +248,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type fmin(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::fmin(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::fmin( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float fdim(
@@ -283,7 +283,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type fdim(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::fdim(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::fdim( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float exp2(float n)
@@ -306,7 +306,7 @@ typename detail::promoted< Arithmetic1 >::type exp2(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::exp2(static_cast< real >( x ));
+	return ::cpp11::exp2( static_cast< real >( x ) );
 }
 
 inline float expm1(float n)
@@ -329,7 +329,7 @@ typename detail::promoted< Arithmetic1 >::type expm1(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::expm1(static_cast< real >( x ));
+	return ::cpp11::expm1( static_cast< real >( x ) );
 }
 
 inline float log2(float n)
@@ -352,7 +352,7 @@ typename detail::promoted< Arithmetic1 >::type log2(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::log2(static_cast< real >( x ));
+	return ::cpp11::log2( static_cast< real >( x ) );
 }
 
 inline float log1p(float n)
@@ -375,7 +375,7 @@ typename detail::promoted< Arithmetic1 >::type log1p(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::log1p(static_cast< real >( x ));
+	return ::cpp11::log1p( static_cast< real >( x ) );
 }
 
 inline float cbrt(float n)
@@ -398,7 +398,7 @@ typename detail::promoted< Arithmetic1 >::type cbrt(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::cbrt(static_cast< real >( x ));
+	return ::cpp11::cbrt( static_cast< real >( x ) );
 }
 
 inline float hypot(
@@ -433,7 +433,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type hypot(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::hypot(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::hypot( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float asinh(float n)
@@ -456,7 +456,7 @@ typename detail::promoted< Arithmetic1 >::type asinh(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::asinh(static_cast< real >( x ));
+	return ::cpp11::asinh( static_cast< real >( x ) );
 }
 
 inline float acosh(float n)
@@ -479,7 +479,7 @@ typename detail::promoted< Arithmetic1 >::type acosh(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::acosh(static_cast< real >( x ));
+	return ::cpp11::acosh( static_cast< real >( x ) );
 }
 
 inline float atanh(float n)
@@ -502,7 +502,7 @@ typename detail::promoted< Arithmetic1 >::type atanh(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::atanh(static_cast< real >( x ));
+	return ::cpp11::atanh( static_cast< real >( x ) );
 }
 
 inline float erf(float n)
@@ -525,7 +525,7 @@ typename detail::promoted< Arithmetic1 >::type erf(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::erf(static_cast< real >( x ));
+	return ::cpp11::erf( static_cast< real >( x ) );
 }
 
 inline float erfc(float n)
@@ -548,7 +548,7 @@ typename detail::promoted< Arithmetic1 >::type erfc(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::erfc(static_cast< real >( x ));
+	return ::cpp11::erfc( static_cast< real >( x ) );
 }
 
 inline float tgamma(float n)
@@ -571,7 +571,7 @@ typename detail::promoted< Arithmetic1 >::type tgamma(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::tgamma(static_cast< real >( x ));
+	return ::cpp11::tgamma( static_cast< real >( x ) );
 }
 
 // We can reuse a lot of the functions defined by POSIX
@@ -595,7 +595,7 @@ typename detail::promoted< Arithmetic1 >::type round(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::round(static_cast< real >( x ));
+	return ::cpp11::round( static_cast< real >( x ) );
 }
 
 inline long lround(float arg)
@@ -618,7 +618,7 @@ typename detail::promoted< Arithmetic1 >::type lround(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::lround(static_cast< real >( x ));
+	return ::cpp11::lround( static_cast< real >( x ) );
 }
 
 inline float trunc(float arg)
@@ -641,7 +641,7 @@ typename detail::promoted< Arithmetic1 >::type trunc(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::trunc(static_cast< real >( x ));
+	return ::cpp11::trunc( static_cast< real >( x ) );
 }
 
 inline float rint(float arg)
@@ -664,7 +664,7 @@ typename detail::promoted< Arithmetic1 >::type rint(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::rint(static_cast< real >( x ));
+	return ::cpp11::rint( static_cast< real >( x ) );
 }
 
 inline long lrint(float arg)
@@ -687,7 +687,7 @@ typename detail::promoted< Arithmetic1 >::type lrint(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::lrint(static_cast< real >( x ));
+	return ::cpp11::lrint( static_cast< real >( x ) );
 }
 
 inline float scalbn(
@@ -758,7 +758,7 @@ typename detail::promoted< Arithmetic1 >::type ilogb(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::ilogb(static_cast< real >( x ));
+	return ::cpp11::ilogb( static_cast< real >( x ) );
 }
 
 inline float logb(float arg)
@@ -781,7 +781,7 @@ typename detail::promoted< Arithmetic1 >::type logb(Arithmetic1 x)
 {
 	typedef typename detail::promoted< Arithmetic1 >::type real;
 
-	return ::cpp11::logb(static_cast< real >( x ));
+	return ::cpp11::logb( static_cast< real >( x ) );
 }
 
 inline float nextafter(
@@ -816,7 +816,7 @@ typename detail::promoted< Arithmetic >::type nextafter(
 {
 	typedef typename detail::promoted< Arithmetic >::type real;
 
-	return ::cpp11::nextafter(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::nextafter( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 inline float nexttoward(
@@ -875,7 +875,7 @@ typename detail::promoted< Arithmetic1, Arithmetic2 >::type copysign(
 {
 	typedef typename detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return ::cpp11::copysign(static_cast< real >( x ), static_cast< real >( y ));
+	return ::cpp11::copysign( static_cast< real >( x ), static_cast< real >( y ) );
 }
 
 #endif // ifdef POSIX_ISSUE_6
@@ -907,12 +907,12 @@ long double lgamma_implementation(long double);
 
 inline float lgamma(float z)
 {
-	return static_cast< float >(detail::lgamma_implementation(z));
+	return static_cast< float >( detail::lgamma_implementation(z) );
 }
 
 inline double lgamma(double z)
 {
-	return static_cast< double >(detail::lgamma_implementation(z));
+	return static_cast< double >( detail::lgamma_implementation(z) );
 }
 
 inline long double lgamma(long double z)
@@ -920,12 +920,12 @@ inline long double lgamma(long double z)
 	return detail::lgamma_implementation(z);
 }
 
-#endif
+#endif // if ( defined( _BSD_SOURCE ) || defined( _SVID_SOURCE ) || defined( _XOPEN_SOURCE ) || defined( _ISOC99_SOURCE ) || ( defined( _POSIX_C_SOURCE ) || _POSIX_C_SOURCE >= 200112L ) )
 
 template< typename Arithmetic1 >
 double lgamma(Arithmetic1 x)
 {
-	return ::cpp11::lgamma(static_cast< double >( x ));
+	return ::cpp11::lgamma( static_cast< double >( x ) );
 }
 
 }
@@ -945,7 +945,7 @@ inline double beta(
 	double y
 )
 {
-	return static_cast< double >(detail::beta_implementation(x, y));
+	return static_cast< double >( detail::beta_implementation(x, y) );
 }
 
 inline float betaf(
@@ -953,7 +953,7 @@ inline float betaf(
 	float y
 )
 {
-	return static_cast< float >(detail::beta_implementation(x, y));
+	return static_cast< float >( detail::beta_implementation(x, y) );
 }
 
 inline long double betal(
@@ -972,7 +972,7 @@ typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type beta(
 {
 	typedef typename ::cpp11::detail::promoted< Arithmetic1, Arithmetic2 >::type real;
 
-	return static_cast< real >( detail::beta_implementation(static_cast< real >( x ), static_cast< real >( y )));
+	return static_cast< real >( detail::beta_implementation( static_cast< real >( x ), static_cast< real >( y ) ) );
 }
 
 }

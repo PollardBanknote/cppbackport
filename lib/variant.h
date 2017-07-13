@@ -41,7 +41,8 @@ namespace cpp17
 {
 const std::size_t variant_npos = -1;
 
-class bad_variant_access : public std::exception
+class bad_variant_access
+	: public std::exception
 {
 
 };
@@ -68,7 +69,8 @@ public:
 };
 
 template< typename T >
-class variant_helper : public ivariant_helper
+class variant_helper
+	: public ivariant_helper
 {
 public:
 	void copy(
@@ -76,7 +78,7 @@ public:
 		const void* q
 	) const
 	{
-		*( static_cast< T* >( p )) = *static_cast< const T* >( q );
+		*( static_cast< T* >( p ) ) = *static_cast< const T* >( q );
 	}
 
 	void init(
@@ -84,7 +86,7 @@ public:
 		const void* q
 	) const
 	{
-		new(p) T(*static_cast< const T* >( q ));
+		new(p) T( *static_cast< const T* >( q ) );
 	}
 
 	void destroy(void* p) const
@@ -99,7 +101,7 @@ public:
 	{
 		using std::swap;
 
-		swap(*static_cast< T* >( p ), *static_cast< T* >( q ));
+		swap( *static_cast< T* >( p ), *static_cast< T* >( q ) );
 	}
 
 	static const variant_helper* instance()
@@ -156,7 +158,8 @@ struct convert_helper< U, Ti, true >
 };
 
 template< typename U, typename... Ts >
-struct convert_type : convert_helper< U, Ts >...
+struct convert_type
+	: convert_helper< U, Ts >...
 {
 };
 
@@ -231,14 +234,16 @@ class variant
 	template< std::size_t I, typename... Us >
 	friend typename variant_alternative< I, variant< Us... > >::type const && get(const variant< Us... >&&);
 public:
-	variant() : index_(0)
+	variant()
+		: index_(0)
 	{
 		typedef typename variant_alternative< 0, variant >::type T1;
 
 		new( &storage )T1();
 	}
 
-	variant(const variant& o) : index_(o.index_)
+	variant(const variant& o)
+		: index_(o.index_)
 	{
 		if ( o.index_ != variant_npos )
 		{
@@ -341,7 +346,7 @@ private:
 	{
 		static const detail::ivariant_helper* helpers[] =
 		{
-			detail::variant_helper< Ts >::instance()...
+			detail::variant_helper< Ts >::instance() ...
 		};
 
 		return helpers[index_];
@@ -359,18 +364,18 @@ T& get(variant< Us... >& v)
 		throw bad_variant_access();
 	}
 
-	return *static_cast< T* >( static_cast< void* >( &v.storage ));
+	return *static_cast< T* >( static_cast< void* >( &v.storage ) );
 }
 
 template< typename T, typename... Us >
-T&& get(const variant< Us... >&& v)
+T && get(const variant< Us... >&& v)
 {
 	if ( v.index_ != detail::select_index< T, Us... >::value )
 	{
 		throw bad_variant_access();
 	}
 
-	return std::move(*static_cast< T* >( static_cast< void* >( &v.storage )));
+	return std::move( *static_cast< T* >( static_cast< void* >( &v.storage ) ) );
 }
 
 
@@ -382,65 +387,65 @@ const T& get(const variant< Us... >& v)
 		throw bad_variant_access();
 	}
 
-	return *static_cast< const T* >( static_cast< const void* >( &v.storage ));
+	return *static_cast< const T* >( static_cast< const void* >( &v.storage ) );
 }
 
 template< typename T, typename... Us >
-const T&& get(const variant< Us... >&& v)
+const T && get(const variant< Us... >&& v)
 {
 	if ( v.index_ != detail::select_index< T, Us... >::value )
 	{
 		throw bad_variant_access();
 	}
 
-	return std::move(*static_cast< const T* >( static_cast< const void* >( &v.storage )));
+	return std::move( *static_cast< const T* >( static_cast< const void* >( &v.storage ) ) );
 }
 
 template< std::size_t I, typename... Us >
-typename variant_alternative< I, variant< Us... > >::type& get(variant< Us... >& v)
+typename variant_alternative< I, variant< Us... > >::type & get(variant< Us... >&v)
 {
 	if ( v.index_ != I )
 	{
 		throw bad_variant_access();
 	}
 
-	return *static_cast< typename variant_alternative< I, variant< Us... > >::type* >( static_cast< void* >( &v.storage ));
+	return *static_cast< typename variant_alternative< I, variant< Us... > >::type* >( static_cast< void* >( &v.storage ) );
 }
 
 
 template< std::size_t I, typename... Us >
-typename variant_alternative< I, variant< Us... > >::type&& get(variant< Us... >&& v)
+typename variant_alternative< I, variant< Us... > >::type && get(variant< Us... >&& v)
 {
 	if ( v.index_ != I )
 	{
 		throw bad_variant_access();
 	}
 
-	return std::move(*static_cast< typename variant_alternative< I, variant< Us... > >::type* >( static_cast< void* >( &v.storage )));
+	return std::move( *static_cast< typename variant_alternative< I, variant< Us... > >::type* >( static_cast< void* >( &v.storage ) ) );
 }
 
 
 template< std::size_t I, typename... Us >
-typename variant_alternative< I, variant< Us... > >::type const& get(const variant< Us... >& v)
+typename variant_alternative< I, variant< Us... > >::type const & get(const variant< Us... >&v)
 {
 	if ( v.index_ != I )
 	{
 		throw bad_variant_access();
 	}
 
-	return *static_cast< typename variant_alternative< I, variant< Us... > >::type const* >( static_cast< const void* >( &v.storage ));
+	return *static_cast< typename variant_alternative< I, variant< Us... > >::type const* >( static_cast< const void* >( &v.storage ) );
 }
 
 
 template< std::size_t I, typename... Us >
-typename variant_alternative< I, variant< Us... > >::type const&& get(const variant< Us... >&& v)
+typename variant_alternative< I, variant< Us... > >::type const && get(const variant< Us... >&& v)
 {
 	if ( v.index_ != I )
 	{
 		throw bad_variant_access();
 	}
 
-	return std::move(*static_cast< typename variant_alternative< I, variant< Us... > >::type const* >( static_cast< const void* >( &v.storage )));
+	return std::move( *static_cast< typename variant_alternative< I, variant< Us... > >::type const* >( static_cast< const void* >( &v.storage ) ) );
 }
 
 
@@ -481,7 +486,8 @@ struct max_align< void, T2, T3, T4, T5, T6, T7, T8, T9, T10 >
 };
 
 template< >
-class variant_helper< void >: public ivariant_helper
+class variant_helper< void >
+	: public ivariant_helper
 {
 public:
 	void copy(
@@ -652,12 +658,14 @@ class variant
 	template< std::size_t I, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10 >
 	friend typename variant_alternative< I, variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 > >::type const & get(const variant< U1, U2, U3, U4, U5, U6, U7, U8, U9, U10 >&);
 public:
-	variant() : index_(0)
+	variant()
+		: index_(0)
 	{
 		new( &storage )T1();
 	}
 
-	variant(const variant& o) : index_(o.index_)
+	variant(const variant& o)
+		: index_(o.index_)
 	{
 		if ( o.index_ != variant_npos )
 		{
@@ -792,7 +800,7 @@ typename detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type
 		throw bad_variant_access();
 	}
 
-	return *static_cast< T* >( static_cast< void* >( &v.storage ));
+	return *static_cast< T* >( static_cast< void* >( &v.storage ) );
 }
 
 template< typename T, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
@@ -803,7 +811,7 @@ typename detail::select_type< T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 >::type
 		throw bad_variant_access();
 	}
 
-	return *static_cast< const T* >( static_cast< const void* >( &v.storage ));
+	return *static_cast< const T* >( static_cast< const void* >( &v.storage ) );
 }
 
 template< std::size_t I, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
@@ -814,7 +822,7 @@ typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T1
 		throw bad_variant_access();
 	}
 
-	return *static_cast< typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 > >::type* >( static_cast< void* >( &v.storage ));
+	return *static_cast< typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 > >::type* >( static_cast< void* >( &v.storage ) );
 }
 
 template< std::size_t I, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
@@ -825,7 +833,7 @@ typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T1
 		throw bad_variant_access();
 	}
 
-	return *static_cast< typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 > >::type const* >( static_cast< const void* >( &v.storage ));
+	return *static_cast< typename variant_alternative< I, variant< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 > >::type const* >( static_cast< const void* >( &v.storage ) );
 }
 
 template< typename T, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >

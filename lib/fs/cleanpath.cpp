@@ -37,7 +37,7 @@ std::string cleanpath(const std::string& s)
 {
 	std::string t;
 
-	if ( s.empty())
+	if ( s.empty() )
 	{
 
 		// error
@@ -118,7 +118,7 @@ std::string cleanpath(const std::string& s)
 		}
 	}
 
-	if ( t.empty())
+	if ( t.empty() )
 	{
 		return ".";
 	}

@@ -38,7 +38,7 @@ namespace filesystem
 {
 bool remove(const path& p)
 {
-	return ::remove(p.c_str()) == 0;
+	return ::remove( p.c_str() ) == 0;
 }
 
 unsigned long remove_all(const path& p)
@@ -47,10 +47,10 @@ unsigned long remove_all(const path& p)
 
 	for ( directory_iterator it(p), last; it != last; ++it )
 	{
-		total += remove_all(it->path());
+		total += remove_all( it->path() );
 	}
 
-	if ( remove(p))
+	if ( remove(p) )
 	{
 		++total;
 	}

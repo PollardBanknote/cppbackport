@@ -56,7 +56,7 @@ struct is_base_of_impl
 
 template< typename B, typename D, bool = detail::is_class_or_union< B >::value&& detail::is_class_or_union< D >::value >
 struct is_base_of_helper
-	: cpp17::bool_constant< ( sizeof is_base_of_impl< B, D >::check(host< B, D >( ), int())) == sizeof( detail::yes ) >
+	: cpp17::bool_constant< ( sizeof is_base_of_impl< B, D >::check( host< B, D >( ), int() ) ) == sizeof( detail::yes ) >
 {};
 
 /* Need some specializations to handle references because the detail structs

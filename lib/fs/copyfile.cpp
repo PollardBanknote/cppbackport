@@ -116,7 +116,7 @@ bool copy_file(
 				{
 					char buf[4096];
 
-					const ssize_t n = ::read(in, buf, sizeof( buf ));
+					const ssize_t n = ::read( in, buf, sizeof( buf ) );
 
 					if ( n == -1 )
 					{
@@ -137,7 +137,7 @@ bool copy_file(
 
 						while ( p - buf < n )
 						{
-							const ssize_t m = ::write(out, p, static_cast< std::size_t >( n - ( p - buf ) ));
+							const ssize_t m = ::write( out, p, static_cast< std::size_t >( n - ( p - buf ) ) );
 
 							if ( m == -1 )
 							{
@@ -151,7 +151,7 @@ bool copy_file(
 				}
 
 				// Remove the incomplete file
-				::unlink(dest.c_str());
+				::unlink( dest.c_str() );
 				::close(out);
 			}
 		}

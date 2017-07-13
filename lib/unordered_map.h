@@ -163,7 +163,7 @@ public:
 	{
 		iterator it = inner.find(key);
 
-		if ( it == inner.end())
+		if ( it == inner.end() )
 		{
 			throw std::out_of_range("Map element not found");
 		}
@@ -175,7 +175,7 @@ public:
 	{
 		const_iterator it = inner.find(key);
 
-		if ( it == inner.end())
+		if ( it == inner.end() )
 		{
 			throw std::out_of_range("Map element not found");
 		}

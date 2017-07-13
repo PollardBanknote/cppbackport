@@ -70,7 +70,7 @@ const path& directory_entry::path() const
 	return path_;
 }
 
-directory_entry::operator const ::cpp17::filesystem::path&() const
+directory_entry::operator const::cpp17::filesystem::path & ( ) const
 {
 	return path_;
 }

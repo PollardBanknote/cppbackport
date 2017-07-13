@@ -56,32 +56,38 @@ using conditional_t = typename std::conditional< B, T, F >::type;
 namespace cpp17
 {
 template< class B1 = void, class B2 = void >
-struct conjunction : bool_constant< B1::value && B2::value >
+struct conjunction
+	: bool_constant< B1::value&& B2::value >
 {
 };
 
 template< >
-struct conjunction< void, void > : cpp11::true_type
+struct conjunction< void, void >
+	: cpp11::true_type
 {
 };
 
 template< class B1 >
-struct conjunction< B1, void > : bool_constant< B1::value >
+struct conjunction< B1, void >
+	: bool_constant< B1::value >
 {
 };
 
 template< class B1 = void, class B2 = void >
-struct disjunction : bool_constant< B1::value || B2::value >
+struct disjunction
+	: bool_constant< B1::value || B2::value >
 {
 };
 
 template< >
-struct disjunction< void, void > : cpp11::false_type
+struct disjunction< void, void >
+	: cpp11::false_type
 {
 };
 
 template< class B1 >
-struct disjunction< B1, void > : bool_constant< B1::value >
+struct disjunction< B1, void >
+	: bool_constant< B1::value >
 {
 };
 }
@@ -91,27 +97,33 @@ struct disjunction< B1, void > : bool_constant< B1::value >
 namespace cpp17
 {
 template< class... >
-struct conjunction : std::true_type
+struct conjunction
+	: std::true_type
 {};
 
 template< class B >
-struct conjunction< B > : B
+struct conjunction< B >
+	: B
 {};
 
 template< class B1, class... Bi >
-struct conjunction< B1, Bi... > : std::conditional< B1::value, conjunction< Bi... >, B1 >::type
+struct conjunction< B1, Bi... >
+	: std::conditional< B1::value, conjunction< Bi... >, B1 >::type
 {};
 
 template< class... >
-struct disjunction : std::false_type
+struct disjunction
+	: std::false_type
 {};
 
 template< class B >
-struct disjunction< B > : B
+struct disjunction< B >
+	: B
 {};
 
 template< class B1, class... Bi >
-struct disjunction< B1, Bi... > : std::conditional< B1::value, B1, disjunction< Bi... > >::type
+struct disjunction< B1, Bi... >
+	: std::conditional< B1::value, B1, disjunction< Bi... > >::type
 {};
 
 #ifdef CPP14
@@ -129,7 +141,8 @@ constexpr bool disjunction_v = disjunction< Bi... >::value;
 namespace cpp17
 {
 template< class B >
-struct negation : bool_constant< !bool(B::value) >
+struct negation
+	: bool_constant< !bool(B::value) >
 {
 };
 

@@ -32,7 +32,7 @@
 
 cpp::unique_ptr< int > f()
 {
-	return cpp::unique_ptr< int >(new int(123456789));
+	return cpp::unique_ptr< int >( new int(123456789) );
 }
 
 void test_unique_pointer()
@@ -52,7 +52,7 @@ void test_unique_pointer()
 
 void test_shared_pointer()
 {
-	cpp::shared_ptr< int > x(new int(21048204));
+	cpp::shared_ptr< int > x( new int(21048204) );
 
 	cpp::shared_ptr< int > y = x;
 

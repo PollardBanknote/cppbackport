@@ -115,7 +115,7 @@ typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::ty
 {
 	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
 
-	return Duration3(Duration3(a).count() + Duration3(b).count());
+	return Duration3( Duration3(a).count() + Duration3(b).count() );
 }
 
 template< class Rep1, class Period1, class Rep2, class Period2 >
@@ -126,7 +126,7 @@ typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::ty
 {
 	typedef typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::type Duration3;
 
-	return Duration3(Duration3(a).count() - Duration3(b).count());
+	return Duration3( Duration3(a).count() - Duration3(b).count() );
 }
 
 template< class Rep1, class Period1, class Rep2, class Period2 >

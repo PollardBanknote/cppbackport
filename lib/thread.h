@@ -91,7 +91,7 @@ private:
 	class runnable_wrapper< F, Arg1, void, void >
 		: public details::runnable
 	{
-	public:
+public:
 		runnable_wrapper(
 			F           f_,
 			const Arg1& a1_
@@ -139,7 +139,7 @@ private:
 	class runnable_wrapper< F, void, void, void >
 		: public details::runnable
 	{
-	public:
+public:
 		explicit runnable_wrapper(F f_)
 			: f(f_)
 		{
@@ -155,7 +155,7 @@ private:
 			f();
 		}
 
-	private:
+private:
 		F f;
 	};
 public:
@@ -169,7 +169,7 @@ public:
 		native_handle_type tid;
 
 		explicit id(native_handle_type);
-	public:
+public:
 		id();
 		id(const id&);
 
@@ -194,7 +194,7 @@ public:
 	explicit thread(F func)
 		: tid()
 	{
-		run(new runnable_wrapper< F >(func));
+		run( new runnable_wrapper< F >(func) );
 	}
 
 	/// @bug Should be copying decayed value
@@ -205,14 +205,14 @@ public:
 	)
 		: tid()
 	{
-		run(new runnable_wrapper< F, Arg1 >(func, arg1));
+		run( new runnable_wrapper< F, Arg1 >(func, arg1) );
 	}
 
 	template< class F >
 	explicit thread(rvalue_reference< F > func)
 		: tid()
 	{
-		run(new runnable_wrapper< F >(func));
+		run( new runnable_wrapper< F >(func) );
 	}
 
 	template< class F, class Arg1, class Arg2, class Arg3 >
@@ -224,7 +224,7 @@ public:
 	)
 		: tid()
 	{
-		run(new runnable_wrapper< F, Arg1, Arg2, Arg3 >(func, a1, a2, a3));
+		run( new runnable_wrapper< F, Arg1, Arg2, Arg3 >(func, a1, a2, a3) );
 	}
 
 	~thread();
@@ -262,7 +262,7 @@ namespace this_thread
 template< class Rep, class Period >
 void sleep_for(const ::cpp11::chrono::duration< Rep, Period >& dt)
 {
-	details::microsleep(::cpp11::chrono::duration_cast< ::cpp11::chrono::microseconds >(dt));
+	details::microsleep( ::cpp11::chrono::duration_cast< ::cpp11::chrono::microseconds >(dt) );
 }
 
 }

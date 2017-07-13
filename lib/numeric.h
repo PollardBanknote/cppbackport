@@ -110,7 +110,7 @@ typename ::cpp::common_type< T, U >::type gcd(
 	U b
 )
 {
-	return detail::ugcd(detail::uabs(a), detail::uabs(b));
+	return detail::ugcd( detail::uabs(a), detail::uabs(b) );
 }
 
 template< class T, class U >
@@ -119,7 +119,7 @@ typename ::cpp::common_type< T, U >::type lcm(
 	U b
 )
 {
-	return detail::ulcm(detail::uabs(a), detail::uabs(b));
+	return detail::ulcm( detail::uabs(a), detail::uabs(b) );
 }
 
 }

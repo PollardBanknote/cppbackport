@@ -54,7 +54,7 @@ public:
 	explicit impl(const path& path_)
 		: p(path_), d(0), e(0), info(), valid_info(false)
 	{
-		d = ::opendir(path_.c_str());
+		d = ::opendir( path_.c_str() );
 
 		if ( d )
 		{
@@ -189,11 +189,11 @@ private:
 		 */
 		if ( sizeof( static_cast< dirent* >( 0 )->d_name ) < NAME_MAX + 1 )
 		{
-			return static_cast< dirent* >( ::malloc(sizeof( dirent ) + NAME_MAX + 1));
+			return static_cast< dirent* >( ::malloc(sizeof( dirent ) + NAME_MAX + 1) );
 		}
 		else
 		{
-			return static_cast< dirent* >( ::malloc(sizeof( dirent )));
+			return static_cast< dirent* >( ::malloc( sizeof( dirent ) ) );
 		}
 	}
 
@@ -223,7 +223,7 @@ directory_iterator::directory_iterator()
 }
 
 directory_iterator::directory_iterator(const path& path_)
-	: pimpl(new impl(path_))
+	: pimpl( new impl(path_) )
 {
 }
 
@@ -241,7 +241,7 @@ bool directory_iterator::operator==(const directory_iterator& i) const
 
 bool directory_iterator::operator!=(const directory_iterator& i) const
 {
-	return !( pimpl->is_end() && i.pimpl->is_end());
+	return !( pimpl->is_end() && i.pimpl->is_end() );
 }
 
 directory_iterator& directory_iterator::operator++()
@@ -282,7 +282,7 @@ recursive_directory_iterator::recursive_directory_iterator(const path& p)
 
 recursive_directory_iterator::~recursive_directory_iterator()
 {
-	while ( !stack.empty())
+	while ( !stack.empty() )
 	{
 		ascend();
 	}
@@ -312,7 +312,7 @@ void recursive_directory_iterator::ascend()
 
 const directory_entry& recursive_directory_iterator::operator*() const
 {
-	return *( *stack.top());
+	return *( *stack.top() );
 }
 
 const directory_entry* recursive_directory_iterator::operator->() const
@@ -325,7 +325,7 @@ recursive_directory_iterator& recursive_directory_iterator::operator++()
 	if ( stack.top()->type() == file_type::directory )
 	{
 		// go to directory's first child (if any)
-		if ( descend(( *stack.top())->path()))
+		if ( descend( ( *stack.top() )->path() ) )
 		{
 			return *this;
 		}
@@ -338,7 +338,7 @@ recursive_directory_iterator& recursive_directory_iterator::operator++()
 
 		directory_iterator end;
 
-		if ( *( stack.top()) != end )
+		if ( *( stack.top() ) != end )
 		{
 			return *this;
 		}
@@ -346,7 +346,7 @@ recursive_directory_iterator& recursive_directory_iterator::operator++()
 		// move to parent
 		ascend();
 	}
-	while ( !stack.empty());
+	while ( !stack.empty() );
 
 	return *this;
 }
@@ -358,7 +358,7 @@ bool recursive_directory_iterator::operator==(const recursive_directory_iterator
 
 bool recursive_directory_iterator::operator!=(const recursive_directory_iterator& i) const
 {
-	return !( stack.empty() && i.stack.empty());
+	return !( stack.empty() && i.stack.empty() );
 }
 
 }

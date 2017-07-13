@@ -41,7 +41,7 @@
 // =============================================================================
 // Determine the platform. Ex., Windows or POSIX. Define feature macros
 
-#if ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )))
+#if ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )  ) )
 #include <unistd.h>
 
 #ifdef _POSIX_VERSION

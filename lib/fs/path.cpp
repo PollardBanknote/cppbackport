@@ -91,7 +91,7 @@ path path::extension() const
 
 	const std::size_t j = ( i == std::string::npos ? 0 : i + 1 );
 
-	if ( j < s.length())
+	if ( j < s.length() )
 	{
 		if ( s.compare(j, std::string::npos, ".", 1) != 0
 		     && s.compare(j, std::string::npos, "..", 2) != 0 )
@@ -117,9 +117,9 @@ path path::filename() const
 		return *this;
 	}
 
-	if ( i + 1 < s.length())
+	if ( i + 1 < s.length() )
 	{
-		return path(s.substr(i + 1));
+		return path( s.substr(i + 1) );
 	}
 	else
 	{
@@ -136,7 +136,7 @@ path path::parent_path() const
 		return path();
 	}
 
-	return path(s.substr(0, i));
+	return path( s.substr(0, i) );
 }
 
 path& path::remove_filename()
@@ -181,7 +181,7 @@ path& path::append(const path& p)
 	{
 		sep = false;
 	}
-	else if ( s.empty())
+	else if ( s.empty() )
 	{
 		sep = false;
 	}
@@ -195,7 +195,7 @@ path& path::append(const path& p)
 		s += preferred_separator;
 	}
 
-	s.append(p.native());
+	s.append( p.native() );
 
 	return *this;
 }
@@ -312,7 +312,7 @@ path::const_iterator::const_iterator(
 )
 	: parent(parent_), first(0)
 {
-	if ( parent->s.empty())
+	if ( parent->s.empty() )
 	{
 		first = std::string::npos;
 		last  = std::string::npos;
@@ -350,7 +350,7 @@ path::const_iterator& path::const_iterator::operator++()
 {
 	if ( parent )
 	{
-		if ( last < parent->s.length())
+		if ( last < parent->s.length() )
 		{
 			// find next component
 			const std::size_t j = parent->s.find_first_not_of(preferred_separator, last);
@@ -418,7 +418,7 @@ path::const_iterator& path::const_iterator::operator--()
 		if ( first == std::string::npos )
 		{
 			// end iterator
-			if ( !parent->s.empty())
+			if ( !parent->s.empty() )
 			{
 				const std::size_t j = parent->s.find_last_of(preferred_separator);
 
@@ -431,7 +431,7 @@ path::const_iterator& path::const_iterator::operator--()
 				}
 				else
 				{
-					if ( j + 1 < parent->s.length())
+					if ( j + 1 < parent->s.length() )
 					{
 						// trailing filename
 						first = j + 1;

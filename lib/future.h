@@ -155,7 +155,7 @@ class future
 
 	typedef details::future_shared_state< T > shared_state;
 
-	friend void ::cpp11::swap< >(future< T >&, future< T >&);
+	friend void::cpp11::swap< >(future< T >&, future< T >&);
 public:
 	future()
 		: state(0)
@@ -299,7 +299,7 @@ class future< void >
 {
 	friend class promise< void >;
 	typedef details::future_shared_state< void > shared_state;
-	friend void ::cpp11::swap< >(future< void >&, future< void >&);
+	friend void::cpp11::swap< >(future< void >&, future< void >&);
 public:
 	future()
 		: state(0)
@@ -490,7 +490,7 @@ class promise
 	typedef details::future_shared_state< T > shared_state;
 public:
 	promise()
-		: state(new shared_state())
+		: state( new shared_state() )
 	{
 		state->owners = 1;
 	}
@@ -592,7 +592,7 @@ class promise< void >
 	typedef details::future_shared_state< void > shared_state;
 public:
 	promise()
-		: state(new shared_state())
+		: state( new shared_state() )
 	{
 		state->owners = 1;
 	}
@@ -703,13 +703,13 @@ public:
 	}
 
 	packaged_task(rvalue_reference< packaged_task > w)
-		: f(move(w.ref.f)), p(move(w.ref.p))
+		: f( move(w.ref.f) ), p( move(w.ref.p) )
 	{
 	}
 
 	void operator()()
 	{
-		p.set_value(f());
+		p.set_value( f() );
 	}
 
 	future< result_type > get_future()
@@ -739,7 +739,7 @@ public:
 	}
 
 	packaged_task(rvalue_reference< packaged_task > w)
-		: f(move(w.ref.f)), p(move(w.ref.p))
+		: f( move(w.ref.f) ), p( move(w.ref.p) )
 	{
 	}
 
@@ -770,7 +770,7 @@ future< typename B::result_type > async_inner(
 	const B&            bound_function
 )
 {
-	if ((policy & launch::async) == 0 )
+	if ( (policy& launch::async) == 0 )
 	{
 		throw std::runtime_error("Deferred execution is not supported yet");
 	}
@@ -780,7 +780,7 @@ future< typename B::result_type > async_inner(
 	packaged_task< R() > w(bound_function);
 	future< R >          fu = w.get_future();
 
-	thread t(move(w));
+	thread t( move(w) );
 	t.detach();
 
 	return move(fu);
@@ -794,7 +794,7 @@ future< typename result_of< F(const Arg1&) >::type > async(
 	const Arg1& a1
 )
 {
-	return detail::async_inner(launch::async_or_deferred, bind(f, a1));
+	return detail::async_inner( launch::async_or_deferred, bind(f, a1) );
 }
 
 template< typename F, typename Arg1, typename Arg2 >
@@ -804,7 +804,7 @@ future< typename result_of< F(const Arg1&, const Arg2&) >::type > async(
 	const Arg2& a2
 )
 {
-	return detail::async_inner(launch::async_or_deferred, bind(f, a1, a2));
+	return detail::async_inner( launch::async_or_deferred, bind(f, a1, a2) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3 >
@@ -815,7 +815,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&) >::type > a
 	const Arg3& a3
 )
 {
-	return detail::async_inner(launch::async_or_deferred, bind(f, a1, a2, a3));
+	return detail::async_inner( launch::async_or_deferred, bind(f, a1, a2, a3) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3, typename Arg4 >
@@ -827,7 +827,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&, const Arg4&
 	const Arg4& a4
 )
 {
-	return detail::async_inner(launch::async_or_deferred, bind(f, a1, a2, a3, a4));
+	return detail::async_inner( launch::async_or_deferred, bind(f, a1, a2, a3, a4) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5 >
@@ -840,7 +840,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&, const Arg4&
 	const Arg5& a5
 )
 {
-	return detail::async_inner(launch::async_or_deferred, bind(f, a1, a2, a3, a4, a5));
+	return detail::async_inner( launch::async_or_deferred, bind(f, a1, a2, a3, a4, a5) );
 }
 
 template< typename F, typename Arg1 >
@@ -850,7 +850,7 @@ future< typename result_of< F(const Arg1&) >::type > async(
 	const Arg1&         a1
 )
 {
-	return detail::async_inner(policy, bind(f, a1));
+	return detail::async_inner( policy, bind(f, a1) );
 }
 
 template< typename F, typename Arg1, typename Arg2 >
@@ -861,7 +861,7 @@ future< typename result_of< F(const Arg1&, const Arg2&) >::type > async(
 	const Arg2&         a2
 )
 {
-	return detail::async_inner(policy, bind(f, a1, a2));
+	return detail::async_inner( policy, bind(f, a1, a2) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3 >
@@ -873,7 +873,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&) >::type > a
 	const Arg3&         a3
 )
 {
-	return detail::async_inner(policy, bind(f, a1, a2, a3));
+	return detail::async_inner( policy, bind(f, a1, a2, a3) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3, typename Arg4 >
@@ -886,7 +886,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&, const Arg4&
 	const Arg4&         a4
 )
 {
-	return detail::async_inner(policy, bind(f, a1, a2, a3, a4));
+	return detail::async_inner( policy, bind(f, a1, a2, a3, a4) );
 }
 
 template< typename F, typename Arg1, typename Arg2, typename Arg3, typename Arg4, typename Arg5 >
@@ -900,7 +900,7 @@ future< typename result_of< F(const Arg1&, const Arg2&, const Arg3&, const Arg4&
 	const Arg5&         a5
 )
 {
-	return detail::async_inner(policy, bind(f, a1, a2, a3, a4, a5));
+	return detail::async_inner( policy, bind(f, a1, a2, a3, a4, a5) );
 }
 
 }

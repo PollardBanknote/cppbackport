@@ -57,7 +57,8 @@ public:
 
 	static const size_type npos = size_type(-1);
 
-	basic_string_view() : first(0), len(0)
+	basic_string_view()
+		: first(0), len(0)
 	{
 	}
 
@@ -71,7 +72,7 @@ public:
 	}
 
 	basic_string_view(const CharT* s)
-		: first(s), len(Traits::length(s))
+		: first(s), len( Traits::length(s) )
 	{
 	}
 

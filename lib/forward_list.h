@@ -51,7 +51,8 @@ class forward_list
 		node* next;
 	};
 
-	struct value_node : node
+	struct value_node
+		: node
 	{
 		value_node()
 			: value()
@@ -76,12 +77,14 @@ public:
 
 	class iterator
 	{
-	public:
-		iterator() : p(0)
+public:
+		iterator()
+			: p(0)
 		{
 		}
 
-		explicit iterator(node* p_) : p(p_)
+		explicit iterator(node* p_)
+			: p(p_)
 		{
 		}
 
@@ -131,7 +134,7 @@ public:
 			return p != jt.p;
 		}
 
-	private:
+private:
 		friend class forward_list;
 		friend class const_iterator;
 
@@ -140,16 +143,19 @@ public:
 
 	class const_iterator
 	{
-	public:
-		const_iterator() : p(0)
+public:
+		const_iterator()
+			: p(0)
 		{
 		}
 
-		const_iterator(const iterator& it) : p(it.p)
+		const_iterator(const iterator& it)
+			: p(it.p)
 		{
 		}
 
-		explicit const_iterator(node* p_) : p(p_)
+		explicit const_iterator(node* p_)
+			: p(p_)
 		{
 		}
 
@@ -189,7 +195,7 @@ public:
 			return p != jt.p;
 		}
 
-	private:
+private:
 		friend class forward_list;
 		node* p;
 	};
@@ -397,7 +403,7 @@ public:
 	{
 		if ( count != 0 )
 		{
-			return iterator(insert_after_private(pos.p, count, value));
+			return iterator( insert_after_private(pos.p, count, value) );
 		}
 
 		return iterator(pos.p);
@@ -493,7 +499,7 @@ public:
 		forward_list&  other
 	)
 	{
-		splice_after(pos, other, other.before_begin());
+		splice_after( pos, other, other.before_begin() );
 	}
 
 	void splice_after(
@@ -580,7 +586,7 @@ public:
 
 		while ( q->next )
 		{
-			if ( pred(static_cast< value_node* >( q->next )->value))
+			if ( pred(static_cast< value_node* >( q->next )->value) )
 			{
 				node* t = q->next;
 				q->next = t->next;
@@ -623,7 +629,7 @@ public:
 		{
 			if ( node* t = q->next )
 			{
-				if ( pred(static_cast< value_node* >( q )->value, static_cast< value_node* >( t )->value))
+				if ( pred(static_cast< value_node* >( q )->value, static_cast< value_node* >( t )->value) )
 				{
 					q->next = t->next;
 					delete t;
@@ -731,7 +737,7 @@ private:
 
 		while ( q && r )
 		{
-			if ( comp(static_cast< value_node* >( r )->value, static_cast< value_node* >( q )->value))
+			if ( comp(static_cast< value_node* >( r )->value, static_cast< value_node* >( q )->value) )
 			{
 				s->next = r;
 				r       = r->next;

@@ -95,7 +95,7 @@ public:
 		mutex_type& m,
 		cpp::try_to_lock_t
 	)
-		: pm(&m), owns(m.try_lock_shared())
+		: pm(&m), owns( m.try_lock_shared() )
 	{
 	}
 

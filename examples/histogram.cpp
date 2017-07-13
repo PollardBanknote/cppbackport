@@ -37,7 +37,7 @@ int main()
 	std::map< int, int > hist;
 
 	cpp::random_device rd;
-	cpp::mt19937       gen(rd());
+	cpp::mt19937       gen( rd() );
 
 	cpp::uniform_int_distribution< int > dist(0, 9);
 

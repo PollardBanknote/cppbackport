@@ -148,17 +148,17 @@ struct array
 
 	reverse_iterator rbegin()
 	{
-		return reverse_iterator(elems + ( N - 1 ));
+		return reverse_iterator( elems + ( N - 1 ) );
 	}
 
 	const_reverse_iterator rbegin() const
 	{
-		return reverse_iterator(elems + ( N - 1 ));
+		return reverse_iterator( elems + ( N - 1 ) );
 	}
 
 	const_reverse_iterator crbegin() const
 	{
-		return reverse_iterator(elems + ( N - 1 ));
+		return reverse_iterator( elems + ( N - 1 ) );
 	}
 
 	reverse_iterator rend()
@@ -376,7 +376,7 @@ bool operator==(
 	const array< T, N >& b
 )
 {
-	return std::equal(a.begin(), a.end(), b.begin());
+	return std::equal( a.begin(), a.end(), b.begin() );
 }
 
 template< class T, std::size_t N >
@@ -385,7 +385,7 @@ bool operator!=(
 	const array< T, N >& b
 )
 {
-	return !std::equal(a.begin(), a.end(), b.begin());
+	return !std::equal( a.begin(), a.end(), b.begin() );
 }
 
 template< class T, std::size_t N >
@@ -394,7 +394,7 @@ bool operator<(
 	const array< T, N >& b
 )
 {
-	return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+	return std::lexicographical_compare( a.begin(), a.end(), b.begin(), b.end() );
 }
 
 template< class T, std::size_t N >
@@ -403,7 +403,7 @@ bool operator<=(
 	const array< T, N >& b
 )
 {
-	return !std::lexicographical_compare(b.begin(), b.end(), a.begin(), a.end());
+	return !std::lexicographical_compare( b.begin(), b.end(), a.begin(), a.end() );
 }
 
 template< class T, std::size_t N >
@@ -412,7 +412,7 @@ bool operator>(
 	const array< T, N >& b
 )
 {
-	return std::lexicographical_compare(b.begin(), b.end(), a.begin(), a.end());
+	return std::lexicographical_compare( b.begin(), b.end(), a.begin(), a.end() );
 }
 
 template< class T, std::size_t N >
@@ -421,7 +421,7 @@ bool operator>=(
 	const array< T, N >& b
 )
 {
-	return !std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+	return !std::lexicographical_compare( a.begin(), a.end(), b.begin(), b.end() );
 }
 
 }

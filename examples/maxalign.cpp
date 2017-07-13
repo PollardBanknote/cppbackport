@@ -40,7 +40,7 @@ union maxalign
 };
 
 // a type that has 16 byte alignment
-typedef int v4si __attribute__(( vector_size(16)));
+typedef int v4si __attribute__( ( vector_size(16) ) );
 
 int main()
 {

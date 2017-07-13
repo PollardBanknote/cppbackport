@@ -43,7 +43,7 @@ no is_class_or_union_helper(...);
 
 template< typename T >
 struct is_class_or_union
-	: cpp17::bool_constant< sizeof( is_class_or_union_helper< T >( 0 )) == sizeof( yes ) >
+	: cpp17::bool_constant< sizeof( is_class_or_union_helper< T >( 0 ) ) == sizeof( yes ) >
 {
 };
 }

@@ -51,7 +51,7 @@ struct is_convertible_helper
 // Can From convert to To
 template< typename From, typename To >
 struct is_convertible
-	: cpp17::bool_constant< ( sizeof( detail::is_convertible_helper< To >::f(declval< From >( ))) == sizeof( detail::yes )) >
+	: cpp17::bool_constant< ( sizeof( detail::is_convertible_helper< To >::f( declval< From >( ) ) ) == sizeof( detail::yes ) ) >
 {
 };
 

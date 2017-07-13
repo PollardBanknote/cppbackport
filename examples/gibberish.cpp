@@ -40,7 +40,7 @@ int main()
 
 	for ( int i = 0; i < 100; ++i )
 	{
-		std::cout << alphabet.at(u(g));
+		std::cout << alphabet.at( u(g) );
 	}
 
 	std::cout << std::endl;

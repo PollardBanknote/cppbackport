@@ -36,7 +36,7 @@ void f(const std::string& s)
 	for ( int i = 0; i < 10; ++i )
 	{
 		std::cout << ( s + "\n" );
-		cpp::this_thread::sleep_for(cpp::chrono::milliseconds(10));
+		cpp::this_thread::sleep_for( cpp::chrono::milliseconds(10) );
 	}
 }
 

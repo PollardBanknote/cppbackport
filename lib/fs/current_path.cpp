@@ -40,7 +40,7 @@ path current_path()
 {
 	char buf[4096];
 
-	if ( ::getcwd(buf, sizeof( buf )))
+	if ( ::getcwd( buf, sizeof( buf ) ) )
 	{
 		return buf;
 	}
@@ -52,7 +52,7 @@ path current_path()
 	{
 		char* q = new char[size];
 
-		if ( ::getcwd(q, size))
+		if ( ::getcwd(q, size) )
 		{
 			path p = q;
 			delete[] q;

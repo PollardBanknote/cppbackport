@@ -68,7 +68,7 @@ inline perms operator|(
 	perms b
 )
 {
-	return static_cast< perms >( static_cast< int >( a ) | static_cast< int >( b ));
+	return static_cast< perms >( static_cast< int >( a ) | static_cast< int >( b ) );
 }
 
 inline perms operator&(
@@ -76,7 +76,7 @@ inline perms operator&(
 	perms b
 )
 {
-	return static_cast< perms >( static_cast< int >( a ) & static_cast< int >( b ));
+	return static_cast< perms >( static_cast< int >( a ) & static_cast< int >( b ) );
 }
 
 inline perms operator^(
@@ -84,7 +84,7 @@ inline perms operator^(
 	perms b
 )
 {
-	return static_cast< perms >( static_cast< int >( a ) ^ static_cast< int >( b ));
+	return static_cast< perms >( static_cast< int >( a ) ^ static_cast< int >( b ) );
 }
 
 std::ostream& operator<<(std::ostream&, perms);

@@ -38,7 +38,7 @@ std::ostream& operator<<(
 	perms         p
 )
 {
-	std::ostream t(os.rdbuf());
+	std::ostream t( os.rdbuf() );
 
 	t << "mode: " << std::oct << static_cast< int >( p );
 

@@ -54,7 +54,7 @@ void condition_variable::notify_all()
 
 void condition_variable::wait(unique_lock< mutex >& lock)
 {
-	pthread_cond_wait(&cond, lock.mutex()->native_handle());
+	pthread_cond_wait( &cond, lock.mutex()->native_handle() );
 }
 
 condition_variable::native_handle_type condition_variable::native_handle()
@@ -69,7 +69,7 @@ cv_status::cv_status condition_variable::wait_until(
 {
 	timespec ts;
 
-	chrono::nanoseconds      d     = chrono::duration_cast< chrono::nanoseconds >(tp.time_since_epoch());
+	chrono::nanoseconds      d     = chrono::duration_cast< chrono::nanoseconds >( tp.time_since_epoch() );
 	chrono::nanoseconds::rep r     = d.count();
 	long                     scale = 1000000000L;
 

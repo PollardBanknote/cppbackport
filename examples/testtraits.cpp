@@ -46,7 +46,7 @@ struct meta
 
 		std::string s;
 
-		if ( char* realname = abi::__cxa_demangle(name, 0, 0, &status))
+		if ( char* realname = abi::__cxa_demangle(name, 0, 0, &status) )
 		{
 			s = realname;
 			free(realname);
@@ -242,22 +242,22 @@ struct trait_test
 		apply_trait< void() >::print();
 		apply_trait< int() >::print();
 		apply_trait< int ( * )() >::print();
-		apply_trait< int(&)( ) >::print();
+		apply_trait< int(&) ( ) >::print();
 		apply_trait< int(...) >::print();
 		apply_trait< int ( * )(...) >::print();
-		apply_trait< int(&)( ... ) >::print();
+		apply_trait< int(&) ( ... ) >::print();
 		apply_trait< int(int) >::print();
 		apply_trait< int ( * )(int) >::print();
-		apply_trait< int(&)(int) >::print();
+		apply_trait< int(&) (int) >::print();
 		apply_trait< int(int, ...) >::print();
 		apply_trait< int ( * )(int, ...) >::print();
-		apply_trait< int(&)( int, ... ) >::print();
+		apply_trait< int(&) ( int, ... ) >::print();
 		apply_trait< int(char, int) >::print();
 		apply_trait< int ( * )(char, int) >::print();
-		apply_trait< int(&)( char, int ) >::print();
+		apply_trait< int(&) ( char, int ) >::print();
 		apply_trait< int(char, int, ...) >::print();
 		apply_trait< int ( * )(char, int, ...) >::print();
-		apply_trait< int(&)( char, int, ... ) >::print();
+		apply_trait< int(&) ( char, int, ... ) >::print();
 
 		std::cout << "Class types and variations: " << std::endl;
 		apply_trait< Base >::print();

@@ -50,7 +50,7 @@ std::size_t after_last(
 // or (npos, 0) if error
 std::pair< std::size_t, std::size_t > locate_last_path_component(const std::string& s)
 {
-	if ( s.empty())
+	if ( s.empty() )
 	{
 
 		// error

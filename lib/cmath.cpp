@@ -87,7 +87,7 @@ long double beta_implementation(
 	long double w
 )
 {
-	return std::exp(cpp::lgamma(z) + cpp::lgamma(w) - cpp::lgamma(z + w));
+	return std::exp( cpp::lgamma(z) + cpp::lgamma(w) - cpp::lgamma(z + w) );
 }
 
 }
