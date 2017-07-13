@@ -34,11 +34,35 @@
 
 #include <cstddef>
 
+/// @todo Value may not be correct, because as of writing C++17 isn't official
+#if __cplusplus >= 201703L
+#define CPP17
+#endif
 #if __cplusplus >= 201402L
 #define CPP14
 #endif
 #if __cplusplus >= 201103L
 #define CPP11
+#endif
+
+/* Namespace macros. It's sometimes necessary to put something into the "std"
+ * namespace. For example, a specialization of std::hash. These macros can be
+ * used to put the code in the correct namespace.
+ */
+#ifdef CPP17
+#define CPP17_NAMESPACE std
+#else
+#define CPP17_NAMESPACE cpp17
+#endif
+#ifdef CPP14
+#define CPP14_NAMESPACE std
+#else
+#define CPP14_NAMESPACE cpp14
+#endif
+#ifdef CPP11
+#define CPP11_NAMESPACE std
+#else
+#define CPP11_NAMESPACE cpp11
 #endif
 
 namespace cpp11
