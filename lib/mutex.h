@@ -34,8 +34,6 @@
 #ifdef CPP11
 #include <mutex>
 #else
-#include "algorithm.h"
-
 #include "config/os.h"
 
 namespace cpp11
@@ -178,8 +176,14 @@ public:
 
 	void swap(unique_lock& m)
 	{
-		std::swap(owns, m.owns);
-		std::swap(pm, m.pm);
+		bool t1 = owns;
+
+		owns   = m.owns;
+		m.owns = t1;
+
+		mutex_type* t2 = pm;
+		pm   = m.pm;
+		m.pm = t2;
 	}
 
 	mutex_type* release()

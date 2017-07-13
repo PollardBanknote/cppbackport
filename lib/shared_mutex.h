@@ -146,8 +146,14 @@ public:
 
 	void swap(shared_lock& m)
 	{
-		std::swap(owns, m.owns);
-		std::swap(pm, m.pm);
+		bool t1 = owns;
+
+		owns   = m.owns;
+		m.owns = t1;
+
+		mutex_type* t2 = pm;
+		pm   = m.pm;
+		m.pm = t2;
 	}
 
 	bool owns_lock() const
