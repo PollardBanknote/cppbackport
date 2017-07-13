@@ -31,6 +31,7 @@
 #ifndef CPP11
 
 #include <ctime>
+#include "./cstdint.h"
 
 namespace cpp11
 {
@@ -74,7 +75,7 @@ time_point< steady_clock > steady_clock::now()
 
 	if ( ::clock_gettime(CLOCK_MONOTONIC, &ts) == 0 )
 	{
-		return time_point( duration(ts.tv_sec * 1000000000LL + ts.tv_nsec) );
+		return time_point( duration(ts.tv_sec * INT32_C(1000000000) + ts.tv_nsec) );
 	}
 
 	return time_point();
