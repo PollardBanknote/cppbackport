@@ -28,8 +28,6 @@
  */
 /** @file cstdint.h
  * @brief Implementation of C++11 cstdint header
- *
- * @todo Supply stdint.h ourselves via templates
  */
 #ifndef PBL_CPP_CSTDINT_H
 #define PBL_CPP_CSTDINT_H
@@ -39,208 +37,271 @@
 #ifdef CPP11
 // Provided by C++11
 #include <cstdint>
-#define PBL_STDINT_H
 #else
+
+#include <climits>
+
+// Steal some types from the implementation, if we can
 #if !defined( _WIN32 ) && ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )))
 #include <unistd.h>
 #if ( _POSIX_C_SOURCE >= 200112L )
 // Provided by POSIX
 #include <stdint.h>
-#define PBL_STDINT_H
 namespace cpp11
 {
-using ::int8_t;
-using ::int16_t;
-using ::int32_t;
-using ::int64_t;
-using ::uint8_t;
-using ::uint16_t;
-using ::uint32_t;
-using ::uint64_t;
-using ::int_least8_t;
-using ::int_least16_t;
-using ::int_least32_t;
-using ::int_least64_t;
-using ::uint_least8_t;
-using ::uint_least16_t;
-using ::uint_least32_t;
-using ::uint_least64_t;
-using ::int_fast8_t;
-using ::int_fast16_t;
-using ::int_fast32_t;
-using ::int_fast64_t;
-using ::uint_fast8_t;
-using ::uint_fast16_t;
-using ::uint_fast32_t;
-using ::uint_fast64_t;
 using ::intptr_t;
 using ::uintptr_t;
-using ::intmax_t;
-using ::uintmax_t;
 }
+#endif // POSIX
+#endif // UNIX-LIKE
 
-#endif // if ( _POSIX_C_SOURCE >= 200112L )
-#endif // if !defined( _WIN32 ) && ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )))
-#endif // ifdef CPP11
-
-#ifndef PBL_STDINT_H
-#ifdef __GLIBC__
-#if ( __GLIBC__ > 2 || ( __GLIBC__ == 2 && __GLIBC_MINOR__ >= 1 ))
-// Provided by glibc
-#include <stdint.h>
-#define PBL_STDINT_H
-#endif
-#endif
-#endif
-
-#ifndef PBL_STDINT_H
-#include <climits>
-
-/* This implementation isn't quite right... but it's close enough
- */
 namespace cpp11
 {
-namespace detail
-{
-template< typename T >
-struct larger;
+#define AT_LEAST_16_BITS_S(x) ((x) >= 32767)
+#define AT_LEAST_32_BITS_S(x) ((x) >= 2147483647)
+#define AT_LEAST_64_BITS_S(x) ((((((x) >> 15) >> 15) >> 15) >> 15) >= 7)
+#define AT_LEAST_16_BITS_U(x) ((x) >= 65535)
+#define AT_LEAST_32_BITS_U(x) (((x) >> 1) >= 2147483647)
+#define AT_LEAST_64_BITS_U(x) ((((((x) >> 15) >> 15) >> 15) >> 15) >= 15)
 
-template< >
-struct larger< signed char >
-{
-	typedef short int value_type;
-};
+#define EXACTLY_8_BITS_S(x) ((x) == 127)
+#define EXACTLY_16_BITS_S(x) ((x) == 32767)
+#define EXACTLY_32_BITS_S(x) ((x) == 2147483647)
+#define EXACTLY_64_BITS_S(x) ((((((x) >> 15) >> 15) >> 15) >> 15) == 7)
+#define EXACTLY_8_BITS_U(x) ((x) == 255)
+#define EXACTLY_16_BITS_U(x) ((x) == 65535)
+#define EXACTLY_32_BITS_U(x) (((x) >> 1) == 2147483647)
+#define EXACTLY_64_BITS_U(x) ((((((x) >> 15) >> 15) >> 15) >> 15) == 15)
 
-template< >
-struct larger< short int >
-{
-	typedef int value_type;
-};
+// int_least8_t
+typedef signed char int_least8_t;
+#define INT8_C(x) x
+#define INT_LEAST8_MIN SCHAR_MIN
+#define INT_LEAST8_MAX SCHAR_MAX
 
-template< >
-struct larger< int >
-{
-	typedef long int value_type;
-};
-
-#ifdef HAS_LONG_LONG
-template< >
-struct larger< long int >
-{
-	typedef long long int value_type;
-};
+// int8_t
+#if EXACTLY_8_BITS_S(INT_LEAST8_MAX)
+#define INT8_MIN INT_LEAST8_MIN
+#define INT8_MAX INT_LEAST8_MAX
+typedef int_least8_t int8_t;
 #endif
 
-template< >
-struct larger< unsigned char >
-{
-	typedef unsigned short value_type;
-};
+// int_least16_t
+#if AT_LEAST_16_BITS_S(SCHAR_MAX)
+typedef signed char int_least16_t;
+#define INT_LEAST16_MIN SCHAR_MIN
+#define INT_LEAST16_MAX SCHAR_MAX
+#else
+typedef short int int_least16_t;
+#define INT_LEAST16_MIN SHRT_MIN
+#define INT_LEAST16_MAX SHRT_MAX
+#endif
+#define INT16_C(x) x
 
-template< >
-struct larger< unsigned short >
-{
-	typedef unsigned value_type;
-};
-
-template< >
-struct larger< unsigned >
-{
-	typedef unsigned long value_type;
-};
-
-#ifdef HAS_LONG_LONG
-template< >
-struct larger< unsigned long >
-{
-	typedef unsigned long long value_type;
-};
+// int16_t
+#if EXACTLY_16_BITS_S(INT_LEAST8_MAX)
+#define INT16_MIN INT_LEAST16_MIN
+#defien INT16_MAX INT_LEAST16_MAX
+typedef int_least16_t int16_t;
 #endif
 
-template< typename T, unsigned N, bool = ( N <= ( sizeof( T )* CHAR_BIT )) >
-struct at_least;
-
-template< typename T, unsigned N >
-struct at_least< T, N, true >
-{
-	typedef T value_type;
-};
-
-template< typename T, unsigned N >
-struct at_least< T, N, false >
-{
-	typedef typename at_least< typename larger< T >::value_type, N >::value_type value_type;
-};
-
-template< typename T, unsigned N, bool = (( sizeof( T )* CHAR_BIT ) == N ) >
-struct exactly;
-
-template< typename T, unsigned N >
-struct exactly< T, N, true >
-{
-	typedef T value_type;
-};
-
-template< typename T, unsigned N >
-struct exactly< T, N, false >
-{
-	typedef void value_type;
-};
-}
-
-typedef detail::at_least< unsigned char, 8 >::value_type uint_least8_t;
-typedef detail::at_least< uint_least8_t, 16 >::value_type uint_least16_t;
-typedef detail::at_least< uint_least16_t, 32 >::value_type uint_least32_t;
-#ifdef HAS_LONG_LONG
-typedef detail::at_least< uint_least32_t, 64 >::value_type uint_least64_t;
+// int_least32_t
+#if AT_LEAST_32_BITS_S(SCHAR_MAX)
+typedef signed char int_least32_t
+#define INT_LEAST32_MIN SCHAR_MIN
+#define INT_LEAST32_MAX SCHAR_MAX
+#define INT32_C(x) x
+#elif AT_LEAST_32_BITS_S(SHRT_MAX)
+typedef short int int_least32_t
+#define INT_LEAST32_MIN SHRT_MIN
+#define INT_LEAST32_MAX SHRT_MAX
+#define INT32_C(x) x
+#elif AT_LEAST_32_BITS_S(INT_MAX)
+typedef int int_least32_t;
+#define INT_LEAST32_MIN INT_MIN
+#define INT_LEAST32_MAX INT_MAX
+#define INT32_C(x) x
+#else
+typedef long int_least32_t;
+#define INT_LEAST32_MIN LONG_MIN
+#define INT_LEAST32_MAX LONG_MAX
+#define INT32_C(x) x##l
 #endif
 
-typedef detail::at_least< signed char, 8 >::value_type int_least8_t;
-typedef detail::at_least< int_least8_t, 16 >::value_type int_least16_t;
-typedef detail::at_least< int_least16_t, 32 >::value_type int_least32_t;
-#ifdef HAS_LONG_LONG
-typedef detail::at_least< int_least32_t, 64 >::value_type int_least64_t;
+// int32_t
+#if EXACTLY_32_BITS_S(INT_LEAST32_MAX)
+#define INT32_MIN INT_LEAST32_MIN
+#define INT32_MAX INT_LEAST32_MAX
+typedef int_least32_t int32_t;
 #endif
 
-typedef uint_least8_t uint_fast8_t;
-typedef uint_least16_t uint_fast16_t;
-typedef uint_least32_t uint_fast32_t;
-#ifdef HAS_LONG_LONG
-typedef uint_least64_t uint_fast64_t;
+// int_least64_t
+#if AT_LEAST_64_BITS_S(SCHAR_MAX)
+typedef signed char int_least64_t
+#define INT_LEAST64_MIN SCHAR_MIN
+#define INT_LEAST64_MAX SCHAR_MAX
+#define INT64_C(x) x
+#elif AT_LEAST_64_BITS_S(SHRT_MAX)
+typedef short int_least64_t
+#define INT_LEAST64_MIN SHRT_MIN
+#define INT_LEAST64_MAX SHRT_MAX
+#define INT64_C(x) x
+#elif AT_LEAST_64_BITS_S(INT_MAX)
+typedef int int_least64_t;
+#define INT_LEAST64_MIN INT_MIN
+#define INT_LEAST64_MAX INT_MAX
+#define INT64_C(x) x
+#elif AT_LEAST_64_BITS_S(LONG_MAX)
+typedef long int_least64_t;
+#define INT_LEAST64_MIN LONG_MIN
+#define INT_LEAST64_MAX LONG_MAX
+#define INT64_C(x) x##l
+#else
+#ifdef LLONG_MAX
+typedef long long int_least64_t;
+#define INT_LEAST64_MIN LLONG_MIN
+#define INT_LEAST64_MAX LLONG_MAX
+#define INT64_C(x) x##ll
+#endif
 #endif
 
-typedef int_least8_t int_fast8_t;
-typedef int_least16_t int_fast16_t;
-typedef int_least32_t int_fast32_t;
-#ifdef HAS_LONG_LONG
+// int64_t
+#if EXACTLY_64_BITS_S(INT_LEAST64_MAX)
+#define INT64_MIN INT_LEAST64_MIN
+#define INT64_MAX INT_LEAST64_MAX
+typedef int_least64_t int64_t;
+#endif
+
+// uint_least8_t
+typedef unsigned char uint_least8_t;
+#define UINT8_C(x) x
+#define UINT_LEAST8_MAX UCHAR_MAX
+
+// uint8_t
+#if EXACTLY_8_BITS_U(UINT_LEAST8_MAX)
+#define UINT8_MAX UINT_LEAST8_MAX
+typedef uint_least8_t uint8_t;
+#endif
+
+// uint_least16_t
+#if AT_LEAST_16_BITS_U(UCHAR_MAX)
+typedef unsigned char uint_least16_t;
+#define UINT_LEAST16_MAX UCHAR_MAX
+#else
+typedef unsigned short uint_least16_t;
+#define UINT_LEAST16_MAX USHRT_MAX
+#endif
+#define UINT16_C(x) x
+
+// uint16_t
+#if EXACTLY_16_BITS_U(UINT_LEAST16_MAX)
+#define UINT16_MAX UINT_LEAST16_MAX
+typedef uint_least16_t uint16_t;
+#endif
+
+// uint_least32_t
+#if AT_LEAST_32_BITS_U(UCHAR_MAX)
+typedef unsigned char uint_least32_t
+#define UINT_LEAST32_MAX UCHAR_MAX
+#define UINT32_C(x) x
+#elif AT_LEAST_32_BITS_U(USHRT_MAX)
+typedef unsigned short uint_least32_t
+#define UINT_LEAST32_MAX USHRT_MAX
+#define UINT32_C(x) x
+#elif AT_LEAST_32_BITS_U(UINT_MAX)
+typedef unsigned uint_least32_t;
+#define UINT_LEAST32_MAX UINT_MAX
+#define UINT32_C(x) x
+#else
+typedef unsigned long uint_least32_t;
+#define UINT_LEAST32_MAX ULONG_MAX
+#define UINT32_C(x) x##l
+#endif
+
+// uint32_t
+#if EXACTLY_32_BITS_U(UINT_LEAST32_MAX)
+#define UINT32_MAX UINT_LEAST32_MAX
+typedef uint_least32_t uint32_t;
+#endif
+
+// uint_least64_t
+#if AT_LEAST_64_BITS_U(UCHAR_MAX)
+typedef unsigned char uint_least64_t
+#define UINT64_C(x) x
+#define UINT_LEAST64_MAX UCHAR_MAX
+#elif AT_LEAST_64_BITS_U(USHRT_MAX)
+typedef unsigned short uint_least64_t
+#define UINT64_C(x) x
+#define UINT_LEAST64_MAX USHRT_MAX
+#elif AT_LEAST_64_BITS_U(UINT_MAX)
+typedef unsigned uint_least64_t;
+#define UINT64_C(x) x
+#define UINT_LEAST64_MAX UINT_MAX
+#elif AT_LEAST_64_BITS_U(LONG_MAX)
+typedef unsigned long uint_least64_t;
+#define UINT64_C(x) x##l
+#define UINT_LEAST64_MAX ULONG_MAX
+#else
+#ifdef ULLONG_MAX
+typedef unsigned long long uint_least64_t;
+#define UINT64_C(x) x##ll
+#define UINT_LEAST64_MAX ULLONG_MAX
+#endif
+#endif
+
+// uint64_t
+#if EXACTLY_64_BITS_U(UINT_LEAST64_MAX)
+#define UINT64_MAX UINT_LEAST64_MAX
+typedef uint_least64_t uint64_t;
+#endif
+
+typedef signed char int_fast8_t;
+typedef int int_fast16_t;
+typedef long int_fast32_t;
 typedef int_least64_t int_fast64_t;
+
+typedef unsigned char uint_fast8_t;
+typedef unsigned uint_fast16_t;
+typedef unsigned long uint_fast32_t;
+typedef uint_least64_t uint_fast64_t;
+
+#ifdef LLONG_MAX
+typedef long long intmax_t;
+#define INTMAX_C(x) x##ll
+#define INTMAX_MAX LLONG_MAX
+#else
+typedef long intmax_t;
+#define INTMAX_C(x) x##l
+#define INTMAX_MAX LONG_MAX
 #endif
 
-typedef detail::exactly< uint_least8_t, 8 >::value_type uint8_t;
-typedef detail::exactly< uint_least16_t, 16 >::value_type uint16_t;
-typedef detail::exactly< uint_least32_t, 32 >::value_type uint32_t;
-#ifdef HAS_LONG_LONG
-typedef detail::exactly< uint_least64_t, 64 >::value_type uint64_t;
-#endif
-
-typedef detail::exactly< int_least8_t, 8 >::value_type int8_t;
-typedef detail::exactly< int_least16_t, 16 >::value_type int16_t;
-typedef detail::exactly< int_least32_t, 32 >::value_type int32_t;
-#ifdef HAS_LONG_LONG
-typedef detail::exactly< int_least64_t, 64 >::value_type int64_t;
-#endif
-
-#ifdef HAS_LONG_LONG
-typedef long long int intmax_t;
+#ifdef ULLONG_MAX
 typedef unsigned long long uintmax_t;
+#define UINTMAX_C(x) x##ull
+#define UINTMAX_MAX ULLONG_MAX
 #else
-typedef long int intmax_t;
 typedef unsigned long uintmax_t;
+#define UINTMAX_C(x) x##ul
+#define UINTMAX_MAX ULONG_MAX
 #endif
+
+#undef EXACTLY_8_BITS_S
+#undef EXACTLY_16_BITS_S
+#undef EXACTLY_32_BITS_S
+#undef EXACTLY_64_BITS_S
+#undef EXACTLY_8_BITS_U
+#undef EXACTLY_16_BITS_U
+#undef EXACTLY_32_BITS_U
+#undef EXACTLY_64_BITS_U
+
+#undef AT_LEAST_16_BITS_S
+#undef AT_LEAST_32_BITS_S
+#undef AT_LEAST_64_BITS_S
+#undef AT_LEAST_16_BITS_U
+#undef AT_LEAST_32_BITS_U
+#undef AT_LEAST_64_BITS_U
 }
-#else
-#undef PBL_STDINT_H
-#endif // ifndef PBL_STDINT_H
 
-
+#endif // CPP11
 #endif // PBL_CPP_CSTDINT_H
+
