@@ -31,6 +31,8 @@
 
 #include <locale>
 
+#include "version.h"
+
 #if !(__cplusplus >= 201103L) || __GNUC__ < 5
 
 #include <cctype>
