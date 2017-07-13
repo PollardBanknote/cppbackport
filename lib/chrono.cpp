@@ -31,7 +31,7 @@
 #ifndef CPP11
 
 #include <ctime>
-#include "./cstdint.h"
+#include "cstdint.h"
 
 namespace cpp11
 {
