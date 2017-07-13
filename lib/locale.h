@@ -31,7 +31,7 @@
 
 #include <locale>
 
-#if __cplusplus < 201103L || __GLIBCXX__ < 20150422L
+#if !(__cplusplus >= 201103L) || __GNUC__ < 5
 
 #include <cctype>
 
