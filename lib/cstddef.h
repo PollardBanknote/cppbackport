@@ -38,7 +38,7 @@ namespace cpp11
 struct max_align_t
 {
 	long double x;
-} __attribute__( ( aligned ) );
+} __attribute__((aligned));
 }
 #endif
 

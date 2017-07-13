@@ -48,7 +48,7 @@ struct aligned_storage
 	struct type
 	{
 		char data[N];
-	} __attribute( ( aligned(A) ) );
+	} __attribute((aligned (A)));
 };
 #endif
 
@@ -63,7 +63,7 @@ struct aligned_union
 	struct type
 	{
 		char data[Len > sizeof( T ) ? Len : sizeof( T )];
-	} __attribute__( ( aligned ) );
+	} __attribute__(( aligned ));
 };
 #endif
 }
