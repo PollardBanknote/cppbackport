@@ -261,5 +261,5 @@ private:
 	R max;
 };
 }
-#endif // if __cplusplus >= 201102L
+#endif
 #endif // PBL_CPP_RANDOM_H

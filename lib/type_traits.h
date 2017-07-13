@@ -43,7 +43,7 @@
 
 #ifndef CPP11
 #include "traits/declval.h"
-#endif // if __cplusplus >= 201102L
+#endif
 
 #ifndef CPP14
 #include "traits/add_cv.h"
