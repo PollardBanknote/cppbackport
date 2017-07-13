@@ -42,7 +42,7 @@ path absolute(const path& filename)
 {
 	if ( !filename.empty() )
 	{
-		#if ( ( defined( _POSIX_VERSION ) && _POSIX_VERSION >= 200809l ) || defined( __GLIBC__ ) )
+		#if (( defined( _POSIX_VERSION ) && _POSIX_VERSION >= 200809l ) || defined( __GLIBC__ ))
 		// Preferred - POSIX-2008 and glibc will allocate the path buffer
 		char* res = ::realpath(filename.c_str(), NULL);
 
@@ -67,7 +67,7 @@ path absolute(const path& filename)
 			return s;
 		}
 
-		#elif ( ( ( defined( _POSIX_VERSION ) && _POSIX_VERSION >= 200112L ) || ( defined( _XOPEN_VERSION ) && _XOPEN_VERSION >= 500 ) ) && defined( PATH_MAX ) )
+		#elif ((( defined( _POSIX_VERSION ) && _POSIX_VERSION >= 200112L ) || ( defined( _XOPEN_VERSION ) && _XOPEN_VERSION >= 500 )) && defined( PATH_MAX ))
 		/// @todo PATH_MAX may be huge or -1, according to man pages for realpath
 		char  resolved[PATH_MAX + 1];
 		char* res = ::realpath(filename.c_str(), resolved);
