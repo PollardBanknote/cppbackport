@@ -42,7 +42,7 @@
 #include <climits>
 
 // Steal some types from the implementation, if we can
-#if !defined( _WIN32 ) && ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )  ) )
+#if !defined( _WIN32 ) && ( defined( __unix__ ) || defined( __unix ) || ( defined( __APPLE__ ) && defined( __MACH__ )))
 #include <unistd.h>
 #if ( _POSIX_C_SOURCE >= 200112L )
 // Provided by POSIX
@@ -57,32 +57,32 @@ using ::uintptr_t;
 
 namespace cpp11
 {
-#define AT_LEAST_16_BITS_S(x) ( ( x ) >= 32767 )
-#define AT_LEAST_32_BITS_S(x) ( ( x ) >= 2147483647 )
-#define AT_LEAST_64_BITS_S(x) ( ( ( ( ( ( x ) >> 15 ) >> 15 ) >> 15 ) >> 15 ) >= 7 )
-#define AT_LEAST_16_BITS_U(x) ( ( x ) >= 65535 )
-#define AT_LEAST_32_BITS_U(x) ( ( ( x ) >> 1 ) >= 2147483647 )
-#define AT_LEAST_64_BITS_U(x) ( ( ( ( ( ( x ) >> 15 ) >> 15 ) >> 15 ) >> 15 ) >= 15 )
+#define AT_LEAST_16_BITS_S(x) ((x) >= 32767)
+#define AT_LEAST_32_BITS_S(x) ((x) >= 2147483647)
+#define AT_LEAST_64_BITS_S(x) ((((((x) >> 15) >> 15) >> 15) >> 15) >= 7)
+#define AT_LEAST_16_BITS_U(x) ((x) >= 65535)
+#define AT_LEAST_32_BITS_U(x) (((x) >> 1) >= 2147483647)
+#define AT_LEAST_64_BITS_U(x) ((((((x) >> 15) >> 15) >> 15) >> 15) >= 15)
 
-#define EXACTLY_8_BITS_S(x)   ( ( x ) == 127 )
-#define EXACTLY_16_BITS_S(x)  ( ( x ) == 32767 )
-#define EXACTLY_32_BITS_S(x)  ( ( x ) == 2147483647 )
-#define EXACTLY_64_BITS_S(x)  ( ( ( ( ( ( x ) >> 15 ) >> 15 ) >> 15 ) >> 15 ) == 7 )
-#define EXACTLY_8_BITS_U(x)   ( ( x ) == 255 )
-#define EXACTLY_16_BITS_U(x)  ( ( x ) == 65535 )
-#define EXACTLY_32_BITS_U(x)  ( ( ( x ) >> 1 ) == 2147483647 )
-#define EXACTLY_64_BITS_U(x)  ( ( ( ( ( ( x ) >> 15 ) >> 15 ) >> 15 ) >> 15 ) == 15 )
+#define EXACTLY_8_BITS_S(x) ((x) == 127)
+#define EXACTLY_16_BITS_S(x) ((x) == 32767)
+#define EXACTLY_32_BITS_S(x) ((x) == 2147483647)
+#define EXACTLY_64_BITS_S(x) ((((((x) >> 15) >> 15) >> 15) >> 15) == 7)
+#define EXACTLY_8_BITS_U(x) ((x) == 255)
+#define EXACTLY_16_BITS_U(x) ((x) == 65535)
+#define EXACTLY_32_BITS_U(x) (((x) >> 1) == 2147483647)
+#define EXACTLY_64_BITS_U(x) ((((((x) >> 15) >> 15) >> 15) >> 15) == 15)
 
 // int_least8_t
 typedef signed char int_least8_t;
-#define INT8_C(x)             x
+#define INT8_C(x) x
 #define INT_LEAST8_MIN SCHAR_MIN
 #define INT_LEAST8_MAX SCHAR_MAX
 
 // int8_t
 #if EXACTLY_8_BITS_S(INT_LEAST8_MAX)
-#define INT8_MIN       INT_LEAST8_MIN
-#define INT8_MAX       INT_LEAST8_MAX
+#define INT8_MIN INT_LEAST8_MIN
+#define INT8_MAX INT_LEAST8_MAX
 typedef int_least8_t int8_t;
 #endif
 
@@ -125,61 +125,61 @@ typedef int int_least32_t;
 typedef long int_least32_t;
 #define INT_LEAST32_MIN LONG_MIN
 #define INT_LEAST32_MAX LONG_MAX
-#define INT32_C(x) x ## l
-	#endif
+#define INT32_C(x) x##l
+#endif
 
 // int32_t
-	#if EXACTLY_32_BITS_S(INT_LEAST32_MAX)
+#if EXACTLY_32_BITS_S(INT_LEAST32_MAX)
 #define INT32_MIN INT_LEAST32_MIN
 #define INT32_MAX INT_LEAST32_MAX
-    typedef int_least32_t int32_t;
-	#endif
+typedef int_least32_t int32_t;
+#endif
 
 // int_least64_t
-	#if AT_LEAST_64_BITS_S(SCHAR_MAX)
-    typedef signed char int_least64_t
+#if AT_LEAST_64_BITS_S(SCHAR_MAX)
+typedef signed char int_least64_t
 #define INT_LEAST64_MIN SCHAR_MIN
 #define INT_LEAST64_MAX SCHAR_MAX
 #define INT64_C(x) x
-	#elif AT_LEAST_64_BITS_S(SHRT_MAX)
-    typedef short int_least64_t
+#elif AT_LEAST_64_BITS_S(SHRT_MAX)
+typedef short int_least64_t
 #define INT_LEAST64_MIN SHRT_MIN
 #define INT_LEAST64_MAX SHRT_MAX
 #define INT64_C(x) x
-	#elif AT_LEAST_64_BITS_S(INT_MAX)
-    typedef int int_least64_t;
+#elif AT_LEAST_64_BITS_S(INT_MAX)
+typedef int int_least64_t;
 #define INT_LEAST64_MIN INT_MIN
 #define INT_LEAST64_MAX INT_MAX
 #define INT64_C(x) x
-	#elif AT_LEAST_64_BITS_S(LONG_MAX)
-    typedef long int_least64_t;
+#elif AT_LEAST_64_BITS_S(LONG_MAX)
+typedef long int_least64_t;
 #define INT_LEAST64_MIN LONG_MIN
 #define INT_LEAST64_MAX LONG_MAX
-#define INT64_C(x) x ## l
-	#else
-	#ifdef LLONG_MAX
-    typedef long long int_least64_t;
+#define INT64_C(x) x##l
+#else
+#ifdef LLONG_MAX
+typedef long long int_least64_t;
 #define INT_LEAST64_MIN LLONG_MIN
 #define INT_LEAST64_MAX LLONG_MAX
-#define INT64_C(x) x ## ll
-	#endif
-		#endif // if AT_LEAST_64_BITS_S(SCHAR_MAX)
+#define INT64_C(x) x##ll
+#endif
+#endif
 
 // int64_t
-		#if EXACTLY_64_BITS_S(INT_LEAST64_MAX)
+#if EXACTLY_64_BITS_S(INT_LEAST64_MAX)
 #define INT64_MIN INT_LEAST64_MIN
 #define INT64_MAX INT_LEAST64_MAX
-        typedef int_least64_t int64_t;
-		#endif
+typedef int_least64_t int64_t;
+#endif
 
 // uint_least8_t
-        typedef unsigned char uint_least8_t;
+typedef unsigned char uint_least8_t;
 #define UINT8_C(x) x
 #define UINT_LEAST8_MAX UCHAR_MAX
 
 // uint8_t
 #if EXACTLY_8_BITS_U(UINT_LEAST8_MAX)
-#define UINT8_MAX       UINT_LEAST8_MAX
+#define UINT8_MAX UINT_LEAST8_MAX
 typedef uint_least8_t uint8_t;
 #endif
 
@@ -215,47 +215,47 @@ typedef unsigned uint_least32_t;
 #else
 typedef unsigned long uint_least32_t;
 #define UINT_LEAST32_MAX ULONG_MAX
-#define UINT32_C(x) x ## l
-	#endif
+#define UINT32_C(x) x##l
+#endif
 
 // uint32_t
-	#if EXACTLY_32_BITS_U(UINT_LEAST32_MAX)
+#if EXACTLY_32_BITS_U(UINT_LEAST32_MAX)
 #define UINT32_MAX UINT_LEAST32_MAX
-    typedef uint_least32_t uint32_t;
-	#endif
+typedef uint_least32_t uint32_t;
+#endif
 
 // uint_least64_t
-	#if AT_LEAST_64_BITS_U(UCHAR_MAX)
-    typedef unsigned char uint_least64_t
+#if AT_LEAST_64_BITS_U(UCHAR_MAX)
+typedef unsigned char uint_least64_t
 #define UINT64_C(x) x
 #define UINT_LEAST64_MAX UCHAR_MAX
-	#elif AT_LEAST_64_BITS_U(USHRT_MAX)
-    typedef unsigned short uint_least64_t
+#elif AT_LEAST_64_BITS_U(USHRT_MAX)
+typedef unsigned short uint_least64_t
 #define UINT64_C(x) x
 #define UINT_LEAST64_MAX USHRT_MAX
-	#elif AT_LEAST_64_BITS_U(UINT_MAX)
-    typedef unsigned uint_least64_t;
+#elif AT_LEAST_64_BITS_U(UINT_MAX)
+typedef unsigned uint_least64_t;
 #define UINT64_C(x) x
 #define UINT_LEAST64_MAX UINT_MAX
-	#elif AT_LEAST_64_BITS_U(LONG_MAX)
-    typedef unsigned long uint_least64_t;
-#define UINT64_C(x) x ## l
+#elif AT_LEAST_64_BITS_U(LONG_MAX)
+typedef unsigned long uint_least64_t;
+#define UINT64_C(x) x##l
 #define UINT_LEAST64_MAX ULONG_MAX
-	#else
-	#ifdef ULLONG_MAX
-    typedef unsigned long long uint_least64_t;
-#define UINT64_C(x) x ## ll
+#else
+#ifdef ULLONG_MAX
+typedef unsigned long long uint_least64_t;
+#define UINT64_C(x) x##ll
 #define UINT_LEAST64_MAX ULLONG_MAX
-	#endif
-		#endif // if AT_LEAST_64_BITS_U(UCHAR_MAX)
+#endif
+#endif
 
 // uint64_t
-		#if EXACTLY_64_BITS_U(UINT_LEAST64_MAX)
+#if EXACTLY_64_BITS_U(UINT_LEAST64_MAX)
 #define UINT64_MAX UINT_LEAST64_MAX
-        typedef uint_least64_t uint64_t;
-		#endif
+typedef uint_least64_t uint64_t;
+#endif
 
-        typedef signed char int_fast8_t;
+typedef signed char int_fast8_t;
 typedef int int_fast16_t;
 typedef long int_fast32_t;
 typedef int_least64_t int_fast64_t;
@@ -267,21 +267,21 @@ typedef uint_least64_t uint_fast64_t;
 
 #ifdef LLONG_MAX
 typedef long long intmax_t;
-#define INTMAX_C(x) x ## ll
+#define INTMAX_C(x) x##ll
 #define INTMAX_MAX LLONG_MAX
 #else
 typedef long intmax_t;
-#define INTMAX_C(x) x ## l
+#define INTMAX_C(x) x##l
 #define INTMAX_MAX LONG_MAX
 #endif
 
 #ifdef ULLONG_MAX
 typedef unsigned long long uintmax_t;
-#define UINTMAX_C(x) x ## ull
+#define UINTMAX_C(x) x##ull
 #define UINTMAX_MAX ULLONG_MAX
 #else
 typedef unsigned long uintmax_t;
-#define UINTMAX_C(x) x ## ul
+#define UINTMAX_C(x) x##ul
 #define UINTMAX_MAX ULONG_MAX
 #endif
 
@@ -304,3 +304,4 @@ typedef unsigned long uintmax_t;
 
 #endif // CPP11
 #endif // PBL_CPP_CSTDINT_H
+

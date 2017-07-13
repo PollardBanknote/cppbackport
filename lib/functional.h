@@ -611,7 +611,7 @@ struct hash< T*, void >
 {
 	std::size_t operator()(T* p) const
 	{
-		details::uinthash< sizeof( uintptr_t )* CHAR_BIT > h;
+		details::uinthash< sizeof( uintptr_t ) * CHAR_BIT > h;
 		return h( reinterpret_cast< uintptr_t >( p ) );
 	}
 
@@ -622,7 +622,7 @@ struct hash< T, typename enable_if< is_unsigned< T >::value >::type >
 {
 	std::size_t operator()(T x) const
 	{
-		details::uinthash< sizeof( T )* CHAR_BIT > h;
+		details::uinthash< sizeof( T ) * CHAR_BIT > h;
 		return h(x);
 	}
 
@@ -633,7 +633,7 @@ struct hash< T, typename enable_if< is_signed< T >::value >::type >
 {
 	std::size_t operator()(T x) const
 	{
-		details::uinthash< sizeof( T )* CHAR_BIT > h;
+		details::uinthash< sizeof( T ) * CHAR_BIT > h;
 		return h( static_cast< typename make_unsigned< T >::type >( x ) );
 	}
 
