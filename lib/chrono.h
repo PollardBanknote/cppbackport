@@ -60,7 +60,7 @@ class duration
 {
 public:
 	typedef Rep rep;
-	typedef Period period;
+	typedef typename Period::type period;
 
 	duration()
 		: r(0)
@@ -81,9 +81,82 @@ public:
 		r = d.count() * Helper::q / Helper::p;
 	}
 
+	static duration zero()
+	{
+		return duration(0);
+	}
+
 	rep count() const
 	{
 		return r;
+	}
+
+	duration operator+() const
+	{
+		return duration(*this);
+	}
+
+	duration operator-() const
+	{
+		return duration(-r);
+	}
+
+	duration& operator++()
+	{
+		++r;
+		return *this;
+	}
+
+	duration operator++(int)
+	{
+		return duration(r++);
+	}
+
+	duration& operator--()
+	{
+		--r;
+		return *this;
+	}
+
+	duration operator--(int)
+	{
+		return duration(r--);
+	}
+
+	duration& operator+=(const duration& d)
+	{
+		r += d.r;
+		return *this;
+	}
+
+	duration& operator-=(const duration& d)
+	{
+		r -= d.r;
+		return *this;
+	}
+
+	duration& operator*=(const rep& rhs)
+	{
+		r *= rhs;
+		return *this;
+	}
+
+	duration& operator/=(const rep& rhs)
+	{
+		r /= rhs;
+		return *this;
+	}
+
+	duration& operator%=(const rep& rhs)
+	{
+		r %= rhs;
+		return *this;
+	}
+
+	duration& operator%=(const duration& rhs)
+	{
+		r %= rhs.r;
+		return *this;
 	}
 
 private:
