@@ -34,140 +34,569 @@
 #ifdef CPP11
 #include <unordered_set>
 #else
-// Repackage TR1
-#include <tr1/unordered_set>
+#include <vector>
+#include <algorithm>
+#include "memory.h"
+#include "functional.h"
+
 namespace cpp11
 {
-template< class Key, class Hash = std::tr1::hash< Key >, class KeyEqual = std::equal_to< Key >, class Allocator = std::allocator< Key > >
+template< class Key, class Hash = hash< Key >, class KeyEqual = std::equal_to< Key > >
 class unordered_set
 {
-	typedef std::tr1::unordered_set< Key, Hash, KeyEqual, Allocator > container_type;
+	struct node
+	{
+		node(
+			node*       p,
+			std::size_t h,
+			const Key&  x
+		)
+			: next(p), hash(h), value(x)
+		{
+
+		}
+
+		node* next;
+		std::size_t hash;
+		Key value;
+	};
 public:
 	typedef Key key_type;
 	typedef Key value_type;
-	typedef typename container_type::size_type size_type;
-	typedef typename container_type::difference_type difference_type;
+	typedef std::size_t size_type;
+	typedef std::ptrdiff_t difference_type;
 	typedef Hash hasher;
 	typedef KeyEqual key_equal;
-	typedef Allocator allocator_type;
 	typedef value_type& reference;
 	typedef const value_type& const_reference;
-	typedef value_type* pointer;
-	typedef const value_type* const_pointer;
-	typedef typename container_type::iterator iterator;
-	typedef typename container_type::const_iterator const_iterator;
+	typedef Key* pointer;
+	typedef const Key* const_pointer;
 
-	std::pair< iterator, bool > insert(const value_type& value)
+	class const_iterator
 	{
-		return inner.insert(value);
+public:
+		const_iterator()
+			: curr(0), bin(0), parent(0)
+		{
+		}
+
+		const_iterator& operator++()
+		{
+			if ( curr )
+			{
+				if ( curr->next )
+				{
+					// next within same bin
+					curr = curr->next;
+				}
+				else
+				{
+					// next bin
+					const std::size_t n = parent->bins.size();
+
+					for ( std::size_t i = bin + 1; i < n; ++i )
+					{
+						if ( parent->bins[i] )
+						{
+							curr = parent->bins[i];
+							bin  = i;
+							return *this;
+						}
+					}
+
+					curr = 0;
+					bin  = n;
+				}
+			}
+
+			return *this;
+		}
+
+		const_reference operator*() const
+		{
+			return curr->value;
+		}
+
+		bool operator==(const const_iterator& o) const
+		{
+			return parent == o.parent && curr == o.curr;
+		}
+
+		bool operator!=(const const_iterator& o) const
+		{
+			return parent != o.parent || curr != o.curr;
+		}
+
+private:
+		friend class unordered_set;
+
+		const_iterator(
+			const unordered_set* p,
+			node*                n,
+			std::size_t          b
+		)
+			: parent(p), curr(n), bin(b)
+		{
+
+		}
+
+		const unordered_set* parent;
+		node*                curr;
+		std::size_t          bin;
+	};
+
+	class const_local_iterator
+	{
+public:
+		const_local_iterator()
+			: curr(0), parent(0)
+		{
+		}
+
+		const_local_iterator& operator++()
+		{
+			if ( curr )
+			{
+				curr = curr->next;
+			}
+
+			return *this;
+		}
+
+		const_reference operator*() const
+		{
+			return curr->value;
+		}
+
+		bool operator==(const const_local_iterator& o) const
+		{
+			return parent == o.parent && curr == o.curr;
+		}
+
+		bool operator!=(const const_local_iterator& o) const
+		{
+			return parent != o.parent || curr != o.curr;
+		}
+
+private:
+		friend class unordered_set;
+
+		const_local_iterator(
+			const unordered_set* p,
+			node*                n
+		)
+			: parent(p), curr(n)
+		{
+
+		}
+
+		const unordered_set* parent;
+		node*                curr;
+	};
+
+	typedef const_iterator iterator;
+	typedef const_local_iterator local_iterator;
+
+	unordered_set()
+		: load(0)
+	{
 	}
 
-	iterator begin()
+	unordered_set(const unordered_set& o)
+		: eq(o.eq), hash(o.hash), load(o.load)
 	{
-		return inner.begin();
+		const std::size_t n = o.bins.size();
+
+		bins.resize(n);
+
+		for ( std::size_t i = 0; i < n; ++i )
+		{
+			node* p = o.bins[i];
+
+			while ( p )
+			{
+				node* q = p->next;
+
+				bins[i] = new node(bins[i], p->hash, p->value);
+
+				p = q;
+			}
+		}
 	}
 
-	const_iterator begin() const
+	unordered_set(
+		size_type       n,
+		const Hash&     hash_ = Hash(),
+		const KeyEqual& equal = KeyEqual()
+	)
+		: eq(equal), hash(hash_), bins(n, 0), load(0)
 	{
-		return inner.begin();
+
 	}
 
-	const_iterator cbegin() const
+	~unordered_set()
 	{
-		return inner.begin();
+		clear();
 	}
 
-	iterator end()
+	unordered_set& operator=(const unordered_set& o)
 	{
-		return inner.end();
-	}
+		unordered_set t(o);
 
-	const_iterator end() const
-	{
-		return inner.end();
-	}
-
-	const_iterator cend() const
-	{
-		return inner.end();
-	}
-
-	allocator_type get_allocator() const
-	{
-		return inner.get_allocator();
+		swap(t);
+		return *this;
 	}
 
 	bool empty() const
 	{
-		return inner.empty();
+		return load == 0;
 	}
 
 	size_type size() const
 	{
-		return inner.size();
-	}
-
-	size_type max_size() const
-	{
-		return inner.max_size();
+		return load;
 	}
 
 	void clear()
 	{
-		inner.clear();
-	}
+		for ( std::size_t i = 0, n = bins.size(); i < n; ++i )
+		{
+			node* p = bins[i];
 
-	iterator erase(const_iterator pos)
-	{
-		return inner.erase(pos);
-	}
+			while ( p )
+			{
+				node* q = p->next;
+				delete p;
+				p = q;
+			}
 
-	iterator erase(
-		const_iterator first,
-		const_iterator last
-	)
-	{
-		return inner.erase(first, last);
-	}
+			bins[i] = 0;
+		}
 
-	size_type erase(const key_type& key)
-	{
-		return inner.erase(key);
+		load = 0;
 	}
 
 	void swap(unordered_set& o)
 	{
-		inner.swap(o.inner);
+		using std::swap;
+
+		swap(bins, o.bins);
+		swap(load, o.load);
+		swap(eq, o.eq);
+		swap(hash, o.hash);
 	}
 
-	size_type count(const Key& key) const
+	const_iterator cbegin() const
 	{
-		return inner.count(key);
+		const std::size_t n = bins.size();
+
+		for ( std::size_t i = 0; i < n; ++i )
+		{
+			if ( bins[i] )
+			{
+				return const_iterator(this, bins[i], i);
+			}
+		}
+
+		return cend();
 	}
 
-	iterator find(const Key& key)
+	const_iterator begin() const
 	{
-		return inner.find(key);
+		return cbegin();
 	}
 
-	const_iterator find(const Key& key) const
+	const_iterator cend() const
 	{
-		return inner.find(key);
+		return const_iterator( this, 0, bins.size() );
 	}
 
-	std::pair< iterator, iterator > equal_range(const Key& key)
+	const_iterator end() const
 	{
-		return inner.equal_range(key);
+		return cend();
 	}
 
-	std::pair< const_iterator, const_iterator > equal_range(const Key& key) const
+	size_type bucket(const value_type& v) const
 	{
-		return inner.equal_range(key);
+		return hash(v) % bins.size();
+	}
+
+	const_local_iterator cbegin(size_type b) const
+	{
+		if ( b < bins.size() )
+		{
+			return const_local_iterator(this, bins[b]);
+		}
+
+		return cend(b);
+	}
+
+	const_local_iterator cend(size_type b) const
+	{
+		return const_local_iterator(this, 0);
+	}
+
+	local_iterator begin(size_type b)
+	{
+		return cbegin(b);
+	}
+
+	local_iterator end(size_type b)
+	{
+		return cend(b);
+	}
+
+	const_iterator find(const value_type& v) const
+	{
+		const std::size_t n = bins.size();
+
+		// Check if the value is already in the set
+		if ( n != 0 )
+		{
+			const std::size_t h = hash(v);
+
+			const std::size_t idx = h % n;
+
+			node* p = bins[idx];
+
+			while ( p )
+			{
+				if ( eq(p->value, v) )
+				{
+					return const_iterator(this, p, idx);
+				}
+
+				p = p->next;
+			}
+		}
+
+		// Not found
+		return cend();
+	}
+
+	size_type count(const value_type& v) const
+	{
+		return find(v) == cend() ? 0 : 1;
+	}
+
+	hasher hash_function() const
+	{
+		return hash;
+	}
+
+	key_equal key_eq() const
+	{
+		return eq;
+	}
+
+	bool insert(const value_type& v)
+	{
+		std::size_t n = bins.size();
+
+		const std::size_t h = hash(v);
+
+		std::size_t idx = 0;
+
+		// Check if the value is already in the set
+		if ( n != 0 )
+		{
+			idx = h % n;
+
+			node* p = bins[idx];
+
+			while ( p )
+			{
+				if ( eq(p->value, v) )
+				{
+					return false;
+				}
+
+				p = p->next;
+			}
+		}
+
+		if ( load == n )
+		{
+			/* at maximum load factor. We're going to use the underlying growth
+			 * of vector to decide our hash table size. Usually, the following
+			 * line would trigger that.
+			 */
+			std::vector< node* > t(n + 1, 0);
+
+			// grow to capacity
+			n = t.capacity();
+			t.resize(n);
+
+			for ( std::size_t i = 0; i < load; ++i )
+			{
+				node* p = bins[i];
+
+				while ( p )
+				{
+					const std::size_t j = p->hash % n;
+					node* const       q = p->next;
+					p->next = t[j];
+					t[j]    = p;
+					p       = q;
+				}
+			}
+
+			bins.swap(t);
+			idx = h % n;
+		}
+
+		// Do the insertion
+		bins[idx] = new node(bins[idx], h, v);
+		++load;
+		return true;
+	}
+
+	size_type erase(const value_type& v)
+	{
+		const std::size_t n = bins.size();
+
+		// Check if the value is already in the set
+		if ( n != 0 )
+		{
+			const std::size_t h = hash(v);
+
+			const std::size_t idx = h % n;
+
+			if ( node* p = bins[idx] )
+			{
+				if ( eq(p->value, v) )
+				{
+					// first element must be handled specially
+					bins[idx] = p->next;
+					delete p;
+					--load;
+					return 1;
+				}
+
+				node* q = p;
+				p = p->next;
+
+				while ( p )
+				{
+					if ( eq(p->value, v) )
+					{
+						q->next = p->next;
+						delete p;
+						--load;
+						return 1;
+					}
+
+					q = p;
+					p = p->next;
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	iterator erase(const_iterator pos)
+	{
+		if ( pos.parent == this && pos.curr )
+		{
+			if ( node* p = bins[pos.bin] )
+			{
+				const_iterator jt = pos;
+				++jt;
+
+				if ( p == pos.curr )
+				{
+					// Bin head
+					bins[pos.bin] = p->next;
+					delete p;
+					--load;
+					return jt;
+				}
+
+				node* q = p;
+				p = p->next;
+
+				while ( p )
+				{
+					if ( p == pos.curr )
+					{
+						q->next = p->next;
+						delete p;
+						--load;
+						return jt;
+					}
+
+					q = p;
+					p = p->next;
+				}
+			}
+		}
+
+		return cend();
+	}
+
+	size_type bucket_count() const
+	{
+		return bins.size();
+	}
+
+	float load_factor() const
+	{
+		if ( !bins.empty() )
+		{
+			return static_cast< float >( static_cast< double >( load ) / static_cast< double >( bins.size() ) );
+		}
+
+		return 0;
+	}
+
+	float max_load_factor() const
+	{
+		return 1;
+	}
+
+	void rehash(size_type n_)
+	{
+		size_type n = std::max( n_, std::max< size_type >( 8, static_cast< size_type >( load / max_load_factor() ) ) );
+
+		std::vector< node* > t(n, 0);
+
+		for ( std::size_t i = 0, m = bins.size(); i < m; ++i )
+		{
+			node* p = bins[i];
+
+			while ( p )
+			{
+				const std::size_t j = p->hash % n;
+				node* const       q = p->next;
+				p->next = t[j];
+				t[j]    = p;
+				p       = q;
+			}
+		}
+
+		bins.swap(t);
 	}
 
 private:
-	container_type inner;
+	key_equal            eq;
+	hasher               hash;
+	std::vector< node* > bins;
+	std::size_t          load;
 };
+}
+
+namespace std
+{
+template< typename K, typename H, typename E >
+void swap(
+	cpp11::unordered_set< K, H, E >& l,
+	cpp11::unordered_set< K, H, E >& r
+)
+{
+	l.swap(r);
+}
+
 }
 #endif // ifdef CPP11
 
