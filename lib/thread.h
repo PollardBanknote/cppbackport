@@ -110,6 +110,31 @@ private:
 		Arg1 a1;
 	};
 
+	template< typename R, typename C >
+	class runnable_wrapper< R ( C::* )(), C*, void, void >
+		: public details::runnable
+	{
+public:
+		typedef R (C::* F)();
+
+		runnable_wrapper(
+			F  f_,
+			C* a1_
+		)
+			: f(f_), a1(a1_)
+		{
+		}
+
+		void operator()()
+		{
+			( a1->*f )();
+		}
+
+private:
+		F  f;
+		C* a1;
+	};
+
 	template< typename F >
 	class runnable_wrapper< F, void, void, void >
 		: public details::runnable
