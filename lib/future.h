@@ -147,6 +147,7 @@ class future;
 template< typename T >
 void swap(future< T >& f, future< T >& g);
 
+/// @bug future does not have a swap member
 template< class T >
 class future
 {

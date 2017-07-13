@@ -52,8 +52,6 @@ namespace filesystem
  * @note Only end iterators are ever considered equal. In particular, two
  * directory_iterator-s constructed with the same argument may not point to the
  * same file.
- *
- * @todo recursive_directory_iterator
  */
 class directory_iterator
 {
