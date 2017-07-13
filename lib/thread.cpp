@@ -30,8 +30,7 @@
 
 #ifndef CPP11
 #include <stdexcept>
-
-#include "algorithm.h"
+#include <algorithm>
 
 #include <unistd.h>
 
