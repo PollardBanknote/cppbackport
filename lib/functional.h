@@ -36,8 +36,13 @@
 #ifndef CPP11
 #include <exception>
 
+#include "cstdint.h"
 #include "rvalueref.h"
-#include "type_traits.h"
+#include "traits/enable_if.h"
+#include "traits/remove_reference.h"
+#include "traits/is_unsigned.h"
+#include "traits/is_signed.h"
+#include "traits/make_unsigned.h"
 #include "memory.h"
 
 namespace cpp11
@@ -557,6 +562,82 @@ reference_wrapper< const T > cref(reference_wrapper< T > t)
 {
 	return cref(t.get());
 }
+
+namespace details
+{
+template< std::size_t >
+struct uinthash;
+
+template< >
+struct uinthash< 32 >
+{
+	std::size_t operator()(uint32_t x) const
+	{
+		x = ( x + 0x7ed55d16 ) + ( x << 12 );
+		x = ( x ^ 0xc761c23c ) ^ ( x >> 19 );
+		x = ( x + 0x165667b1 ) + ( x << 5 );
+		x = ( x + 0xd3a2646c ) ^ ( x << 9 );
+		x = ( x + 0xfd7046c5 ) + ( x << 3 );
+		x = ( x ^ 0xb55a4f09 ) ^ ( x >> 16 );
+		return x;
+	}
+
+};
+
+template< >
+struct uinthash< 64 >
+{
+	std::size_t operator()(uint64_t x) const
+	{
+		x = ( ~x ) + ( x << 21 );
+		x = x ^ ( x >> 24 );
+		x = ( x + ( x << 3 ) ) + ( x << 8 );
+		x = x ^ ( x >> 14 );
+		x = ( x + ( x << 2 ) ) + ( x << 4 );
+		x = x ^ ( x >> 28 );
+		x = x + ( x << 31 );
+		return x;
+	}
+
+};
+}
+
+template< class T, class Enable = void >
+struct hash;
+
+// partial specialization for pointers
+template< typename T >
+struct hash< T*, void >
+{
+	std::size_t operator()(T* p) const
+	{
+		details::uinthash< sizeof( uintptr_t ) * CHAR_BIT > h;
+		return h( reinterpret_cast< uintptr_t >( p ) );
+	}
+
+};
+
+template< typename T >
+struct hash< T, typename enable_if< is_unsigned< T >::value >::type >
+{
+	std::size_t operator()(T x) const
+	{
+		details::uinthash< sizeof( T ) * CHAR_BIT > h;
+		return h(x);
+	}
+
+};
+
+template< typename T >
+struct hash< T, typename enable_if< is_signed< T >::value >::type >
+{
+	std::size_t operator()(T x) const
+	{
+		details::uinthash< sizeof( T ) * CHAR_BIT > h;
+		return h( static_cast< typename make_unsigned< T >::type >( x ) );
+	}
+
+};
 
 }
 #endif // ifndef CPP11
