@@ -36,7 +36,7 @@
 namespace cpp11
 {
 #if _XOPEN_SOURCE >= 600 || _ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L
-void _Exit(int code) __attribute__( ( noreturn ) );
+void _Exit(int code) __attribute__(( noreturn ));
 
 inline void _Exit(int code)
 {

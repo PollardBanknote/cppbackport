@@ -60,10 +60,16 @@ struct aligned_union
 
 	// This is actually over-aligned, but since we expect to completely remove
 	// this in favour of C++11, we don't really care.
+    #ifdef __GNUG__
 	struct type
 	{
 		char data[Len > sizeof( T ) ? Len : sizeof( T )];
 	} __attribute__(( aligned ));
+    #elif defined(_MSC_VER)
+    struct __declspec(align(16)) type
+    {
+        char data[Len > sizeof( T ) ? Len : sizeof( T )];
+    };
 };
 #endif
 }
