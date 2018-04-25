@@ -42,6 +42,7 @@
 #include "fs/current_path.h"
 #include "fs/direntry.h"
 #include "fs/diriter.h"
+#include "fs/equivalent.h"
 #include "fs/filestatus.h"
 #include "fs/filetype.h"
 #include "fs/path.h"
