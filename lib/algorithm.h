@@ -381,5 +381,26 @@ namespace cpp14
 }
 #endif // ifndef CPP14
 
+#ifndef CPP17
+namespace cpp17
+{
+template< typename T, class Compare >
+const T& clamp(const T& value, const T& lo, const T& hi, Compare comp)
+{
+    if (comp(value, lo))
+        return lo;
+    if (comp(hi, v))
+        return hi;
+    return value;
+}
+
+template< typename T >
+const T& clamp(const T& value, const T& lo, const T& hi)
+{
+    return ::cpp17::clamp(value, lo, hi, std::less<>());
+}
+}
+#endif
+
 
 #endif // PBL_CPP_ALGORITHM_H
