@@ -70,6 +70,7 @@ struct aligned_union
     {
         char data[Len > sizeof( T ) ? Len : sizeof( T )];
     };
+    #endif
 };
 #endif
 }
