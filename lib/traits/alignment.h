@@ -52,7 +52,7 @@ struct aligned_storage
 };
 #endif
 
-#if !( __cplusplus >= 201103L ) || ( __GNUC__ < 5 )
+#if !( __cplusplus >= 201103L ) || ( !defined(__clang__) && defined(__GNUC__) && __GNUC__ < 5 )
 template< std::size_t Len, typename T >
 struct aligned_union
 {
