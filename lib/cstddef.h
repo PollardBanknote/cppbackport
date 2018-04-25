@@ -35,10 +35,18 @@
 #ifndef CPP11
 namespace cpp11
 {
+#if defined(__GNUG__)
 struct max_align_t
 {
 	long double x;
 } __attribute__((aligned));
+#elif defined(_MSC_VER)
+/// @todo Using 16-bytes rather arbitrarily. Can't find any MSVC documentation that gives the appropriate value "automatically".
+struct __declspec(align(16)) max_align_t
+{
+    long double x;
+};
+#endif
 }
 #endif
 

@@ -56,6 +56,13 @@ std::string arithmetic_to_string(I x)
 	return ss.str();
 }
 
+template< typename I >
+std::wstring arithmetic_to_wstring(I x)
+{
+    std::wostringstream ss;
+    ss << x;
+    return ss.str();
+}
 }
 
 inline unsigned long stoul(
@@ -157,6 +164,52 @@ inline std::string to_string(unsigned long long n)
 
 #endif
 
+inline std::wstring to_wstring(int n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(unsigned n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(long n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(unsigned long n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+#ifdef HAS_LONG_LONG
+inline std::wstring to_wstring(long long n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(unsigned long long n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+#endif
+
+inline std::wstring to_wstring(float n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(double n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
+
+inline std::wstring to_wstring(long double n)
+{
+    return detail::arithmetic_to_wstring(n);
+}
 }
 #endif // ifndef CPP11
 
