@@ -31,8 +31,8 @@
 
 #include "version.h"
 
-#ifdef CPP17
-#include <filesystem.h>
+#if defined(CPP17) && __has_include(<filesystem>)
+#include <filesystem>
 #else
 #include "fs/absolute.h"
 #include "fs/basename.h"
