@@ -46,6 +46,7 @@
 #include "fs/filetype.h"
 #include "fs/path.h"
 #include "fs/perms.h"
+#include "fs/rename.h"
 #include "fs/remove.h"
 #include "fs/tempdir.h"
 #endif
