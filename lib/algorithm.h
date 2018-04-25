@@ -389,7 +389,7 @@ const T& clamp(const T& value, const T& lo, const T& hi, Compare comp)
 {
     if (comp(value, lo))
         return lo;
-    if (comp(hi, v))
+    if (comp(hi, value))
         return hi;
     return value;
 }
