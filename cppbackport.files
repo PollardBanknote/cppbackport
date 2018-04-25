@@ -52,6 +52,8 @@ lib/fs/direntry.cpp
 lib/fs/direntry.h
 lib/fs/diriter.cpp
 lib/fs/diriter.h
+lib/fs/equivalent.cpp
+lib/fs/equivalent.h
 lib/fs/filestatus.cpp
 lib/fs/filestatus.h
 lib/fs/filetype.cpp
@@ -62,6 +64,8 @@ lib/fs/perms.cpp
 lib/fs/perms.h
 lib/fs/remove.cpp
 lib/fs/remove.h
+lib/fs/rename.cpp
+lib/fs/rename.h
 lib/fs/tempdir.cpp
 lib/fs/tempdir.h
 lib/functional.h
@@ -126,6 +130,8 @@ lib/traits/remove_extent.h
 lib/traits/remove_pointer.h
 lib/traits/remove_reference.h
 lib/traits/result_of.h
+lib/traits/underlying_type.h
+lib/traits/void_t.h
 lib/traits/yesno.h
 lib/tuple.h
 lib/type_traits.h
