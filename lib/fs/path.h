@@ -120,6 +120,7 @@ public:
 
 	bool is_absolute() const;
 
+	path lexically_normal() const;
 	path lexically_relative(const path&) const;
 
 	int compare(const path&) const;

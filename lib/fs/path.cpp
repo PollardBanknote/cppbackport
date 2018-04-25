@@ -253,6 +253,107 @@ bool path::is_absolute() const
 	return !s.empty() && s[0] == preferred_separator;
 }
 
+path path::lexically_normal() const
+{
+	std::string t;
+
+	if ( s.empty() )
+	{
+
+		// error
+		return t;
+	}
+
+	const std::size_t n = s.length();
+
+	for ( std::size_t i = 0; i < n;)
+	{
+		if ( s[i] == '/' )
+		{
+			// directory separator
+			t.push_back('/');
+			i = s.find_first_not_of('/', i);
+		}
+		else
+		{
+			// path component
+			const std::size_t j = std::min(s.find('/', i), n);
+
+			if ( s.compare(i, j - i, ".", 1) == 0 )
+			{
+				// handle dot
+				if ( j < n )
+				{
+					i = s.find_first_not_of('/', j);
+				}
+				else
+				{
+					i = n;
+				}
+			}
+			else if ( s.compare(i, j - i, "..", 2) == 0 )
+			{
+				// handle dot-dot
+				const std::size_t l = t.length();
+
+				if ( l == 0 )
+				{
+					// no previous component (ex., "../src")
+					t.assign("..", 2);
+					i = j;
+				}
+				else
+				{
+					// remove previously copied component (unless root)
+					if ( l >= 2 )
+					{
+						const std::size_t k = t.find_last_of('/', l - 2);
+
+						if ( k == std::string::npos )
+						{
+							t.clear();
+						}
+						else
+						{
+							t.resize(k + 1);
+						}
+					}
+
+					if ( j < n )
+					{
+						i = s.find_first_not_of('/', j);
+					}
+					else
+					{
+						i = n;
+					}
+				}
+			}
+			else
+			{
+				// append path component
+				t.append(s, i, j - i);
+				i = j;
+			}
+		}
+	}
+
+	if ( t.empty() )
+	{
+		return ".";
+	}
+
+	// drop trailing slashes
+	const std::size_t i = t.find_last_not_of('/');
+
+	if ( i != std::string::npos )
+	{
+		t.resize(i + 1);
+	}
+
+	return t;
+}
+
 int path::compare(const path& p) const
 {
 	const_iterator first1 = begin(), last1 = end();
