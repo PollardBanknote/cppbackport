@@ -35,6 +35,7 @@
 #include <chrono>
 #else
 #include <ctime>
+#include "numeric.h"
 #include "ratio.h"
 #include "traits/common_type.h"
 
@@ -52,7 +53,36 @@ struct duration_cast_helper
 	static const cpp::intmax_t q = ( Period2::num / d1 ) * ( Period1::den / d2 );
 };
 
+template< typename, typename >
+struct period_common;
+
+template< cpp::intmax_t N1, cpp::intmax_t D1, cpp::intmax_t N2, cpp::intmax_t D2 >
+struct period_common< cpp::ratio< N1, D1 >, cpp::ratio< N2, D2 > >
+{
+	static const cpp::intmax_t na = N1 / cpp11::detail::gcd< N1, N2 >::value;
+	static const cpp::intmax_t nb = N2 / cpp11::detail::gcd< N1, N2 >::value;
+	static const cpp::intmax_t da = D1 / cpp11::detail::gcd< D1, D2 >::value;
+	static const cpp::intmax_t db = D2 / cpp11::detail::gcd< D1, D2 >::value;
+};
+
+// larget intmax_t that can fit into T
+template< typename T >
+struct max_int
+{
+	static const cpp::intmax_t value = (std::numeric_limits< T >::digits >= std::numeric_limits< cpp::intmax_t >::digits)
+	                          ? INTMAX_MAX
+	                          : ((INTMAX_C(1) << std::numeric_limits< T >::digits) - 1);
+};
+
+template< typename Rep, cpp::intmax_t X, cpp::intmax_t Y >
+struct can_fit
+{
+	typedef max_int< Rep > max_type;
+
+	static const bool value = (max_type::value >= X && max_type::value >= Y);
+};
 }
+
 namespace chrono
 {
 template< class Rep, class Period = cpp11::ratio< 1 > >
@@ -202,6 +232,64 @@ typename common_type< duration< Rep1, Period1 >, duration< Rep2, Period2 > >::ty
 	return Duration3( Duration3(a).count() - Duration3(b).count() );
 }
 
+/** Compare durations
+ *
+ * Essentially tests test a.count() * Period1::num / Period1::den == b.count() * Period2::num / Period2::den
+ *
+ * Because of overflow concerns, we can't do the multiplication straight. So
+ * we'll use a variation to show that all factors of the right are the same as
+ * all the factors on the left.
+ *
+ * @note Assumes Period1 and Period2 are std::ratio-s
+ */
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator==(
+    const duration< Rep1, Period1 >& a,
+    const duration< Rep2, Period2 >& b
+)
+{
+	// Helper type removes common factors between periods at compile time
+	typedef detail::period_common< Period1, Period2 > common;
+
+	// If one side is zero, the other must be, too
+	if (common::na == 0 && common::nb == 0)
+		return true;
+
+	const Rep1 ca = a.count();
+	const Rep2 cb = b.count();
+
+	if (ca == 0)
+		return cb == 0 || common::nb == 0;
+	if (cb == 0)
+		return common::na == 0;
+
+	// Full check, ca * na * db == cb * nb * da
+	if (detail::can_fit< Rep1, common::nb, common::da >::value && detail::can_fit< Rep2, common::na, common::db >::value)
+	{
+		const Rep1 nb = static_cast< Rep1 >(common::nb);
+		const Rep1 da = static_cast< Rep1 >(common::da);
+		const Rep2 na = static_cast< Rep2 >(common::na);
+		const Rep2 db = static_cast< Rep2 >(common::db);
+
+		if (ca >= nb && (ca / nb) >= da && cb >= na && (cb / na) >= db)
+		{
+			return (ca / nb) / da == (cb / na) / db;
+		}
+	}
+
+	return false;
+}
+
+template< class Rep1, class Period1, class Rep2, class Period2 >
+bool operator!=(
+    const duration< Rep1, Period1 >& a,
+    const duration< Rep2, Period2 >& b
+)
+{
+	return !(a == b);
+}
+
+/// @bug Don't use the intermediate type
 template< class Rep1, class Period1, class Rep2, class Period2 >
 bool operator<(
 	const duration< Rep1, Period1 >& a,
