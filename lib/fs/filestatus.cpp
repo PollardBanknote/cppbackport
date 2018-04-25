@@ -261,5 +261,19 @@ bool is_directory(const path& p)
 	return is_directory( status(p) );
 }
 
+std::size_t file_size(const path& p)
+{
+	if ( !p.empty() )
+	{
+		struct stat st;
+
+		if ( ::stat(p.c_str(), &st) == 0 )
+		{
+			return st.st_size;
+		}
+	}
+
+	return std::size_t(-1);
+}
 }
 }

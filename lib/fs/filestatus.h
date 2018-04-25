@@ -82,6 +82,7 @@ bool is_symlink(file_status);
 bool is_symlink(const path&);
 bool is_directory(file_status);
 bool is_directory(const path&);
+std::size_t file_size(const path&);
 
 std::ostream& operator<<(std::ostream&, const file_status&);
 }
