@@ -32,6 +32,7 @@
 #include "version.h"
 
 #include <utility>
+#include <cstddef>
 
 #ifndef CPP11
 #include "rvalueref.h"
@@ -48,5 +49,32 @@ rvalue_reference< T > move(T& value)
 }
 
 #endif // ifndef CPP11
+
+#ifndef CPP14
+namespace cpp14
+{
+template< std::size_t... >
+struct index_sequence {};
+
+namespace detail
+{
+template< std::size_t N, std::size_t... S >
+struct gens
+    : gens< N - 1, N - 1, S... >{};
+
+template< std::size_t... S >
+struct gens< 0, S... >
+{
+	typedef cpp14::index_sequence< S... > type;
+};
+}
+
+template< std::size_t N >
+using make_index_sequence = typename detail::gens< N >::type;
+
+template< class... T >
+using index_sequence_for = make_index_sequence< sizeof...(T) >;
+}
+#endif // ifndef CPP14
 
 #endif // PBL_CPP_UTILITY_H
