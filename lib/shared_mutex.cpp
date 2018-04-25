@@ -28,6 +28,7 @@
  */
 #include "shared_mutex.h"
 
+#ifndef CPP17
 #include <pthread.h>
 
 namespace cpp17
@@ -78,3 +79,4 @@ shared_mutex::native_handle_type shared_mutex::native_handle()
 }
 
 }
+#endif
