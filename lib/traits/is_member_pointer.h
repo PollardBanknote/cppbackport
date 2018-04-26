@@ -88,7 +88,7 @@ template< class T >
 constexpr bool is_member_function_pointer_v = std::is_member_function_pointer< T >::value;
 
 template< class T >
-constexpr bool is_member_object_pointer = std::is_member_object_pointer< T >::value;
+constexpr bool is_member_object_pointer_v = std::is_member_object_pointer< T >::value;
 }
 #endif
 #endif
